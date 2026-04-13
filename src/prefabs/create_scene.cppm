@@ -1,7 +1,6 @@
 module;
 #include <entt/entt.hpp>
-#include <nlohmann/json.hpp>
-#include "../lib/ray.hpp"
+#include <raymath.h>
 
 export module ScenePrefabs;
 
@@ -9,27 +8,7 @@ import JsonConfig;
 import WorldComponents;
 import AircraftComponents;
 import RaylibResource;
-
-struct PilotConfig {
-    float fov;
-    float tilt;
-};
-
-struct CockpitConfig {
-    std::string texturePath;
-    std::string shaderPath;
-};
-
-// struct SceneConfig {
-//     Color skyColor;
-// };
-
-export
-{
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PilotConfig, fov, tilt);
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(CockpitConfig, texturePath, shaderPath);
-    // NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SceneConfig, skyColor);
-}
+import ConfigTypes;
 
 
 export namespace Factories {

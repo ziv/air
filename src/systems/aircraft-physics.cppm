@@ -1,6 +1,7 @@
 module;
 #include <entt/entt.hpp>
 #include <raymath.h>
+#include <algorithm>
 
 export module AircraftPhysicsSystem;
 
@@ -30,30 +31,37 @@ export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
     auto view = registry.view<Position3D, Velocity, Aircraft, Engine, Orientation, Acceleration, AngularAcceleration, AngularVelocity, AircraftControls>();
 
     for (auto [entity, position, velocity, aircraft, engine, orientation, acceleration, angularAcc, angularVel, controls]: view.each()) {
-        const auto speed = Vector3Length(velocity.velocity);
-        const auto squaredSpeed = speed * speed;
+        const auto mass = aircraft.weight / 9.81f; // weight in N
+        const auto thrustForce = orientation.forward * (engine.thrust * engine.throttle);
+        const auto weightForce = (Vector3){0.0f, -9.81f * mass, 0.0f};
 
-        const auto velocityDirection = Vector3Normalize(velocity.velocity);
+        const auto speed = Vector3Length(velocity.velocity);
+
+        // At near-zero speed aerodynamic forces are undefined (normalize → NaN).
+        // Only thrust and gravity apply.
+        if (speed < 0.001f) {
+            acceleration.linear = (thrustForce + weightForce) / mass;
+            angularAcc.angular = Vector3Zero();
+            continue;
+        }
+
+        const auto squaredSpeed = speed * speed;
+        const auto velocityDirection = Vector3Scale(velocity.velocity, 1.0f / speed);
         const auto liftDirection = Vector3Normalize(Vector3CrossProduct(Vector3CrossProduct(velocityDirection, orientation.up), velocityDirection));
 
         // Simplified angle-of-attack
         const float aoa = atan2f(Vector3DotProduct(velocity.velocity, orientation.up), Vector3DotProduct(velocity.velocity, orientation.forward));
 
         // Side-slip angle (beta) for weathervaning
-        const float sideSlip = asinf(Vector3DotProduct(velocityDirection, orientation.right));
+        // Clamp dot product to [-1,1] to protect asinf from NaN on float imprecision
+        const float sideSlipDot = std::clamp(Vector3DotProduct(velocityDirection, orientation.right), -1.0f, 1.0f);
+        const float sideSlip = asinf(sideSlipDot);
 
         const float CL = CalculateCL(aoa, aircraft.cl, aircraft.liftSlopeCoefficient, aircraft.stallAngle);
         const float CD = CalculateCD(CL, aircraft.cd, aircraft.inducedDragCoefficient);
 
-        const auto thrust = engine.thrust * engine.throttle;
-        const auto drag = CD * squaredSpeed;
-        const auto lift = CL * squaredSpeed;
-        const auto mass = aircraft.weight / 9.81f; // weight in N
-
-        const auto thrustForce = orientation.forward * thrust;
-        const auto dragForce = velocityDirection * -drag;
-        const auto liftForce = liftDirection * lift;
-        const auto weightForce = (Vector3){0.0f, -9.81f * mass, 0.0f};
+        const auto dragForce = velocityDirection * -(CD * squaredSpeed);
+        const auto liftForce = liftDirection * (CL * squaredSpeed);
 
         // --- Linear Acceleration ---
         acceleration.linear = (thrustForce + dragForce + weightForce + liftForce) / mass;

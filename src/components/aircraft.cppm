@@ -36,8 +36,8 @@ export struct Aircraft {
 };
 
 export struct AircraftUtils {
-    bool brakes;
-    bool gear;
+    bool brake; // aircraft brakes status
+    bool gear; // aircraft landing gear status
 };
 
 export struct Engine {
@@ -49,7 +49,7 @@ export struct AircraftControls {
     float roll;
     float pitch;
     float yaw;
-    bool brakes;
-    bool gear;
+    bool brake; // pressed or not
+    bool gear; // pressed or not
     float throttle;
 };

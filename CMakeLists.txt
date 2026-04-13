@@ -45,9 +45,11 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/core/Constants.cppm
         src/components/world.cppm
         src/components/aircraft.cppm
+        src/components/render.cppm
         src/prefabs/create_player.cppm
         src/prefabs/create_scene.cppm
         src/systems/aircraft-physics.cppm
+        src/systems/aircraft-mechanics.cppm
         src/systems/render-cockpit.cppm
         src/systems/world-streamer.cppm
         src/systems/position.cppm

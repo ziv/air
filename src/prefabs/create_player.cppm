@@ -10,38 +10,7 @@ import JsonConfig;
 import WorldComponents;
 import AircraftComponents;
 import RaylibResource;
-
-struct PilotConfig {
-    float fov;
-    float tilt;
-};
-
-struct CockpitConfig {
-    std::string texturePath;
-    std::string shaderPath;
-    Color tintColor{};
-};
-
-struct AircraftConfig {
-    float weight;
-    float engineThrust;
-    float vleSpeed;
-    float liftCoefficient;
-    float liftSlopeCoefficient;
-    float stallAngle;
-    float dragCoefficient;
-    float inducedDragCoefficient;
-    float pitchRatio;
-    float rollRatio;
-    float yawRatio;
-};
-
-export
-{
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PilotConfig, fov, tilt);
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(CockpitConfig, texturePath, shaderPath, tintColor);
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(AircraftConfig, weight, engineThrust, vleSpeed, liftCoefficient, liftSlopeCoefficient, stallAngle, dragCoefficient, inducedDragCoefficient, pitchRatio, rollRatio, yawRatio);
-}
+import ConfigTypes;
 
 entt::entity createCockpit(entt::registry &registry,
                            const JsonConfig &config) {
@@ -59,10 +28,6 @@ entt::entity createCockpit(entt::registry &registry,
 
     return entity;
 }
-
-// entt::entity createAircraft(entt::registry &registry,
-//                             const JsonConfig &config) {
-// }
 
 export namespace Factories {
     entt::entity createPlayer(entt::registry &registry,

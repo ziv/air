@@ -41,6 +41,8 @@ export void WorldStreamerSystem(entt::registry &registry) {
     }
 
     // delete all that not in range
+    // todo collect the list of items to delete
+    // todo delete it in a second iteration
     // auto view = registry.view<Tile>();
     // for (auto entity: view) {
     //     auto &tile = view.get<Tile>(entity);

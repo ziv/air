@@ -18,7 +18,7 @@ export void UserInputs(entt::registry &registry, float dt) {
         controls.roll = 0.0f;
         controls.yaw = 0.0f;
         controls.throttle = 0.0f;
-        controls.brakes = false;
+        controls.brake = false;
         controls.gear = false;
 
         // steering
@@ -34,7 +34,7 @@ export void UserInputs(entt::registry &registry, float dt) {
         if (IsKeyDown(KEY_EQUAL)) controls.throttle = 1.0f;
 
         // brake
-        if (IsKeyPressed(KEY_B)) controls.brakes = true;
+        if (IsKeyPressed(KEY_B)) controls.brake = true;
 
         // gear
         if (IsKeyPressed(KEY_G)) controls.gear = true;
