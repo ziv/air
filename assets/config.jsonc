@@ -15,7 +15,13 @@
     "engineThrust": 130000,
     "vleSpeed": 150,
     "liftCoefficient": 1.92,
-    "dragCoefficient": 0.36
+    "liftSlopeCoefficient": 0.11,
+    "stallAngle": 15,
+    "dragCoefficient": 0.36,
+    "inducedDragCoefficient": 0.05,
+    "pitchRatio": 0.7,
+    "rollRatio": 0.9,
+    "yawRatio": 0.5
   },
   "cockpit": {
     "texturePath": "assets/images/cockpit-z.png",

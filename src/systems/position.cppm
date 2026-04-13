@@ -1,6 +1,6 @@
 module;
 #include <entt/entt.hpp>
-#include "../lib/ray.hpp"
+#include <raymath.h>
 
 export module PositionSystem;
 

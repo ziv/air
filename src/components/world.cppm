@@ -54,9 +54,16 @@ export struct Velocity {
     Vector3 velocity;
 };
 
+export struct AngularVelocity {
+    Vector3 velocity;
+};
 
 export struct Acceleration {
-    Vector3 acceleration;
+    Vector3 linear;
+};
+
+export struct AngularAcceleration {
+    Vector3 angular;
 };
 
 export struct Rotation {

@@ -27,14 +27,20 @@ struct AircraftConfig {
     float engineThrust;
     float vleSpeed;
     float liftCoefficient;
+    float liftSlopeCoefficient;
+    float stallAngle;
     float dragCoefficient;
+    float inducedDragCoefficient;
+    float pitchRatio;
+    float rollRatio;
+    float yawRatio;
 };
 
 export
 {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PilotConfig, fov, tilt);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(CockpitConfig, texturePath, shaderPath, tintColor);
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(AircraftConfig, weight, engineThrust, vleSpeed, liftCoefficient, dragCoefficient);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(AircraftConfig, weight, engineThrust, vleSpeed, liftCoefficient, dragCoefficient, pitchRatio, rollRatio, yawRatio);
 }
 
 entt::entity createCockpit(entt::registry &registry,
@@ -67,13 +73,25 @@ export namespace Factories {
         const auto player = registry.create();
         registry.emplace<Player>(player);
         registry.emplace<View3D>(player, pilotConfig.fov, pilotConfig.tilt);
-        registry.emplace<StickInputs>(player, 0.0f, 0.0f, 0.0f);
+        registry.emplace<AircraftControls>(player, 0.0f, 0.0f, 0.0f, true, true, 0.0f);
         registry.emplace<Position3D>(player, Vector3Zero());
         registry.emplace<Velocity>(player, Vector3Zero());
         registry.emplace<Engine>(player, aircraftConfig.engineThrust, 0.0f);
-        registry.emplace<Aircraft>(player, aircraftConfig.dragCoefficient, aircraftConfig.liftCoefficient, aircraftConfig.weight);
-        registry.emplace<Orientation>(player, WorldForward, WorldUp, WorldRight);
+        registry.emplace<Orientation>(player, Constants::WorldForward, Constants::WorldUp, Constants::WorldRight);
         registry.emplace<Acceleration>(player, Vector3Zero());
+        registry.emplace<AngularAcceleration>(player, Vector3Zero());
+        registry.emplace<AngularVelocity>(player, Vector3Zero());
+        registry.emplace<Aircraft>(player,
+                                   aircraftConfig.dragCoefficient,
+                                   aircraftConfig.inducedDragCoefficient,
+                                   aircraftConfig.liftCoefficient,
+                                   aircraftConfig.liftSlopeCoefficient,
+                                   aircraftConfig.stallAngle,
+                                   aircraftConfig.weight,
+                                   aircraftConfig.pitchRatio,
+                                   aircraftConfig.rollRatio,
+                                   aircraftConfig.yawRatio);
+
 
         const auto cockpit = createCockpit(registry, config);
         registry.emplace<ChildOf>(cockpit, player);

@@ -52,6 +52,8 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/systems/world-streamer.cppm
         src/systems/position.cppm
         src/systems/velocity.cppm
+        src/systems/user-inputs.cppm
+        src/systems/rotation.cppm
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib EnTT::EnTT nlohmann_json::nlohmann_json)

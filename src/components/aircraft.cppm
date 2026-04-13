@@ -17,9 +17,22 @@ export struct ChromaRender {
 
 
 export struct Aircraft {
+    // drag
     float cd;
+    float inducedDragCoefficient;
+
+    // lift
     float cl;
+    float liftSlopeCoefficient;
+    float stallAngle;
+
+    // weight
     float weight;
+
+    // agility
+    float pitchRatio;
+    float rollRatio;
+    float yawRatio;
 };
 
 export struct Engine {
@@ -27,8 +40,11 @@ export struct Engine {
     float throttle;
 };
 
-export struct StickInputs {
+export struct AircraftControls {
     float roll;
     float pitch;
     float yaw;
+    bool brakes;
+    bool gear;
+    float throttle;
 };
