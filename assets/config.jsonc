@@ -21,7 +21,7 @@
     }
   },
   "scene": {
-    "color": {
+    "skyColor": {
       // sky blue
       "r": 192,
       "g": 201,

@@ -46,7 +46,9 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/components/aircraft.cppm
         src/prefabs/create_player.cppm
         src/prefabs/create_scene.cppm
+        src/systems/aircraft-physics.cppm
         src/systems/render-cockpit.cppm
+        src/systems/world-streamer.cppm
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib EnTT::EnTT nlohmann_json::nlohmann_json)

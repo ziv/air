@@ -17,6 +17,17 @@ export struct ChildOf {
     entt::entity parent{entt::null};
 };
 
+export struct World {
+};
+
+export struct Tile {
+    int x;
+    int z;
+};
+
+export struct ActiveTileTag {
+};
+
 // position
 
 export struct Position3D {

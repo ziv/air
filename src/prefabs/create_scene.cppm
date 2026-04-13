@@ -1,6 +1,7 @@
 module;
 #include <entt/entt.hpp>
 #include <nlohmann/json.hpp>
+#include "../lib/ray.hpp"
 
 export module ScenePrefabs;
 
@@ -19,25 +20,27 @@ struct CockpitConfig {
     std::string shaderPath;
 };
 
+struct SceneConfig {
+    Color skyColor;
+};
+
 export
 {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PilotConfig, fov, tilt);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(CockpitConfig, texturePath, shaderPath);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SceneConfig, skyColor);
 }
 
 
 export namespace Factories {
     entt::entity createScene(entt::registry &registry,
                              const JsonConfig &config) {
-        const auto pilotConfig = config.get<PilotConfig>("/player");
-
-
+        const auto conf = config.get<SceneConfig>("/scene");
         const auto entity = registry.create();
-        // registry.emplace<Player>(player);
-        // registry.emplace<View3D>(player, pilotConfig.fov, pilotConfig.tilt);
-        //
-        // const auto cockpit = createCockpit(registry, config);
-        // registry.emplace<ChildOf>(cockpit, player);
+
+        registry.emplace<World>(entity);
+        registry.emplace<Position3D>(entity, Vector3Zero());
+
 
         return entity;
     }

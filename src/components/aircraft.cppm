@@ -14,3 +14,15 @@ export struct ChromaRender {
     Color tint = WHITE;
     int priority = 0;
 };
+
+
+export struct Aircraft {
+    float cd;
+    float cl;
+    float weight;
+};
+
+export struct Engine {
+    float thrust;
+    float throttle;
+};
