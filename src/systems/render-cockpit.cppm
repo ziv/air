@@ -7,10 +7,10 @@ export module ChromaRender;
 import AircraftComponents;
 import WorldComponents;
 
-export void RenderChroma(entt::registry &registry) {
-    registry.sort<ChromaRender>([](const auto &lhs, const auto &rhs) {
-        return lhs.priority < rhs.priority;
-    });
+export void RenderCockpit(entt::registry &registry) {
+    // registry.sort<ChromaRender>([](const auto &lhs, const auto &rhs) {
+    //     return lhs.priority < rhs.priority;
+    // });
 
     auto view = registry.view<Position2D, ChromaRender>();
 

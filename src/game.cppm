@@ -11,6 +11,9 @@ import ChromaRender;
 import AircraftPhysicsSystem;
 import PositionSystem;
 import VelocitySystem;
+import UserInputs;
+import RotationSystem;
+import AircraftMechanics;
 
 export class Game {
     entt::registry &registry;
@@ -24,15 +27,19 @@ public:
 
     void update() const {
         const float dt = GetFrameTime();
+
+        UserInputs(registry, dt);
+        AircraftMechanics(registry, dt);
         AircraftPhysicsSystem(registry, dt);
         VelocitySystem(registry, dt);
+        RotationSystem(registry, dt);
         PositionSystem(registry, dt);
     }
 
     void draw() const {
         BeginDrawing();
         ClearBackground(SKYBLUE);
-        RenderChroma(registry);
+        RenderCockpit(registry);
         EndDrawing();
     }
 };

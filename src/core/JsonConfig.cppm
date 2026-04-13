@@ -7,9 +7,10 @@ module;
 
 export module JsonConfig;
 
-export struct JsonConfig {
+export class JsonConfig {
     nlohmann::json config;
 
+public:
     explicit JsonConfig(const std::string &path) {
         std::ifstream file(path);
         if (!file.is_open()) {

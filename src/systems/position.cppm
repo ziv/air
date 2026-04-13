@@ -4,7 +4,6 @@ module;
 
 export module PositionSystem;
 
-import AircraftComponents;
 import WorldComponents;
 
 

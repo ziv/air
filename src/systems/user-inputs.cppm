@@ -7,7 +7,10 @@ export module UserInputs;
 import AircraftComponents;
 import WorldComponents;
 
-export void UserInputs(entt::registry &registry) {
+// boolean means - pressed
+// for values with direction we use -1/1 for pressed
+
+export void UserInputs(entt::registry &registry, float dt) {
     auto view = registry.view<AircraftControls>();
 
     for (auto [entity, controls]: view.each()) {
@@ -34,6 +37,6 @@ export void UserInputs(entt::registry &registry) {
         if (IsKeyPressed(KEY_B)) controls.brakes = true;
 
         // gear
-        if (IsKeyPressed(KEY_G)) controls.gear = false;
+        if (IsKeyPressed(KEY_G)) controls.gear = true;
     }
 }

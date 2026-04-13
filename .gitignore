@@ -9,3 +9,4 @@ cmake-build-debug/
 tmp/
 .claude
 CLAUDE.md
+cr.md

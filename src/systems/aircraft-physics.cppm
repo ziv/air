@@ -31,9 +31,6 @@ export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
 
     for (auto [entity, position, velocity, aircraft, engine, orientation, acceleration, angularAcc, angularVel, controls]: view.each()) {
         const auto speed = Vector3Length(velocity.velocity);
-
-        if (speed < 0.1f) continue;
-
         const auto squaredSpeed = speed * speed;
 
         const auto velocityDirection = Vector3Normalize(velocity.velocity);
@@ -51,7 +48,7 @@ export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
         const auto thrust = engine.thrust * engine.throttle;
         const auto drag = CD * squaredSpeed;
         const auto lift = CL * squaredSpeed;
-        const auto mass = aircraft.weight / 9.81f;
+        const auto mass = aircraft.weight / 9.81f; // weight in N
 
         const auto thrustForce = orientation.forward * thrust;
         const auto dragForce = velocityDirection * -drag;
@@ -60,7 +57,6 @@ export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
 
         // --- Linear Acceleration ---
         acceleration.linear = (thrustForce + dragForce + weightForce + liftForce) / mass;
-
 
         // --- Angular Mechanics (Torques & Angular Acceleration) ---
 

@@ -35,6 +35,11 @@ export struct Aircraft {
     float yawRatio;
 };
 
+export struct AircraftUtils {
+    bool brakes;
+    bool gear;
+};
+
 export struct Engine {
     float thrust;
     float throttle;

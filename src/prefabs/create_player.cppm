@@ -40,7 +40,7 @@ export
 {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PilotConfig, fov, tilt);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(CockpitConfig, texturePath, shaderPath, tintColor);
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(AircraftConfig, weight, engineThrust, vleSpeed, liftCoefficient, dragCoefficient, pitchRatio, rollRatio, yawRatio);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(AircraftConfig, weight, engineThrust, vleSpeed, liftCoefficient, liftSlopeCoefficient, stallAngle, dragCoefficient, inducedDragCoefficient, pitchRatio, rollRatio, yawRatio);
 }
 
 entt::entity createCockpit(entt::registry &registry,
@@ -73,7 +73,7 @@ export namespace Factories {
         const auto player = registry.create();
         registry.emplace<Player>(player);
         registry.emplace<View3D>(player, pilotConfig.fov, pilotConfig.tilt);
-        registry.emplace<AircraftControls>(player, 0.0f, 0.0f, 0.0f, true, true, 0.0f);
+        registry.emplace<AircraftControls>(player, 0.0f, 0.0f, 0.0f, false, false, 0.0f);
         registry.emplace<Position3D>(player, Vector3Zero());
         registry.emplace<Velocity>(player, Vector3Zero());
         registry.emplace<Engine>(player, aircraftConfig.engineThrust, 0.0f);
@@ -81,6 +81,8 @@ export namespace Factories {
         registry.emplace<Acceleration>(player, Vector3Zero());
         registry.emplace<AngularAcceleration>(player, Vector3Zero());
         registry.emplace<AngularVelocity>(player, Vector3Zero());
+        registry.emplace<Rotation>(player, QuaternionIdentity());
+        registry.emplace<AircraftUtils>(player, true, true);
         registry.emplace<Aircraft>(player,
                                    aircraftConfig.dragCoefficient,
                                    aircraftConfig.inducedDragCoefficient,

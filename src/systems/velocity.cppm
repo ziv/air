@@ -4,7 +4,6 @@ module;
 
 export module VelocitySystem;
 
-import AircraftComponents;
 import WorldComponents;
 
 

@@ -2,7 +2,7 @@ module;
 // #include <entt/entt.hpp>
 // #include <raymath.h>
 
-export module RendeComponents;
+export module RenderComponents;
 
 import RaylibResource;
 

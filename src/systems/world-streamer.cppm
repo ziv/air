@@ -41,13 +41,13 @@ export void WorldStreamerSystem(entt::registry &registry) {
     }
 
     // delete all that not in range
-    auto view = registry.view<Tile>();
-    for (auto entity: view) {
-        auto &tile = view.get<Tile>(entity);
-        if (abs(tile.x - currentX) > 1 || abs(tile.z - currentY) > 1) {
-            registry.destroy(entity);
-        }
-    }
+    // auto view = registry.view<Tile>();
+    // for (auto entity: view) {
+    //     auto &tile = view.get<Tile>(entity);
+    //     if (abs(tile.x - currentX) > 1 || abs(tile.z - currentY) > 1) {
+    //         registry.destroy(entity);
+    //     }
+    // }
 
     // todo update shift
 }
