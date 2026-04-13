@@ -8,6 +8,9 @@ import JsonConfig;
 import PlayerPrefabs;
 import ScenePrefabs;
 import ChromaRender;
+import AircraftPhysicsSystem;
+import PositionSystem;
+import VelocitySystem;
 
 export class Game {
     entt::registry &registry;
@@ -19,7 +22,14 @@ public:
         Factories::createScene(registry, config);
     }
 
-    void draw() {
+    void update() const {
+        const float dt = GetFrameTime();
+        AircraftPhysicsSystem(registry, dt);
+        VelocitySystem(registry, dt);
+        PositionSystem(registry, dt);
+    }
+
+    void draw() const {
         BeginDrawing();
         ClearBackground(SKYBLUE);
         RenderChroma(registry);

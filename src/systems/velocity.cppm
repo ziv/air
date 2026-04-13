@@ -1,0 +1,17 @@
+module;
+#include <entt/entt.hpp>
+#include <raymath.h>
+
+export module VelocitySystem;
+
+import AircraftComponents;
+import WorldComponents;
+
+
+export void VelocitySystem(entt::registry &registry, float dt) {
+    auto view = registry.view<Velocity, Acceleration>();
+
+    for (auto [entity, velocity, acceleration]: view.each()) {
+        velocity.velocity = velocity.velocity + (acceleration.acceleration * dt);
+    }
+}

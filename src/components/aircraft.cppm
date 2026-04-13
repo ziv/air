@@ -26,3 +26,9 @@ export struct Engine {
     float thrust;
     float throttle;
 };
+
+export struct StickInputs {
+    float roll;
+    float pitch;
+    float yaw;
+};

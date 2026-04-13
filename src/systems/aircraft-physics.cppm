@@ -4,16 +4,12 @@ module;
 
 export module AircraftPhysicsSystem;
 
+import Constants;
 import AircraftComponents;
 import WorldComponents;
 
-
 export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
-    constexpr float g = 9.81f;
-    constexpr Vector3 Gravity = {0.0f, -g, 0.0f};
-
     auto view = registry.view<Position3D, Velocity, Aircraft, Engine, Orientation, Acceleration>();
-
 
     for (auto [entity, position, velocity, aircraft, engine, orientation, acceleration]: view.each()) {
         const auto speed = Vector3Length(velocity.velocity);
@@ -28,7 +24,7 @@ export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
         const auto thrustForce = orientation.forward * thrust;
         const auto dragForce = moveDirection * -drag;
         const auto liftForce = orientation.up * lift;
-        const auto weightForce = Gravity * mass;
+        const auto weightForce = (Vector3){0.0f, -9.81f, 0.0f} * mass;
 
         const auto total = thrustForce + dragForce + weightForce + liftForce;
 

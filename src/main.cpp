@@ -21,6 +21,7 @@ int main() {
         Game game(config, registry);
 
         while (!WindowShouldClose()) {
+            game.update();
             game.draw();
         }
         CloseWindow();

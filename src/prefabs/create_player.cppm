@@ -5,6 +5,7 @@ module;
 
 export module PlayerPrefabs;
 
+import Constants;
 import JsonConfig;
 import WorldComponents;
 import AircraftComponents;
@@ -21,10 +22,19 @@ struct CockpitConfig {
     Color tintColor{};
 };
 
+struct AircraftConfig {
+    float weight;
+    float engineThrust;
+    float vleSpeed;
+    float liftCoefficient;
+    float dragCoefficient;
+};
+
 export
 {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PilotConfig, fov, tilt);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(CockpitConfig, texturePath, shaderPath, tintColor);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(AircraftConfig, weight, engineThrust, vleSpeed, liftCoefficient, dragCoefficient);
 }
 
 entt::entity createCockpit(entt::registry &registry,
@@ -44,15 +54,26 @@ entt::entity createCockpit(entt::registry &registry,
     return entity;
 }
 
+// entt::entity createAircraft(entt::registry &registry,
+//                             const JsonConfig &config) {
+// }
+
 export namespace Factories {
     entt::entity createPlayer(entt::registry &registry,
                               const JsonConfig &config) {
         const auto pilotConfig = config.get<PilotConfig>("/player");
-
+        const auto aircraftConfig = config.get<AircraftConfig>("/aircraft");
 
         const auto player = registry.create();
         registry.emplace<Player>(player);
         registry.emplace<View3D>(player, pilotConfig.fov, pilotConfig.tilt);
+        registry.emplace<StickInputs>(player, 0.0f, 0.0f, 0.0f);
+        registry.emplace<Position3D>(player, Vector3Zero());
+        registry.emplace<Velocity>(player, Vector3Zero());
+        registry.emplace<Engine>(player, aircraftConfig.engineThrust, 0.0f);
+        registry.emplace<Aircraft>(player, aircraftConfig.dragCoefficient, aircraftConfig.liftCoefficient, aircraftConfig.weight);
+        registry.emplace<Orientation>(player, WorldForward, WorldUp, WorldRight);
+        registry.emplace<Acceleration>(player, Vector3Zero());
 
         const auto cockpit = createCockpit(registry, config);
         registry.emplace<ChildOf>(cockpit, player);
