@@ -17,8 +17,8 @@ export struct CameraComponent {
     entt::entity handle{entt::null};
 };
 
-export struct Parent {
-    std::vector<entt::entity> children;
+export struct ParentOf {
+    entt::entity parent{entt::null};
 };
 
 export struct ChildOf {
@@ -40,6 +40,7 @@ export struct ActiveTileTag {
 
 export struct Position3D {
     Vector3 pos;
+    Vector3 offset;
 };
 
 export struct Position2D {
@@ -58,7 +59,7 @@ export struct Dimensions2D {
 
 // movement
 
-export struct Velocity {
+export struct LinearVelocity {
     Vector3 velocity;
 };
 
@@ -66,12 +67,12 @@ export struct AngularVelocity {
     Vector3 velocity;
 };
 
-export struct Acceleration {
-    Vector3 linear;
+export struct LinerAcceleration {
+    Vector3 acc;
 };
 
 export struct AngularAcceleration {
-    Vector3 angular;
+    Vector3 acc;
 };
 
 export struct Rotation {

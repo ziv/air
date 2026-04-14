@@ -12,14 +12,18 @@ import ResourceManager;
 
 int main() {
     SetTraceLogCallback(CustomLogCallback);
+    SetTraceLogLevel(LOG_DEBUG);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
+
     try {
         const JsonConfig config("assets/config.jsonc");
         auto [title, width, height,nearPlane, farPlane] = config.get<WindowConfig>("/window");
 
+        InitAudioDevice();
         InitWindow(width, height, title.c_str());
         SetTargetFPS(60);
 
-        rlSetClipPlanes(nearPlane, farPlane);
+        rlSetClipPlanes(1.0f, 10000.0f);
 
         entt::registry registry;
 
@@ -36,13 +40,16 @@ int main() {
         // ```
         registry.ctx().emplace<ResourceManager>();
 
-        Game game(config, registry);
+        const Game game(config, registry);
 
         while (!WindowShouldClose()) {
             game.update();
+            BeginDrawing();
             game.draw();
+            EndDrawing();
         }
         CloseWindow();
+        CloseAudioDevice();
     } catch (std::exception &e) {
         std::cerr << "Fatal Error: " << e.what() << std::endl;
         return -1;

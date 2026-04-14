@@ -27,8 +27,8 @@ float CalculateCD(const float currentCl, const float cdZero, const float induced
     return cdZero + (inducedDrag * (currentCl * currentCl));
 }
 
-export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
-    auto view = registry.view<Position3D, Velocity, Aircraft, Engine, Orientation, Acceleration, AngularAcceleration, AngularVelocity, AircraftControls, Grounded, AircraftUtils>();
+export void AircraftPhysicsSystem(entt::registry &registry, const float) {
+    auto view = registry.view<Position3D, LinearVelocity, Aircraft, Engine, Orientation, LinerAcceleration, AngularAcceleration, AngularVelocity, AircraftControls, Grounded, AircraftUtils>();
 
     for (auto [entity, position, velocity, aircraft, engine, orientation, acceleration, angularAcc, angularVel, controls, grounded, utils]: view.each()) {
         const auto mass = aircraft.weight / 9.81f; // weight in N
@@ -40,8 +40,8 @@ export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
         // At near-zero speed aerodynamic forces are undefined (normalize → NaN).
         // Only thrust and gravity apply.
         if (speed < 0.001f) {
-            acceleration.linear = (thrustForce + weightForce) / mass;
-            angularAcc.angular = Vector3Zero();
+            acceleration.acc = (thrustForce + weightForce) / mass;
+            angularAcc.acc = Vector3Zero();
             continue;
         }
 
@@ -71,10 +71,10 @@ export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
             ? velocityDirection * -(mass * 9.81f * (utils.brake ? 0.4f : 0.02f))
             : Vector3Zero();
 
-        // --- Linear Acceleration ---
-        acceleration.linear = (thrustForce + dragForce + weightForce + liftForce + frictionForce) / mass;
+        // --- Linear LinerAcceleration ---
+        acceleration.acc = (thrustForce + dragForce + weightForce + liftForce + frictionForce) / mass;
 
-        // --- Angular Mechanics (Torques & Angular Acceleration) ---
+        // --- Angular Mechanics (Torques & Angular LinerAcceleration) ---
 
         // Dynamic pressure (q = 0.5 * rho * v^2) dictates control authority
         // Using standard sea-level air density (1.225 kg/m^3)
@@ -91,7 +91,7 @@ export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
         const float rollInputTorque = controls.roll * aircraft.rollRatio;
 
         // 3. Damping Torques (Air resistance slowing down rotation)
-        // Opposes the current angular velocity
+        // Opposes the current acc velocity
         const float pitchDamping = -angularVel.velocity.x * 3000.0f /*aircraft.pitchDamping*/;
         const float yawDamping = -angularVel.velocity.y * 3000.0f /*aircraft.yawDamping*/;
         const float rollDamping = -angularVel.velocity.z * 1000.0f /*aircraft.rollDamping*/;
@@ -104,23 +104,23 @@ export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
             (rollInputTorque * dynamicPressure) + rollDamping
         };
 
-        // 5. Calculate Angular Acceleration (Torque / Moment of Inertia)
+        // 5. Calculate Angular LinerAcceleration (Torque / Moment of Inertia)
         // For a retro sim, deriving simple inertia from mass is sufficient.
         // Roll inertia is generally lower than pitch/yaw inertia in aircraft.
         const float pitchInertia = mass * 2.0f;
         const float yawInertia = mass * 2.0f;
         const float rollInertia = mass * 1.0f;
 
-        angularAcc.angular.x = totalTorque.x / pitchInertia;
-        angularAcc.angular.y = totalTorque.y / yawInertia;
-        angularAcc.angular.z = totalTorque.z / rollInertia;
+        angularAcc.acc.x = totalTorque.x / pitchInertia;
+        angularAcc.acc.y = totalTorque.y / yawInertia;
+        angularAcc.acc.z = totalTorque.z / rollInertia;
 
         if (grounded.grounded) {
             const float liftUp = Vector3DotProduct(liftForce, (Vector3){0.0f, 1.0f, 0.0f});
             if (liftUp > aircraft.weight) {
                 grounded.grounded = false;
             } else {
-                angularAcc.angular.z = 0.0f; // roll
+                angularAcc.acc.z = 0.0f; // roll
 
                 angularVel.velocity.z = 0.0f;
             }

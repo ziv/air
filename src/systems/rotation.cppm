@@ -10,41 +10,26 @@ import WorldComponents;
 
 
 export void RotationSystem(entt::registry &registry, float dt) {
-    auto view = registry.view<Orientation, Rotation, AngularVelocity, AngularAcceleration>();
+    auto view = registry.view<Orientation, Rotation, AngularVelocity>();
 
-    for (auto [entity, orientation, rotation, angVel, angAcc]: view.each()) {
-        // 1. Update Angular Velocity based on Angular Acceleration
-        // Integration: Velocity = Velocity + (Acceleration * dt)
-        angVel.velocity = Vector3Add(angVel.velocity, Vector3Scale(angAcc.angular, dt));
-
-        // 2. Create a rotation delta for the current frame
-        // raymath's QuaternionFromEuler expects radians: (pitch, yaw, roll)
-        // which corresponds to our (x, y, z)
-        // const Quaternion frameRotation = QuaternionFromEuler(
-        //     angVel.velocity.x * dt,
-        //     angVel.velocity.y * dt,
-        //     angVel.velocity.z * dt
-        // );
-
-        // 2. New one
+    for (auto [entity, orientation, rotation, angVel]: view.each()) {
+        // Take the "acc velocity" and rotate
         const auto qPitch = QuaternionFromAxisAngle(orientation.right, angVel.velocity.x * dt);
         const auto qYaw = QuaternionFromAxisAngle(orientation.up, angVel.velocity.y * dt);
         const auto qRoll = QuaternionFromAxisAngle(orientation.forward, angVel.velocity.z * dt);
 
         const auto frameRotation = QuaternionMultiply(qYaw, QuaternionMultiply(qPitch, qRoll));
 
+        // apply the frame rotation to our global orientation
+        // order matters in Quaternion multiplication (notice the order of arguments)
+        rotation.rotation = QuaternionMultiply(frameRotation, rotation.rotation);
 
-        // 3. Apply the frame rotation to our global orientation
-        // Note: Order matters in Quaternion multiplication
-        rotation.rotation = QuaternionMultiply(rotation.rotation, frameRotation);
-
-        // 4. Normalize the quaternion to prevent numerical drift over time
-        // This ensures the aircraft model doesn't "shrink" or "deform"
+        // normalize the quaternion to prevent numerical drift over time
         rotation.rotation = QuaternionNormalize(rotation.rotation);
 
-        // 5. Update helper direction vectors from the new quaternion
-        // These are essential for the PhysicsSystem's next frame (lift/drag directions)
-        // Assuming: Forward is +Z, Up is +Y, Right is +X in your coordinate system
+        // update helper direction vectors from the new quaternion
+        // these are essential for the PhysicsSystem's next frame (lift/drag directions)
+        // Forward is +Z, Up is +Y, Right is +X in our coordinate system
         orientation.forward = Vector3RotateByQuaternion(Constants::WorldForward, rotation.rotation);
         orientation.up = Vector3RotateByQuaternion(Constants::WorldUp, rotation.rotation);
         orientation.right = Vector3RotateByQuaternion(Constants::WorldRight, rotation.rotation);

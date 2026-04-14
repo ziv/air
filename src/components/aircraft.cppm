@@ -52,6 +52,7 @@ export struct AircraftControls {
     bool brake; // pressed or not
     bool gear; // pressed or not
     float throttle;
+    bool afterBurner;
 };
 
 export struct Grounded {

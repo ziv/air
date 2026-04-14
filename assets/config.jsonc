@@ -4,7 +4,7 @@
     "width": 1200,
     "height": 800,
     "nearPlane": 1,
-    "farPlane": 150000
+    "farPlane": 80000
   },
   "player": {
     // field of view a little bit wider than the human FOV for wider sight
@@ -17,10 +17,10 @@
     "engineThrust": 130000,
     "vleSpeed": 150,
     "liftCoefficient": 1.92,
-    "liftSlopeCoefficient": 0.11,
+    "liftSlopeCoefficient": 0.1,
     "stallAngle": 15,
     "dragCoefficient": 0.36,
-    "inducedDragCoefficient": 0.05,
+    "inducedDragCoefficient": 0.2,
     "pitchRatio": 0.7,
     "rollRatio": 0.9,
     "yawRatio": 0.5

@@ -12,6 +12,8 @@ import ScenePrefabs;
 import RenderCockpit;
 import RenderModel;
 import RenderDebug;
+import RenderHudLadder;
+import WorldStreamerSystem;
 import AircraftPhysicsSystem;
 import AircraftSimplePhysicsSystem;
 import PositionSystem;
@@ -47,15 +49,24 @@ public:
         const auto view = registry.view<PlayerView>();
         auto &[camera] = view.get<PlayerView>(view.front());
 
-        BeginDrawing();
         ClearBackground(BLUE);
         BeginMode3D(camera);
-        DrawGrid(100, 1);
+        DrawGrid(1000, 100.0f);
+        WorldStreamerSystem(registry);
         // RenderModel(registry);
+
+        // debug cubes for reference
+        for (int x = 0; x < 10; ++x) {
+            for (int z = 0; z < 10; ++z) {
+                DrawCube(Vector3{static_cast<float>(x * 100), 0.0f, static_cast<float>(z * 100)},
+                         3.0f, 3.0f, 3.0f, x % 2 ? BLUE : RED);
+            }
+        }
+
         EndMode3D();
-        // RenderCockpit(registry);
+        RenderCockpit(registry);
+        RenderHudLadder(registry);
         DrawFPS(1050, 780);
         RenderDebug(registry);
-        EndDrawing();
     }
 };

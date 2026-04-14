@@ -55,6 +55,7 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/systems/render-cockpit.cppm
         src/systems/render-models.cppm
         src/systems/render-debug.cppm
+        src/systems/render-hud.cppm
         src/systems/world-streamer.cppm
         src/systems/position.cppm
         src/systems/velocity.cppm

@@ -9,7 +9,7 @@ import RenderComponents;
 import AircraftComponents;
 
 export void RenderDebug(entt::registry &registry) {
-    auto view = registry.view<Player, Position3D, AircraftUtils, Engine, AircraftControls, Acceleration, AngularAcceleration, Velocity, Orientation>();
+    auto view = registry.view<Player, Position3D, AircraftUtils, Engine, AircraftControls, LinerAcceleration, AngularVelocity, LinearVelocity, Orientation>();
 
     if (view.begin() == view.end()) {
         return;
@@ -17,7 +17,7 @@ export void RenderDebug(entt::registry &registry) {
 
     const entt::entity entity = view.front();
 
-    auto [pos, utils, engine, controls, acc, angAcc, vel, orient] = view.get<Player, Position3D, AircraftUtils, Engine, AircraftControls, Acceleration, AngularAcceleration, Velocity, Orientation>(entity);
+    auto [pos, utils, engine, controls, acc, angVel, vel, orient] = view.get<Player, Position3D, AircraftUtils, Engine, AircraftControls, LinerAcceleration, AngularVelocity, LinearVelocity, Orientation>(entity);
 
 
     int y = 10;
@@ -40,18 +40,18 @@ export void RenderDebug(entt::registry &registry) {
     DrawText(TextFormat("Et: %f", engine.throttle), margin, y, fs, BLACK);
 
     y += margin;
-    DrawText(TextFormat("LAx: %f", acc.linear.x), margin, y, fs, BLACK);
+    DrawText(TextFormat("LAx: %f", acc.acc.x), margin, y, fs, BLACK);
     y += margin;
-    DrawText(TextFormat("LAz: %f", acc.linear.z), margin, y, fs, BLACK);
+    DrawText(TextFormat("LAz: %f", acc.acc.z), margin, y, fs, BLACK);
     y += margin;
-    DrawText(TextFormat("LAy: %f", acc.linear.y), margin, y, fs, BLACK);
+    DrawText(TextFormat("LAy: %f", acc.acc.y), margin, y, fs, BLACK);
 
     y += margin;
-    DrawText(TextFormat("AAx: %f", angAcc.angular.x), margin, y, fs, BLACK);
+    DrawText(TextFormat("AVx: %f", angVel.velocity.x), margin, y, fs, BLACK);
     y += margin;
-    DrawText(TextFormat("AAz: %f", angAcc.angular.z), margin, y, fs, BLACK);
+    DrawText(TextFormat("AVz: %f", angVel.velocity.z), margin, y, fs, BLACK);
     y += margin;
-    DrawText(TextFormat("AAy: %f", angAcc.angular.y), margin, y, fs, BLACK);
+    DrawText(TextFormat("AVy: %f", angVel.velocity.y), margin, y, fs, BLACK);
 
     y += margin;
     const float speed = Vector3Length(vel.velocity);
@@ -69,5 +69,8 @@ export void RenderDebug(entt::registry &registry) {
     y += margin;
     const float roll = atan2f(orient.right.y, orient.up.y) * RAD2DEG;
     DrawText(TextFormat("Rol: %.1f", roll), margin, y, fs, BLACK);
+
+    y += margin;
+    DrawText(TextFormat("Cq: %.1f", controls.yaw), margin, y, fs, BLACK);
 
 }

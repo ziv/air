@@ -4,52 +4,21 @@ module;
 
 export module WorldStreamerSystem;
 
-import AircraftComponents;
 import WorldComponents;
-
-bool IsTileLoaded(entt::registry &registry, int x, int z) {
-    auto view = registry.view<Tile>();
-
-    for (auto entity: view) {
-        const auto &tile = view.get<Tile>(entity);
-        if (tile.x == x && tile.z == z) {
-            return true;
-        }
-    }
-    return false;
-}
+import RenderComponents;
 
 export void WorldStreamerSystem(entt::registry &registry) {
-    auto viewPlayer = registry.view<Player, Position3D>();
-    auto playerEntity = viewPlayer.front();
+    const auto viewPlayer = registry.view<Player, Position3D>();
+    const auto playerEntity = viewPlayer.front();
 
     if (playerEntity == entt::null) return;
 
-    const auto &playerPos = viewPlayer.get<Position3D>(playerEntity).pos;
+    // we are rendering the map at the offset of the player
+    const auto &offset = viewPlayer.get<Position3D>(playerEntity).offset;
 
-    const float TILE_SIZE = 1000.0f;
-    int currentX = static_cast<int>(floor(playerPos.x / TILE_SIZE));
-    int currentY = static_cast<int>(floor(playerPos.z / TILE_SIZE));
+    auto view = registry.view<Position3D, Modeled, World>();
 
-    // load required
-    for (int x = currentX - 1; x <= currentX + 1; ++x) {
-        for (int y = currentY - 1; y <= currentY + 1; ++y) {
-            // if (!IsTileLoaded(registry, x, y)) {
-            // LoadTile(registry, x, y);
-            // }
-        }
+    for (auto [entity, position, modeled]: view.each()) {
+        DrawModel(modeled.handle->model, offset, 1.0f, WHITE);
     }
-
-    // delete all that not in range
-    // todo collect the list of items to delete
-    // todo delete it in a second iteration
-    // auto view = registry.view<Tile>();
-    // for (auto entity: view) {
-    //     auto &tile = view.get<Tile>(entity);
-    //     if (abs(tile.x - currentX) > 1 || abs(tile.z - currentY) > 1) {
-    //         registry.destroy(entity);
-    //     }
-    // }
-
-    // todo update shift
 }

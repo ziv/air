@@ -42,7 +42,7 @@ export namespace Factories {
         const auto entity = registry.create();
 
         registry.emplace<World>(entity);
-        registry.emplace<Position3D>(entity, Vector3Zero());
+        registry.emplace<Position3D>(entity, Vector3Zero(), Vector3Zero());
 
 
         // get the cache from registry
