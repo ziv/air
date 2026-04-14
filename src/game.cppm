@@ -5,6 +5,10 @@ module;
 export module Game;
 
 import JsonConfig;
+import PlayerControls;
+import PlayerCamera;
+import PlayerPhysics;
+import PlayerRotation;
 import UserInputs;
 import WorldComponents;
 import PlayerPrefabs;
@@ -26,33 +30,42 @@ export class Game {
     entt::registry &registry;
     const JsonConfig &config;
 
+    PlayerControls playerControls;
+    PlayerPhysics playerPhysics;
+    PlayerRotation playerRotation;
+    PlayerCamera playerCamera;
+
 public:
     explicit Game(const JsonConfig &cfg, entt::registry &reg) : registry(reg), config(cfg) {
         Factories::createPlayer(registry, config);
-        Factories::createScene(registry, config);
+        // Factories::createScene(registry, config);
     }
 
-    void update() const {
+    void update() {
         const float dt = GetFrameTime();
 
-        UserInputs(registry, dt);
-        AircraftMechanics(registry, dt);
-        // AircraftPhysicsSystem(registry, dt);
-        AircraftSimplePhysicsSystem(registry, dt);
-        VelocitySystem(registry, dt);
-        RotationSystem(registry, dt);
-        PositionSystem(registry, dt);
-        CameraSystem(registry, dt);
+        playerControls.update(registry, dt);
+        playerPhysics.update(registry, dt);
+        playerRotation.update(registry, dt);
+        playerCamera.update(registry);
+        // UserInputs(registry, dt);
+        // AircraftMechanics(registry, dt);
+        // // AircraftPhysicsSystem(registry, dt);
+        // AircraftSimplePhysicsSystem(registry, dt);
+        // VelocitySystem(registry, dt);
+        // RotationSystem(registry, dt);
+        // PositionSystem(registry, dt);
+        // CameraSystem(registry, dt);
     }
 
-    void draw() const {
-        const auto view = registry.view<PlayerView>();
-        auto &[camera] = view.get<PlayerView>(view.front());
+    void draw() {
+        // const auto view = registry.view<PlayerView>();
+        // auto &[camera] = view.get<PlayerView>(view.front());
 
         ClearBackground(BLUE);
-        BeginMode3D(camera);
-        DrawGrid(1000, 100.0f);
-        WorldStreamerSystem(registry);
+        BeginMode3D(playerCamera.getCamera());
+        DrawGrid(1000, 10.0f);
+        // WorldStreamerSystem(registry);
         // RenderModel(registry);
 
         // debug cubes for reference
@@ -64,8 +77,6 @@ public:
         }
 
         EndMode3D();
-        RenderCockpit(registry);
-        RenderHudLadder(registry);
         DrawFPS(1050, 780);
         RenderDebug(registry);
     }

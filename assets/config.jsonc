@@ -21,9 +21,9 @@
     "stallAngle": 15,
     "dragCoefficient": 0.36,
     "inducedDragCoefficient": 0.2,
-    "pitchRatio": 0.7,
-    "rollRatio": 0.9,
-    "yawRatio": 0.5
+    "pitchRatio": 0.97,
+    "rollRatio": 0.98,
+    "yawRatio": 0.92
   },
   "cockpit": {
     "texturePath": "assets/images/cockpit-z.png",

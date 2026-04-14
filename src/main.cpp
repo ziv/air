@@ -23,7 +23,7 @@ int main() {
         InitWindow(width, height, title.c_str());
         SetTargetFPS(60);
 
-        rlSetClipPlanes(1.0f, 10000.0f);
+        // rlSetClipPlanes(1.0f, 10000.0f);
 
         entt::registry registry;
 
@@ -40,7 +40,7 @@ int main() {
         // ```
         registry.ctx().emplace<ResourceManager>();
 
-        const Game game(config, registry);
+        Game game(config, registry);
 
         while (!WindowShouldClose()) {
             game.update();

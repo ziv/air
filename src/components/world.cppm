@@ -7,6 +7,25 @@ export module WorldComponents;
 // relationship between components
 
 export struct Player {
+    Quaternion rotation;
+    Vector3 pos;
+    Vector3 offset;
+    Vector3 velocity;
+    Vector3 forward;
+    Vector3 up;
+    Vector3 right;
+    float speed;
+};
+
+export struct PlayerInputs {
+    float pitch = 0.0f;
+    float yaw = 0.0f;
+    float roll = 0.0f;
+
+    float throttle = 0.0f;
+
+    bool gear = true;
+    bool brakes = true;
 };
 
 export struct PlayerView {
@@ -61,6 +80,7 @@ export struct Dimensions2D {
 
 export struct LinearVelocity {
     Vector3 velocity;
+    float speed;
 };
 
 export struct AngularVelocity {

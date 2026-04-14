@@ -39,6 +39,12 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 target_sources(${PROJECT_NAME} PUBLIC
         FILE_SET CXX_MODULES FILES
         src/Game.cppm
+        src/player/player-camera.cppm
+        src/player/player-controls.cppm
+        src/player/player-physics.cppm
+        src/player/player-rotation.cppm
+        src/core/types.cppm
+        src/core/helpers.cppm
         src/core/JsonConfig.cppm
         src/core/ConfigTypes.cppm
         src/core/Resource.cppm

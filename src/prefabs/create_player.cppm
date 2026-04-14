@@ -11,6 +11,7 @@ import WorldComponents;
 import AircraftComponents;
 import RaylibResource;
 import ConfigTypes;
+import Helpers;
 
 entt::entity createCockpit(entt::registry &registry,
                            const JsonConfig &config) {
@@ -32,50 +33,62 @@ entt::entity createCockpit(entt::registry &registry,
 export namespace Factories {
     entt::entity createPlayer(entt::registry &registry,
                               const JsonConfig &config) {
-        const auto pilotConfig = config.get<PilotConfig>("/player");
-        const auto aircraftConfig = config.get<AircraftConfig>("/aircraft");
-
-        auto camera = Camera3D{};
-        camera.position = (Vector3){0.0f, 10.0f, 0.0f};
-        camera.fovy = pilotConfig.fov;
-        camera.up = (Vector3){0.0f, 1.0f, 0.0f};
-        camera.target = (Vector3){30.0f, 10.0f, 30.0f};
-        camera.projection = CAMERA_PERSPECTIVE;
-        // camera.projection = CAMERA_FIRST_PERSON;
+        // const auto pilotConfig = config.get<PilotConfig>("/player");
+        // const auto aircraftConfig = config.get<AircraftConfig>("/aircraft");
+        //
+        // auto camera = Camera3D{};
+        // camera.position = (Vector3){0.0f, 10.0f, 0.0f};
+        // camera.fovy = pilotConfig.fov;
+        // camera.up = (Vector3){0.0f, 1.0f, 0.0f};
+        // camera.target = (Vector3){30.0f, 10.0f, 30.0f};
+        // camera.projection = CAMERA_PERSPECTIVE;
+        // // camera.projection = CAMERA_FIRST_PERSON;
+        //
+        // const auto player = registry.create();
+        // registry.emplace<Player>(player);
+        // registry.emplace<PlayerView>(player, camera);
+        //
+        // registry.emplace<View3D>(player, pilotConfig.fov, pilotConfig.tilt);
+        // registry.emplace<AircraftControls>(player, 0.0f, 0.0f, 0.0f, false, false, 0.0f);
+        //
+        // registry.emplace<Position3D>(player, (Vector3){0.0f, 3.0f, 0.0f}, Vector3Zero());
+        // registry.emplace<Grounded>(player, true);
+        //
+        // registry.emplace<LinearVelocity>(player, Vector3Zero(), 0.0f);
+        // registry.emplace<Engine>(player, aircraftConfig.engineThrust, 0.0f);
+        // registry.emplace<Orientation>(player, Constants::WorldForward, Constants::WorldUp, Constants::WorldRight);
+        // registry.emplace<LinerAcceleration>(player, Vector3Zero());
+        // registry.emplace<AngularAcceleration>(player, Vector3Zero());
+        // registry.emplace<AngularVelocity>(player, Vector3Zero());
+        // registry.emplace<Rotation>(player, QuaternionIdentity());
+        // registry.emplace<AircraftUtils>(player, true, true);
+        // registry.emplace<Aircraft>(player,
+        //                            aircraftConfig.dragCoefficient,
+        //                            aircraftConfig.inducedDragCoefficient,
+        //                            aircraftConfig.liftCoefficient,
+        //                            aircraftConfig.liftSlopeCoefficient,
+        //                            aircraftConfig.stallAngle,
+        //                            aircraftConfig.weight,
+        //                            aircraftConfig.pitchRatio,
+        //                            aircraftConfig.rollRatio,
+        //                            aircraftConfig.yawRatio);
+        //
+        //
+        // const auto cockpit = createCockpit(registry, config);
+        // registry.emplace<ChildOf>(cockpit, player);
 
         const auto player = registry.create();
-        registry.emplace<Player>(player);
-        registry.emplace<PlayerView>(player, camera);
-
-        registry.emplace<View3D>(player, pilotConfig.fov, pilotConfig.tilt);
-        registry.emplace<AircraftControls>(player, 0.0f, 0.0f, 0.0f, false, false, 0.0f);
-
-        registry.emplace<Position3D>(player, (Vector3){0.0f, 10.0f, 0.0f}, Vector3Zero());
-        registry.emplace<Grounded>(player, true);
-
-        registry.emplace<LinearVelocity>(player, Vector3Zero());
-        registry.emplace<Engine>(player, aircraftConfig.engineThrust, 0.0f);
-        registry.emplace<Orientation>(player, Constants::WorldForward, Constants::WorldUp, Constants::WorldRight);
-        registry.emplace<LinerAcceleration>(player, Vector3Zero());
-        registry.emplace<AngularAcceleration>(player, Vector3Zero());
-        registry.emplace<AngularVelocity>(player, Vector3Zero());
-        registry.emplace<Rotation>(player, QuaternionIdentity());
-        registry.emplace<AircraftUtils>(player, true, true);
-        registry.emplace<Aircraft>(player,
-                                   aircraftConfig.dragCoefficient,
-                                   aircraftConfig.inducedDragCoefficient,
-                                   aircraftConfig.liftCoefficient,
-                                   aircraftConfig.liftSlopeCoefficient,
-                                   aircraftConfig.stallAngle,
-                                   aircraftConfig.weight,
-                                   aircraftConfig.pitchRatio,
-                                   aircraftConfig.rollRatio,
-                                   aircraftConfig.yawRatio);
-
-
-        const auto cockpit = createCockpit(registry, config);
-        registry.emplace<ChildOf>(cockpit, player);
-
+        registry.emplace<Player>(player,
+                                 QuaternionIdentity(),
+                                 (Vector3){0.0f, 0.0f, 0.0f}, // position
+                                 Vector3Zero(), // offset
+                                 Vector3Zero(), // velocity
+                                 WorldForward(), // forward
+                                 WorldUp(), // up
+                                 WorldRight(), // right
+                                 0.0f // speed
+        );
+        registry.emplace<PlayerInputs>(player, 0.0f, 0.0f, 0.0f, 0.0f, true, true);
         return player;
     }
 }
