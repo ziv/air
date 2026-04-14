@@ -2,7 +2,9 @@
   "window": {
     "title": "airborne",
     "width": 1200,
-    "height": 800
+    "height": 800,
+    "nearPlane": 1,
+    "farPlane": 150000
   },
   "player": {
     // field of view a little bit wider than the human FOV for wider sight
@@ -34,6 +36,13 @@
     }
   },
   "scene": {
+    "mapTexture": "assets/images/north-tx-2048.jpg",
+    "mapHeightmap": "assets/images/north-hm.png",
+    "mapSize": {
+      "x": 128000,
+      "y": 5000,
+      "z": 128000
+    },
     "skyColor": {
       // sky blue
       "r": 192,

@@ -9,8 +9,15 @@ export struct WindowConfig {
     std::string title;
     int width;
     int height;
+    float nearPlane;
+    float farPlane;
 };
 
+export struct SceneConfig {
+    std::string mapTexture;
+    std::string mapHeightmap;
+    Vector3 mapSize;
+};
 
 export struct PilotConfig {
     float fov;
@@ -40,6 +47,7 @@ export struct AircraftConfig {
 export
 {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(WindowConfig, title, width, height);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SceneConfig, mapTexture, mapHeightmap, mapSize);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PilotConfig, fov, tilt);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(CockpitConfig, texturePath, shaderPath, tintColor);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(AircraftConfig, weight, engineThrust, vleSpeed, liftCoefficient, liftSlopeCoefficient, stallAngle, dragCoefficient, inducedDragCoefficient, pitchRatio, rollRatio, yawRatio);

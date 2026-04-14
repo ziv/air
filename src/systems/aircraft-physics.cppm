@@ -1,6 +1,6 @@
 module;
 #include <entt/entt.hpp>
-#include <raymath.h>
+#include "../lib/ray.hpp"
 #include <algorithm>
 
 export module AircraftPhysicsSystem;
@@ -28,9 +28,9 @@ float CalculateCD(const float currentCl, const float cdZero, const float induced
 }
 
 export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
-    auto view = registry.view<Position3D, Velocity, Aircraft, Engine, Orientation, Acceleration, AngularAcceleration, AngularVelocity, AircraftControls>();
+    auto view = registry.view<Position3D, Velocity, Aircraft, Engine, Orientation, Acceleration, AngularAcceleration, AngularVelocity, AircraftControls, Grounded, AircraftUtils>();
 
-    for (auto [entity, position, velocity, aircraft, engine, orientation, acceleration, angularAcc, angularVel, controls]: view.each()) {
+    for (auto [entity, position, velocity, aircraft, engine, orientation, acceleration, angularAcc, angularVel, controls, grounded, utils]: view.each()) {
         const auto mass = aircraft.weight / 9.81f; // weight in N
         const auto thrustForce = orientation.forward * (engine.thrust * engine.throttle);
         const auto weightForce = (Vector3){0.0f, -9.81f * mass, 0.0f};
@@ -58,13 +58,21 @@ export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
         const float sideSlip = asinf(sideSlipDot);
 
         const float CL = CalculateCL(aoa, aircraft.cl, aircraft.liftSlopeCoefficient, aircraft.stallAngle);
-        const float CD = CalculateCD(CL, aircraft.cd, aircraft.inducedDragCoefficient);
+        float CD = CalculateCD(CL, aircraft.cd, aircraft.inducedDragCoefficient);
+
+        if (utils.brake) CD *= 3.0f;
+        if (utils.gear) CD *= 1.5f;
 
         const auto dragForce = velocityDirection * -(CD * squaredSpeed);
         const auto liftForce = liftDirection * (CL * squaredSpeed);
 
+        // Ground friction (rolling resistance) — constant force opposing motion
+        const auto frictionForce = grounded.grounded
+            ? velocityDirection * -(mass * 9.81f * (utils.brake ? 0.4f : 0.02f))
+            : Vector3Zero();
+
         // --- Linear Acceleration ---
-        acceleration.linear = (thrustForce + dragForce + weightForce + liftForce) / mass;
+        acceleration.linear = (thrustForce + dragForce + weightForce + liftForce + frictionForce) / mass;
 
         // --- Angular Mechanics (Torques & Angular Acceleration) ---
 
@@ -106,5 +114,18 @@ export void AircraftPhysicsSystem(entt::registry &registry, float dt) {
         angularAcc.angular.x = totalTorque.x / pitchInertia;
         angularAcc.angular.y = totalTorque.y / yawInertia;
         angularAcc.angular.z = totalTorque.z / rollInertia;
+
+        if (grounded.grounded) {
+            const float liftUp = Vector3DotProduct(liftForce, (Vector3){0.0f, 1.0f, 0.0f});
+            if (liftUp > aircraft.weight) {
+                grounded.grounded = false;
+            } else {
+                angularAcc.angular.z = 0.0f; // roll
+
+                angularVel.velocity.z = 0.0f;
+            }
+        } else if (position.pos.y <= 0.0f) {
+            grounded.grounded = true;
+        }
     }
 }

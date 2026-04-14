@@ -53,3 +53,7 @@ export struct AircraftControls {
     bool gear; // pressed or not
     float throttle;
 };
+
+export struct Grounded {
+    bool grounded;
+};

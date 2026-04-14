@@ -5,15 +5,20 @@ module;
 export module Game;
 
 import JsonConfig;
+import UserInputs;
+import WorldComponents;
 import PlayerPrefabs;
 import ScenePrefabs;
-import ChromaRender;
+import RenderCockpit;
+import RenderModel;
+import RenderDebug;
 import AircraftPhysicsSystem;
+import AircraftSimplePhysicsSystem;
 import PositionSystem;
 import VelocitySystem;
-import UserInputs;
 import RotationSystem;
-import AircraftMechanics;
+import CameraSystem;
+import AircraftMechanicsSystem;
 
 export class Game {
     entt::registry &registry;
@@ -30,16 +35,27 @@ public:
 
         UserInputs(registry, dt);
         AircraftMechanics(registry, dt);
-        AircraftPhysicsSystem(registry, dt);
+        // AircraftPhysicsSystem(registry, dt);
+        AircraftSimplePhysicsSystem(registry, dt);
         VelocitySystem(registry, dt);
         RotationSystem(registry, dt);
         PositionSystem(registry, dt);
+        CameraSystem(registry, dt);
     }
 
     void draw() const {
+        const auto view = registry.view<PlayerView>();
+        auto &[camera] = view.get<PlayerView>(view.front());
+
         BeginDrawing();
-        ClearBackground(SKYBLUE);
-        RenderCockpit(registry);
+        ClearBackground(BLUE);
+        BeginMode3D(camera);
+        DrawGrid(100, 1);
+        // RenderModel(registry);
+        EndMode3D();
+        // RenderCockpit(registry);
+        DrawFPS(1050, 780);
+        RenderDebug(registry);
         EndDrawing();
     }
 };

@@ -1,12 +1,20 @@
 module;
 #include <entt/entt.hpp>
-#include <raymath.h>
+#include "../lib/ray.hpp"
 
 export module WorldComponents;
 
 // relationship between components
 
 export struct Player {
+};
+
+export struct PlayerView {
+    Camera3D camera;
+};
+
+export struct CameraComponent {
+    entt::entity handle{entt::null};
 };
 
 export struct Parent {

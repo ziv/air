@@ -1,6 +1,6 @@
 module;
 #include <entt/entt.hpp>
-#include <raymath.h>
+#include "../lib/ray.hpp"
 
 export module RotationSystem;
 
@@ -20,11 +20,19 @@ export void RotationSystem(entt::registry &registry, float dt) {
         // 2. Create a rotation delta for the current frame
         // raymath's QuaternionFromEuler expects radians: (pitch, yaw, roll)
         // which corresponds to our (x, y, z)
-        const Quaternion frameRotation = QuaternionFromEuler(
-            angVel.velocity.x * dt,
-            angVel.velocity.y * dt,
-            angVel.velocity.z * dt
-        );
+        // const Quaternion frameRotation = QuaternionFromEuler(
+        //     angVel.velocity.x * dt,
+        //     angVel.velocity.y * dt,
+        //     angVel.velocity.z * dt
+        // );
+
+        // 2. New one
+        const auto qPitch = QuaternionFromAxisAngle(orientation.right, angVel.velocity.x * dt);
+        const auto qYaw = QuaternionFromAxisAngle(orientation.up, angVel.velocity.y * dt);
+        const auto qRoll = QuaternionFromAxisAngle(orientation.forward, angVel.velocity.z * dt);
+
+        const auto frameRotation = QuaternionMultiply(qYaw, QuaternionMultiply(qPitch, qRoll));
+
 
         // 3. Apply the frame rotation to our global orientation
         // Note: Order matters in Quaternion multiplication

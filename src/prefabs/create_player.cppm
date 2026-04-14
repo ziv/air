@@ -35,11 +35,23 @@ export namespace Factories {
         const auto pilotConfig = config.get<PilotConfig>("/player");
         const auto aircraftConfig = config.get<AircraftConfig>("/aircraft");
 
+        auto camera = Camera3D{};
+        camera.position = (Vector3){0.0f, 100.0f, 0.0f};
+        camera.fovy = pilotConfig.fov;
+        camera.up = (Vector3){0.0f, 1.0f, 0.0f};
+        camera.target = (Vector3){100.0f, 0.0f, 100.0f};
+        camera.projection = CAMERA_PERSPECTIVE;
+
         const auto player = registry.create();
         registry.emplace<Player>(player);
+        registry.emplace<PlayerView>(player, camera);
+
         registry.emplace<View3D>(player, pilotConfig.fov, pilotConfig.tilt);
         registry.emplace<AircraftControls>(player, 0.0f, 0.0f, 0.0f, false, false, 0.0f);
-        registry.emplace<Position3D>(player, Vector3Zero());
+
+        registry.emplace<Position3D>(player, (Vector3){0.0f, 0.0f, 0.0f});
+        registry.emplace<Grounded>(player, true);
+
         registry.emplace<Velocity>(player, Vector3Zero());
         registry.emplace<Engine>(player, aircraftConfig.engineThrust, 0.0f);
         registry.emplace<Orientation>(player, Constants::WorldForward, Constants::WorldUp, Constants::WorldRight);

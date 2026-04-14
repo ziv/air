@@ -1,19 +1,26 @@
 module;
-// #include <entt/entt.hpp>
-// #include <raymath.h>
+#include <entt/entt.hpp>
+// #include <raylib.h>
 
 export module RenderComponents;
 
 import RaylibResource;
+import ResourceManager;
+
 
 export struct Modeled {
-    ModelHandle model;
+    entt::resource<ModelResource> handle;
 };
 
-export struct Textured {
-    TextureHandle texture;
+export struct Imaged {
+    entt::resource<ImageResource> handle;
 };
 
-export struct Shaded {
-    ShaderHandle shader;
-};
+// export struct Textured {
+//     TextureHandle texture;
+// };
+//
+// export struct Shaded {
+//     ShaderHandle shader;
+// };
+//

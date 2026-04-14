@@ -42,6 +42,7 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/core/JsonConfig.cppm
         src/core/ConfigTypes.cppm
         src/core/Resource.cppm
+        src/core/ResourceManager.cppm
         src/core/Constants.cppm
         src/components/world.cppm
         src/components/aircraft.cppm
@@ -49,13 +50,17 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/prefabs/create_player.cppm
         src/prefabs/create_scene.cppm
         src/systems/aircraft-physics.cppm
+        src/systems/aircraft-simple-physics.cppm
         src/systems/aircraft-mechanics.cppm
         src/systems/render-cockpit.cppm
+        src/systems/render-models.cppm
+        src/systems/render-debug.cppm
         src/systems/world-streamer.cppm
         src/systems/position.cppm
         src/systems/velocity.cppm
         src/systems/user-inputs.cppm
         src/systems/rotation.cppm
+        src/systems/camera.cppm
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib EnTT::EnTT nlohmann_json::nlohmann_json)

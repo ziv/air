@@ -1,6 +1,6 @@
 module;
 #include <entt/entt.hpp>
-#include <raymath.h>
+#include "../lib/ray.hpp"
 
 export module VelocitySystem;
 
