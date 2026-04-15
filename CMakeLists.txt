@@ -40,7 +40,9 @@ target_sources(${PROJECT_NAME} PUBLIC
         FILE_SET CXX_MODULES FILES
         src/Game.cppm
         src/player/player-camera.cppm
+        src/player/player-config.cppm
         src/player/player-controls.cppm
+        src/player/player-position.cppm
         src/player/player-physics.cppm
         src/player/player-rotation.cppm
         src/core/types.cppm

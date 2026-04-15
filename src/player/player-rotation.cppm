@@ -7,19 +7,16 @@ export module PlayerRotation;
 import WorldComponents;
 import Types;
 import Helpers;
+import PlayerConfig;
 
-struct PlayerTransformationConfig {
-    MeterPerSecond maxSpeed = 600.0f; ///< Reference speed for normalising control authority.
-    // MeterPerSecond vleSpeed = 150.0f; ///< Max gear-extended speed; above this → turbulence.
-    // MeterPerSecond stallSpeed = 65.0f; ///< Below this speed aerodynamic effects diminish.
-    Ratio bankInduceYawRatio = 0.2f; ///< Adverse yaw factor from bank angle.
-    Ratio liftLossPitchRatio = 0.1f; ///< Nose-down pitch tendency when lift vector tilts.
-};
 
 export class PlayerRotation {
     PlayerTransformationConfig conf;
 
 public:
+    explicit PlayerRotation(const PlayerTransformationConfig &c) : conf(c) {
+    }
+
     void update(entt::registry &registry, const float dt) const {
         for (const auto view = registry.view<Player, PlayerInputs>(); auto [entity, player, inputs]: view.each()) {
             const auto speedRatio = player.speed / conf.maxSpeed;
@@ -48,9 +45,9 @@ public:
                 const auto qDelta = QuaternionMultiply(qYaw, QuaternionMultiply(qPitch, qRoll));
 
                 player.rotation = QuaternionNormalize(QuaternionMultiply(qDelta, player.rotation));
-                player.forward = Vector3Normalize(Vector3RotateByQuaternion((Vector3){0.0f, 0.0f, 1.0f}, player.rotation));
-                player.up = Vector3Normalize(Vector3RotateByQuaternion((Vector3){0.0f, 1.0f, 0.0f}, player.rotation));
-                player.right = Vector3Normalize(Vector3RotateByQuaternion((Vector3){-1.0f, 0.0f, 0.0f}, player.rotation));
+                player.forward = Vector3Normalize(Vector3RotateByQuaternion(WorldForward(), player.rotation));
+                player.up = Vector3Normalize(Vector3RotateByQuaternion(WorldUp(), player.rotation));
+                player.right = Vector3Normalize(Vector3RotateByQuaternion(WorldRight(), player.rotation));
             }
 
             // ground mode

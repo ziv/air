@@ -4,26 +4,30 @@
     "width": 1200,
     "height": 800,
     "nearPlane": 1,
-    "farPlane": 80000
+    "farPlane": 30000
   },
   "player": {
-    // field of view a little bit wider than the human FOV for wider sight
-    "fov": 85,
-    // look down a little bit (I used 0.45 for better view)
-    "tilt": 0.45
-  },
-  "aircraft": {
-    "weight": 120000,
-    "engineThrust": 130000,
-    "vleSpeed": 150,
-    "liftCoefficient": 1.92,
-    "liftSlopeCoefficient": 0.1,
-    "stallAngle": 15,
-    "dragCoefficient": 0.36,
-    "inducedDragCoefficient": 0.2,
-    "pitchRatio": 0.97,
-    "rollRatio": 0.98,
-    "yawRatio": 0.92
+    "camera": {
+      // field of view a little bit wider than the human FOV for wider sight
+      "fov": 85,
+      // look down a little bit (I used 0.45 for better view)
+      "tilt": 0.45
+    },
+    "aircraft": {
+      "weight": 120000,
+      "engineThrust": 130000,
+      "maxSpeed": 600,
+      "stallSpeed": 65,
+      "vleSpeed": 150,
+      "liftCoefficient": 1.92,
+      "dragCoefficient": 0.36,
+      "bankInduceYawRatio": 0.2,
+      "liftLossPitchRatio": 0.1,
+      "stallAngle": 15,
+      "pitchRatio": 0.97,
+      "rollRatio": 0.98,
+      "yawRatio": 0.92
+    }
   },
   "cockpit": {
     "texturePath": "assets/images/cockpit-z.png",

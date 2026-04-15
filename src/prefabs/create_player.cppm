@@ -80,7 +80,7 @@ export namespace Factories {
         const auto player = registry.create();
         registry.emplace<Player>(player,
                                  QuaternionIdentity(),
-                                 (Vector3){0.0f, 0.0f, 0.0f}, // position
+                                 (Vector3){60000.0f, 5.0f, 60000.0f}, // position
                                  Vector3Zero(), // offset
                                  Vector3Zero(), // velocity
                                  WorldForward(), // forward

@@ -6,16 +6,16 @@ export module PlayerCamera;
 
 import WorldComponents;
 import Helpers;
+import PlayerConfig;
 
 export class PlayerCamera {
-    float tilt = 0.45f;
-    float fov = 85.0f;
+    PlayerCameraConfig conf;
     Camera camera = {};
 
 public:
-    PlayerCamera() {
+    explicit PlayerCamera(const PlayerCameraConfig &c) : conf(c) {
         camera.up = WorldUp();
-        camera.fovy = fov;
+        camera.fovy = conf.fov;
         camera.projection = CAMERA_PERSPECTIVE;
     }
 
@@ -24,7 +24,7 @@ public:
     void update(entt::registry &registry) {
         for (const auto view = registry.view<Player>(); auto [entity, player]: view.each()) {
             camera.position = player.pos;
-            const Quaternion qTilt = QuaternionFromAxisAngle(player.right, -tilt);
+            const Quaternion qTilt = QuaternionFromAxisAngle(player.right, -conf.tilt);
             camera.target = camera.position + Vector3RotateByQuaternion(player.forward, qTilt);
             camera.up = Vector3RotateByQuaternion(player.up, qTilt);
         }

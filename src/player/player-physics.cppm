@@ -7,25 +7,15 @@ export module PlayerPhysics;
 import Types;
 import Helpers;
 import WorldComponents;
-
-struct PlayerPhysicsConfig {
-    Newton weight = 120000.0f; ///< Aircraft empty weight (Newtons).
-    Newton engineThrust = 130000.0f; ///< Maximum engine thrust at full military power (N).
-    MeterPerSecond maxSpeed = 600.0f; ///< Hard speed cap (m/s) — safety limit.
-    MeterPerSecond stallSpeed = 65.0f; ///< Speed below which lift drops sharply.
-    MeterPerSecond groundBrakesSpeed = 10.0f; ///< Speed threshold for ground braking damping.
-    Ratio dragCoefficient = 0.36f; ///< Base aerodynamic drag coefficient.
-    Ratio liftCoefficient = 1.93f;; ///< Base lift coefficient (proportional to v²).
-    Ratio flyingBrakesDragRatio = 6.0f; ///< Drag multiplier when air brakes are deployed.
-    Ratio flyingGearDragRatio = 1.8f; ///< Extra drag when gear is deployed in flight.
-    Ratio groundBrakesDragRatio = 1000.0f; ///< Drag multiplier for wheel brakes on the ground.
-    Ratio stallLiftRatio = 0.1f; ///< Lift reduction factor below stall speed.
-};
+import PlayerConfig;
 
 export class PlayerPhysics {
     PlayerPhysicsConfig conf;
 
 public:
+    explicit PlayerPhysics(const PlayerPhysicsConfig &c) : conf(c) {
+    }
+
     void update(entt::registry &registry, const float dt) const {
         for (const auto view = registry.view<Player, PlayerInputs>(); auto [entity, player, inputs]: view.each()) {
             const auto squareSpeed = player.speed * player.speed;
@@ -34,9 +24,12 @@ public:
             if (inputs.brakes) cd += cd;
             if (inputs.gear) cd += cd;
 
-            auto thrust = inputs.throttle * conf.engineThrust;
-            auto lift = squareSpeed * conf.liftCoefficient;
             auto drag = squareSpeed * cd;
+            const auto thrust = inputs.throttle * conf.engineThrust;
+            const auto lift = squareSpeed * conf.liftCoefficient;
+
+            // there is no such thing a negative drag
+            if (drag > thrust) drag = thrust;
 
             const float mass = conf.weight / 9.81f;
 
@@ -65,23 +58,18 @@ public:
                 player.speed = 0.0f;
             }
 
-            //
-            // // --- Weathervaning: align velocity toward the nose above stall speed ---
-            // // https://en.wikipedia.org/wiki/Weathervane_effect
-            // if (state.forces.speed > conf.stallSpeed) {
-            //     auto [x, y, z] = state.orientation.forward * state.forces.speed;
-            //     state.forces.velocity.x = Lerp(state.forces.velocity.x, x, 2.0f * dt);
-            //     state.forces.velocity.y = Lerp(state.forces.velocity.y, y, 2.0f * dt);
-            //     state.forces.velocity.z = Lerp(state.forces.velocity.z, z, 2.0f * dt);
-            // }
-            //
-            // update position
-            player.pos = player.pos + (player.velocity * dt);
 
-            if (player.pos.y < 0.0f) {
-                player.pos.y = 0.0f;
-                if (player.velocity.y < 0.0f) player.velocity.y = 0.0f;
+            // --- Weathervaning: align velocity toward the nose above stall speed ---
+            // https://en.wikipedia.org/wiki/Weathervane_effect
+            if (player.speed > conf.stallSpeed) {
+                auto [x, y, z] = player.forward * player.speed;
+                player.velocity.x = Lerp(player.velocity.x, x, 2.0f * dt);
+                player.velocity.y = Lerp(player.velocity.y, y, 2.0f * dt);
+                player.velocity.z = Lerp(player.velocity.z, z, 2.0f * dt);
             }
+            //
+
+
             //
             // // --- ground / surface clamping ---
             // // effectiveFloorHeight is set by GameData each frame:
@@ -90,7 +78,7 @@ public:
             // if (state.position.y < state.effectiveFloorHeight) {
             //     state.position.y = state.effectiveFloorHeight;
             //     // cancel any remaining downward velocity so the aircraft rests on the surface
-            //     if (state.forces.velocity.y < 0.0f) state.forces.velocity.y = 0.0f;
+            //     if (player.velocity.y < 0.0f) player.velocity.y = 0.0f;
             // }
             //
             // // --- Large-world coordinate re-centering ---

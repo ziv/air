@@ -23,7 +23,8 @@ int main() {
         InitWindow(width, height, title.c_str());
         SetTargetFPS(60);
 
-        // rlSetClipPlanes(1.0f, 10000.0f);
+        // rlSetClipPlanes(nearPlane, farPlane);
+        rlSetClipPlanes(1.0f, 10000.0f);
 
         entt::registry registry;
 

@@ -36,17 +36,17 @@ export void RenderDebug(entt::registry &registry) {
     DrawText(TextFormat("Spd: %f", player.speed), margin, y, fs, BLACK);
 
 
+    y += margin;
+    DrawText(TextFormat("Ct: %f", inputs.throttle), margin, y, fs, BLACK);
     // y += margin;
-    // DrawText(TextFormat("Ct: %f", controls.throttle), margin, y, fs, BLACK);
-    // y += margin;
-    // DrawText(TextFormat("Et: %f", engine.throttle), margin, y, fs, BLACK);
-    //
+    // DrawText(TextFormat("Et: %f", player.throttle), margin, y, fs, BLACK);
+
     y += margin;
-    DrawText(TextFormat("LAx: %f", player.velocity.x), margin, y, fs, BLACK);
+    DrawText(TextFormat("LVx: %f", player.velocity.x), margin, y, fs, BLACK);
     y += margin;
-    DrawText(TextFormat("LAz: %f", player.velocity.z), margin, y, fs, BLACK);
+    DrawText(TextFormat("LVz: %f", player.velocity.z), margin, y, fs, BLACK);
     y += margin;
-    DrawText(TextFormat("LAy: %f", player.velocity.y), margin, y, fs, BLACK);
+    DrawText(TextFormat("LVy: %f", player.velocity.y), margin, y, fs, BLACK);
     //
     // y += margin;
     // DrawText(TextFormat("AVx: %f", angVel.velocity.x), margin, y, fs, BLACK);

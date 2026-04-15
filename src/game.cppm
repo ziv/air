@@ -6,8 +6,10 @@ export module Game;
 
 import JsonConfig;
 import PlayerControls;
+import PlayerConfig;
 import PlayerCamera;
 import PlayerPhysics;
+import PlayerPosition;
 import PlayerRotation;
 import UserInputs;
 import WorldComponents;
@@ -32,13 +34,19 @@ export class Game {
 
     PlayerControls playerControls;
     PlayerPhysics playerPhysics;
+    PlayerPosition playerPosition;
     PlayerRotation playerRotation;
     PlayerCamera playerCamera;
 
 public:
-    explicit Game(const JsonConfig &cfg, entt::registry &reg) : registry(reg), config(cfg) {
+    explicit Game(const JsonConfig &cfg, entt::registry &reg)
+        : registry(reg),
+          config(cfg),
+          playerCamera(cfg.get<PlayerCameraConfig>("/player/camera")),
+          playerPhysics(cfg.get<PlayerPhysicsConfig>("/player/aircraft")),
+          playerRotation(cfg.get<PlayerTransformationConfig>("/player/aircraft")) {
         Factories::createPlayer(registry, config);
-        // Factories::createScene(registry, config);
+        Factories::createScene(registry, config);
     }
 
     void update() {
@@ -46,6 +54,7 @@ public:
 
         playerControls.update(registry, dt);
         playerPhysics.update(registry, dt);
+        playerPosition.update(registry, dt);
         playerRotation.update(registry, dt);
         playerCamera.update(registry);
         // UserInputs(registry, dt);
@@ -64,7 +73,7 @@ public:
 
         ClearBackground(BLUE);
         BeginMode3D(playerCamera.getCamera());
-        DrawGrid(1000, 10.0f);
+        DrawGrid(100, 100.0f);
         WorldStreamerSystem(registry);
         // RenderModel(registry);
 
