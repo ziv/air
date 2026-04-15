@@ -9,7 +9,7 @@ import WorldComponents;
 import AircraftComponents;
 import RenderComponents;
 import RaylibResource;
-import ConfigTypes;
+import Types;
 import ResourceManager;
 
 struct CreateWorldRet {

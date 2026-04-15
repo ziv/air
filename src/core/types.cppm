@@ -4,8 +4,6 @@ module;
 
 export module Types;
 
-export {
-    using Newton = float;
-    using MeterPerSecond = float;
-    using Ratio = float;
-}
+export import :Scenario;
+export import :Config;
+export import :Units;

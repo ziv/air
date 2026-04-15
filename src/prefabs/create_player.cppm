@@ -10,7 +10,7 @@ import JsonConfig;
 import WorldComponents;
 import AircraftComponents;
 import RaylibResource;
-import ConfigTypes;
+import Types;
 import Helpers;
 
 entt::entity createCockpit(entt::registry &registry,

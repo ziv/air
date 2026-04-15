@@ -47,9 +47,11 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/player/player-physics.cppm
         src/player/player-rotation.cppm
         src/core/types.cppm
+        src/core/scenario-types.cppm
+        src/core/units-types.cppm
         src/core/helpers.cppm
         src/core/JsonConfig.cppm
-        src/core/ConfigTypes.cppm
+        src/core/config-types.cppm
         src/core/Resource.cppm
         src/core/ResourceManager.cppm
         src/core/Constants.cppm

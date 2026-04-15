@@ -6,7 +6,7 @@
 #include "rlgl.h"
 
 import JsonConfig;
-import ConfigTypes;
+import Types;
 import Game;
 import ResourceManager;
 

@@ -9,7 +9,7 @@ import JsonConfig;
 import WorldComponents;
 import AircraftComponents;
 import RaylibResource;
-import ConfigTypes;
+import Types;
 
 export namespace Factories {
     entt::entity createCockpit(entt::registry &registry,
