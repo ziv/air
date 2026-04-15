@@ -2,12 +2,13 @@ module;
 #include <entt/entt.hpp>
 #include "../lib/ray.hpp"
 
-export module PlayerPhysics;
+export module Player:Physics;
 
 import Types;
 import Helpers;
 import WorldComponents;
-import PlayerConfig;
+import :Config;
+
 
 export class PlayerPhysics {
     PlayerPhysicsConfig conf;

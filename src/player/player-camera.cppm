@@ -2,11 +2,11 @@ module;
 #include <entt/entt.hpp>
 #include "../lib/ray.hpp"
 
-export module PlayerCamera;
+export module Player:Camera;
 
 import WorldComponents;
 import Helpers;
-import PlayerConfig;
+import :Config;
 
 export class PlayerCamera {
     PlayerCameraConfig conf;

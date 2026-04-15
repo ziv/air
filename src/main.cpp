@@ -23,8 +23,8 @@ int main() {
         InitWindow(width, height, title.c_str());
         SetTargetFPS(60);
 
-        // rlSetClipPlanes(nearPlane, farPlane);
-        rlSetClipPlanes(1.0f, 10000.0f);
+        TraceLog(LOG_DEBUG, "Setting near plane to %f and far plane to %f", nearPlane, farPlane);
+        rlSetClipPlanes(nearPlane, farPlane);
 
         entt::registry registry;
 

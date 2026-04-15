@@ -2,12 +2,12 @@ module;
 #include <entt/entt.hpp>
 #include "../lib/ray.hpp"
 
-export module PlayerRotation;
+export module Player:Rotation;
 
 import WorldComponents;
 import Types;
 import Helpers;
-import PlayerConfig;
+import :Config;
 
 
 export class PlayerRotation {

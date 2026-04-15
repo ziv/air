@@ -2,7 +2,7 @@ module;
 #include <entt/entt.hpp>
 #include "../lib/ray.hpp"
 
-export module PlayerControls;
+export module Player:Controls;
 
 import WorldComponents;
 

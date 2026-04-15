@@ -39,6 +39,7 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 target_sources(${PROJECT_NAME} PUBLIC
         FILE_SET CXX_MODULES FILES
         src/Game.cppm
+        src/player/player.cppm
         src/player/player-camera.cppm
         src/player/player-config.cppm
         src/player/player-controls.cppm
@@ -57,8 +58,8 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/components/render.cppm
         src/prefabs/create_player.cppm
         src/prefabs/create_scene.cppm
+        src/prefabs/create-cockpit.cppm
         src/systems/aircraft-physics.cppm
-        src/systems/aircraft-simple-physics.cppm
         src/systems/aircraft-mechanics.cppm
         src/systems/render-cockpit.cppm
         src/systems/render-models.cppm
@@ -69,7 +70,6 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/systems/velocity.cppm
         src/systems/user-inputs.cppm
         src/systems/rotation.cppm
-        src/systems/camera.cppm
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib EnTT::EnTT nlohmann_json::nlohmann_json)

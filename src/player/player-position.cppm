@@ -2,9 +2,8 @@ module;
 #include <entt/entt.hpp>
 #include "../lib/ray.hpp"
 
-export module PlayerPosition;
+export module Player:Position;
 
-import PlayerConfig;
 import WorldComponents;
 import Types;
 import Helpers;

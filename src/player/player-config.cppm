@@ -3,7 +3,7 @@ module;
 #include <entt/entt.hpp>
 #include "../lib/ray.hpp"
 
-export module PlayerConfig;
+export module Player:Config;
 
 import Types;
 import JsonConfig;
