@@ -1,4 +1,5 @@
 module;
+#include <iostream>
 #include <entt/entt.hpp>
 #include "../lib/ray.hpp"
 
@@ -23,6 +24,7 @@ public:
             }
 
             if (player.pos.x > THRESHOLD) {
+                std::cout << "???" << player.pos.x << std::endl;
                 player.pos.x -= THRESHOLD;
                 player.offset.x -= THRESHOLD;
             } else if (player.pos.x < -THRESHOLD) {
@@ -36,8 +38,8 @@ public:
                 player.pos.z += THRESHOLD;
                 player.offset.z += THRESHOLD;
             }
-            // keep offset globaly
-            registry.ctx().emplace<Offset>(player.offset);
+            // keep offset globally
+            registry.ctx().insert_or_assign<Offset>(Offset{player.offset});
         }
     }
 };

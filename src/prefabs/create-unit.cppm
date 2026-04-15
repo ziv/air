@@ -14,6 +14,8 @@ export namespace Factories {
                             const EntityDef &def) {
         const auto entity = registry.create();
 
+        registry.emplace<Identify>(entity, def.id);
+
         // resources
         auto &assets = registry.ctx().get<ResourceManager>();
 

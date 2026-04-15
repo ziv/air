@@ -37,6 +37,10 @@ export struct Offset {
     Vector3 offset;
 };
 
+export struct Identify {
+    std::string name;
+};
+
 // position
 
 export struct Position3D {

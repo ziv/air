@@ -1,16 +1,14 @@
 module;
 #include <entt/entt.hpp>
-#include <raylib.h>
+#include "lib/ray.hpp"
 
 export module Game;
 
 import JsonConfig;
 import Player;
-
+import Components;
 import Prefabs;
-
 import WorldStreamerSystem;
-
 import RenderSystem;
 import RenderCockpit;
 import Types;
@@ -36,6 +34,8 @@ public:
           playerPhysics(cfg.get<PlayerPhysicsConfig>("/player/aircraft")),
           playerRotation(cfg.get<PlayerTransformationConfig>("/player/aircraft")),
           playerCamera(cfg.get<PlayerCameraConfig>("/player/camera")) {
+        // set initial offset
+        registry.ctx().emplace<Offset>(Vector3Zero());
         Factories::createPlayer(registry, config);
         Factories::createScene(registry, config);
         Factories::createCockpit(registry, config);
@@ -64,7 +64,7 @@ public:
         ClearBackground(BLUE);
         BeginMode3D(playerCamera.getCamera());
             WorldStreamerSystem(registry);
-            RenderModel(registry);
+            RenderModels(registry);
             RenderDebugging(registry);
         EndMode3D();
         RenderCockpit(registry);

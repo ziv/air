@@ -63,8 +63,6 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/prefabs/create-scene.cppm
         src/prefabs/create-unit.cppm
         src/prefabs/create-cockpit.cppm
-        src/systems/aircraft-physics.cppm
-        src/systems/aircraft-mechanics.cppm
         src/systems/render.cppm
         src/systems/render-cockpit.cppm
         src/systems/render-models.cppm
@@ -73,9 +71,6 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/systems/render-hud.cppm
         src/systems/world-streamer.cppm
         src/systems/position.cppm
-        src/systems/velocity.cppm
-        src/systems/user-inputs.cppm
-        src/systems/rotation.cppm
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib EnTT::EnTT nlohmann_json::nlohmann_json)
