@@ -65,7 +65,7 @@ public:
         ClearBackground(BLUE);
         BeginMode3D(playerCamera.getCamera());
         DrawGrid(1000, 10.0f);
-        // WorldStreamerSystem(registry);
+        WorldStreamerSystem(registry);
         // RenderModel(registry);
 
         // debug cubes for reference
