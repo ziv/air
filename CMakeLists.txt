@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 4.2.2)
+set(CMAKE_CXX_COMPILER_LAUNCHER ccache)
 project(airborne LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
@@ -46,6 +47,8 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/player/player-position.cppm
         src/player/player-physics.cppm
         src/player/player-rotation.cppm
+        src/player/utils.cppm
+        src/player/systems/ground-check.cppm
         src/core/types.cppm
         src/core/scenario-types.cppm
         src/core/units-types.cppm
@@ -70,7 +73,8 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/systems/render-debugging.cppm
         src/systems/render-hud.cppm
         src/systems/world-streamer.cppm
-        src/systems/position.cppm
+        src/systems/systems.cppm
+        src/systems/crash-landing-detection.cppm
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib EnTT::EnTT nlohmann_json::nlohmann_json)

@@ -7,14 +7,14 @@ export module RenderSystem:Debug;
 import Components;
 
 export void RenderDebug(entt::registry &registry) {
-    auto view = registry.view<Player, PlayerInputs>();
+    auto view = registry.view<Player, PlayerInputs, GroundHeight>();
 
     if (view.begin() == view.end()) {
         return;
     }
 
     const entt::entity entity = view.front();
-    auto [player, inputs] = view.get<Player, PlayerInputs>(entity);
+    auto [player, inputs, gh] = view.get<Player, PlayerInputs, GroundHeight>(entity);
 
     // auto [pos, utils, engine, controls, acc, angVel, vel, orient] = view.get<Player, Position3D, AircraftUtils, Engine, AircraftControls, LinerAcceleration, AngularVelocity, LinearVelocity, Orientation>(entity);
     //
@@ -59,9 +59,10 @@ export void RenderDebug(entt::registry &registry) {
     DrawText(TextFormat("LVz: %f", player.velocity.z), margin, y, fs, BLACK);
     y += margin;
     DrawText(TextFormat("LVy: %f", player.velocity.y), margin, y, fs, BLACK);
-    //
-    // y += margin;
-    // DrawText(TextFormat("AVx: %f", angVel.velocity.x), margin, y, fs, BLACK);
+
+    // ground height
+    y += margin;
+    DrawText(TextFormat("GH: %f", gh.height), margin, y, fs, BLACK);
     // y += margin;
     // DrawText(TextFormat("AVz: %f", angVel.velocity.z), margin, y, fs, BLACK);
     // y += margin;
@@ -86,5 +87,4 @@ export void RenderDebug(entt::registry &registry) {
     //
     // y += margin;
     // DrawText(TextFormat("Cq: %.1f", controls.yaw), margin, y, fs, BLACK);
-
 }

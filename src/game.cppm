@@ -18,11 +18,13 @@ export class Game {
     const JsonConfig &config;
     const Scenario scenario;
 
-    PlayerControls playerControls{};
+    PlayerControls playerControls;
     PlayerPhysics playerPhysics;
     PlayerPosition playerPosition;
     PlayerRotation playerRotation;
     PlayerCamera playerCamera;
+
+    float stallSpeed;
 
 public:
     explicit Game(const JsonConfig &cfg,
@@ -31,19 +33,22 @@ public:
         : registry(reg),
           config(cfg),
           scenario(sc),
+          playerControls(cfg.get<PlayerControlsConfig>("/player/controls")),
           playerPhysics(cfg.get<PlayerPhysicsConfig>("/player/aircraft")),
+          playerPosition(cfg.get<PlayerPositionConfig>("/player/position")),
           playerRotation(cfg.get<PlayerTransformationConfig>("/player/aircraft")),
-          playerCamera(cfg.get<PlayerCameraConfig>("/player/camera")) {
+          playerCamera(cfg.get<PlayerCameraConfig>("/player/camera")),
+          stallSpeed(cfg.get<float>("/player/aircraft/stallSpeed")) {
         // set initial offset
         registry.ctx().emplace<Offset>(Vector3Zero());
-        Factories::createPlayer(registry, config);
+
+        Factories::createPlayer(registry, config, scenario);
         Factories::createScene(registry, config);
         Factories::createCockpit(registry, config);
 
         // spawn all items from scenario
         for (const auto &def: scenario.entities) {
             Factories::createUnit(registry, def);
-            TraceLog(LOG_DEBUG, "Entity loaded with %s", def.id.c_str());
         }
     }
 
@@ -58,21 +63,14 @@ public:
     }
 
     void draw() {
-        // const auto view = registry.view<PlayerView>();
-        // auto &[camera] = view.get<PlayerView>(view.front());
-
         ClearBackground(BLUE);
         BeginMode3D(playerCamera.getCamera());
-            WorldStreamerSystem(registry);
-            RenderModels(registry);
-            RenderDebugging(registry);
+        WorldStreamerSystem(registry);
+        RenderModels(registry);
+        RenderDebugging(registry);
         EndMode3D();
         RenderCockpit(registry);
         DrawFPS(1050, 780);
         RenderDebug(registry);
-    }
-
-    void spawn(const EntityDef &def) {
-        TraceLog(LOG_DEBUG, "Spawning entity: %s", def.id.c_str());
     }
 };

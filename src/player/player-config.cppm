@@ -35,6 +35,10 @@ export struct PlayerPhysicsConfig {
 
 export struct PlayerPositionConfig {
     float threshold = 5000.0f;
+    std::string heightPath = "assets/images/north-hm.png";
+    float maxRelativeHeight = 5000.f;
+    float heightMapSizeRatio = 125.0f; // ratio between the large area and the map we check the height
+    float heightAboveGround = 3.f; // the pilot is not sitting on "0"
 };
 
 export struct PlayerTransformationConfig {

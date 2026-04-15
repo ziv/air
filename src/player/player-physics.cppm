@@ -60,7 +60,7 @@ public:
             }
 
 
-            // --- Weathervaning: align velocity toward the nose above stall speed ---
+            // weathervaning: align velocity toward the nose above stall speed
             // https://en.wikipedia.org/wiki/Weathervane_effect
             if (player.speed > conf.stallSpeed) {
                 auto [x, y, z] = player.forward * player.speed;
@@ -68,38 +68,6 @@ public:
                 player.velocity.y = Lerp(player.velocity.y, y, 2.0f * dt);
                 player.velocity.z = Lerp(player.velocity.z, z, 2.0f * dt);
             }
-            //
-
-
-            //
-            // // --- ground / surface clamping ---
-            // // effectiveFloorHeight is set by GameData each frame:
-            // //   - over a landing zone → max(terrain, deck) + wheel clearance
-            // //   - elsewhere           → terrain height + wheel clearance
-            // if (state.position.y < state.effectiveFloorHeight) {
-            //     state.position.y = state.effectiveFloorHeight;
-            //     // cancel any remaining downward velocity so the aircraft rests on the surface
-            //     if (player.velocity.y < 0.0f) player.velocity.y = 0.0f;
-            // }
-            //
-            // // --- Large-world coordinate re-centering ---
-            // // Shift position back toward the origin when it drifts too far,
-            // // accumulating the offset in mapOffset so world-space calculations remain correct.
-            // const auto ST = state.SHIFT_THRESHOLD;
-            // if (state.position.x > ST) {
-            //     state.position.x -= ST;
-            //     state.mapOffset.x -= ST;
-            // } else if (state.position.x < -ST) {
-            //     state.position.x += ST;
-            //     state.mapOffset.x += ST;
-            // }
-            // if (state.position.z > ST) {
-            //     state.position.z -= ST;
-            //     state.mapOffset.y -= ST;
-            // } else if (state.position.z < -ST) {
-            //     state.position.z += ST;
-            //     state.mapOffset.y += ST;
-            // }
         }
     }
 };

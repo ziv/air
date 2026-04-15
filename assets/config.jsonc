@@ -13,6 +13,11 @@
       // look down a little bit (I used 0.45 for better view)
       "tilt": 0.45
     },
+    "controls": {
+      "pitchRatio": 0.7,
+      "rollRatio": 0.9,
+      "yawRatio": 0.5
+    },
     "aircraft": {
       "weight": 120000,
       "engineThrust": 130000,
@@ -27,6 +32,13 @@
       "pitchRatio": 0.97,
       "rollRatio": 0.98,
       "yawRatio": 0.92
+    },
+    "position": {
+      "threshold": 5000,
+      "heightPath": "assets/images/north-hm.png",
+      "maxRelativeHeight": 5000,
+      "heightMapSizeRatio": 125.0,
+      "heightAboveGround": 3
     }
   },
   "cockpit": {

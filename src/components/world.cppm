@@ -20,6 +20,10 @@ export struct Player {
     float speed;
 };
 
+export struct PlayerEntity {
+    entt::entity id;
+};
+
 export struct PlayerInputs {
     float pitch = 0.0f;
     float yaw = 0.0f;
@@ -29,6 +33,11 @@ export struct PlayerInputs {
 
     bool gear = true;
     bool brakes = true;
+};
+
+export struct GroundHeight {
+    float height;
+    float effectiveGroundHeight;
 };
 
 // global user offset
@@ -89,4 +98,10 @@ export struct Orientation {
     Vector3 forward;
     Vector3 up;
     Vector3 right;
+};
+
+// units
+
+export struct Carrier {
+    float heading;
 };

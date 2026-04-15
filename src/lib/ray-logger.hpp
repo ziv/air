@@ -21,13 +21,13 @@ inline void CustomLogCallback(const int logLevel, const char *text, const va_lis
             printf("\033[34m[D]\033[0m ");
             break;
         case LOG_INFO:
-            printf("\033[32m[I]\033[0m  ");
+            printf("\033[32m[I]\033[0m ");
             break;
         case LOG_ERROR:
-            printf("\033[31m[E]\033[0m  ");
+            printf("\033[31m[E]\033[0m ");
             break;
         case LOG_WARNING:
-            printf("\033[33m[W]\033[0m   ");
+            printf("\033[33m[W]\033[0m ");
             break;
         default:
             printf("[U] ");

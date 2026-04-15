@@ -7,9 +7,9 @@
     "theater": "north",
     "start": {
       "position": {
-        "x": 40000,
-        "y": 8,
-        "z": 60000
+        "x": 40001,
+        "y": 12,
+        "z": 60001
       },
       // placeholder — carrier deck
       "heading": 45,

@@ -5,6 +5,20 @@ export module Components:Aircraft;
 
 import RaylibResource;
 
+// area we can land on
+export struct Landable {
+    bool carrier;
+};
+
+
+export struct Heading {
+    float heading;
+};
+
+export struct Crashed {
+    bool crashed;
+};
+
 export struct Cockpit {
 };
 
@@ -55,6 +69,19 @@ export struct AircraftControls {
     bool afterBurner;
 };
 
+// events/states
+
 export struct Grounded {
-    bool grounded;
+};
+
+export struct Flying {
+};
+
+export struct TouchDown {
+};
+
+export struct LandingZone {
+    bool isLandingZone;
+    bool isCarrier;
+    float surfaceY;
 };
