@@ -53,10 +53,10 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/core/scenario-types.cppm
         src/core/units-types.cppm
         src/core/helpers.cppm
-        src/core/JsonConfig.cppm
+        src/core/json-config.cppm
         src/core/config-types.cppm
-        src/core/Resource.cppm
-        src/core/ResourceManager.cppm
+        src/core/raylib-resource.cppm
+        src/core/resource-manager.cppm
         src/components/components.cppm
         src/components/world.cppm
         src/components/aircraft.cppm
