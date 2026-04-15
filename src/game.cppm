@@ -11,7 +11,7 @@ import Prefabs;
 
 import WorldStreamerSystem;
 
-import RenderDebug;
+import RenderSystem;
 import RenderCockpit;
 import Types;
 
@@ -41,7 +41,10 @@ public:
         Factories::createCockpit(registry, config);
 
         // spawn all items from scenario
-        for (const auto &def: scenario.entities) spawn(def);
+        for (const auto &def: scenario.entities) {
+            Factories::createUnit(registry, def);
+            TraceLog(LOG_DEBUG, "Entity loaded with %s", def.id.c_str());
+        }
     }
 
     void update() {
@@ -61,6 +64,8 @@ public:
         ClearBackground(BLUE);
         BeginMode3D(playerCamera.getCamera());
             WorldStreamerSystem(registry);
+            RenderModel(registry);
+            RenderDebugging(registry);
         EndMode3D();
         RenderCockpit(registry);
         DrawFPS(1050, 780);

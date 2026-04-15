@@ -2,16 +2,18 @@ module;
 #include <entt/entt.hpp>
 #include "../lib/ray.hpp"
 
-export module RenderModel;
+export module RenderSystem:Models;
 
-import WorldComponents;
-import RenderComponents;
+import Components;
 
 export void RenderModel(entt::registry &registry) {
-    auto view = registry.view<Position3D, Modeled>();
+    auto view = registry.view<Position3D, Modeled>(entt::exclude<World>);
+    auto offset = registry.ctx().get<Offset>().offset;
 
     for (auto [entity, position, modeled]: view.each()) {
         const Model& actualModel = modeled.handle->model;
-        DrawModel(actualModel, position.pos, 1.0f, WHITE);
+        const Vector3 drawPosition = position.pos - offset;
+        DrawModel(actualModel, drawPosition, 1.0f, WHITE);
+        DrawCubeWires(drawPosition, 50.0f, 50.0f, 50.0f, YELLOW);
     }
 }

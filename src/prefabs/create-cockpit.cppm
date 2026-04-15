@@ -6,8 +6,7 @@ module;
 export module Prefabs:Cockpit;
 
 import JsonConfig;
-import WorldComponents;
-import AircraftComponents;
+import Components;
 import RaylibResource;
 import Types;
 

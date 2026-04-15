@@ -4,8 +4,7 @@ module;
 
 export module WorldStreamerSystem;
 
-import WorldComponents;
-import RenderComponents;
+import Components;
 
 export void WorldStreamerSystem(entt::registry &registry) {
     const auto viewPlayer = registry.view<Player>();

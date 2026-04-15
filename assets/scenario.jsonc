@@ -70,7 +70,7 @@
         "heading": 90,
         "health": 100,
         "maxHealth": 100,
-        "modelId": "res/models/carrier-s.glb",
+        "modelId": "assets/models/carrier-s.glb",
         "scale": 1,
         "params": {
           "minx": 30000,
@@ -105,15 +105,15 @@
         "type": "structure",
         "subtype": "radar",
         "position": {
-          "x": 32500,
+          "x": 31000,
           "y": 0,
-          "z": 58000
+          "z": 61000
         },
         // placeholder — target area
         "heading": 0,
         "health": 100,
         "faction": "enemy",
-        "model": "res/models/aa-radar.glb"
+        "model": "assets/models/aa-radar.glb"
       },
       // light AAA defending the radar
       {

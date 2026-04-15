@@ -4,7 +4,7 @@ module;
 
 export module Player:Controls;
 
-import WorldComponents;
+import Components;
 
 export class PlayerControls {
     float pitchRatio = 0.7f; ///< Pitch sensitivity (degrees per second at full deflection).

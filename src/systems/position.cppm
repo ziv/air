@@ -4,9 +4,7 @@ module;
 
 export module PositionSystem;
 
-import WorldComponents;
-import RenderComponents;
-import AircraftComponents;
+import Components;
 
 export void PositionSystem(entt::registry &registry, float dt) {
     auto view = registry.view<Position3D, LinearVelocity, Grounded, Player>();

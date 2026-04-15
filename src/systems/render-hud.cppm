@@ -5,8 +5,7 @@ module;
 
 export module RenderHudLadder;
 
-import AircraftComponents;
-import WorldComponents;
+import Components;
 
 export void RenderHudLadder(entt::registry &registry) {
     // constexpr int ladderX = 440;

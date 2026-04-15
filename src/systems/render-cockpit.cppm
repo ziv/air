@@ -4,8 +4,7 @@ module;
 
 export module RenderCockpit;
 
-import AircraftComponents;
-import WorldComponents;
+import Components;
 
 export void RenderCockpit(entt::registry &registry) {
     auto view = registry.view<Position2D, ChromaRender>();

@@ -1,7 +1,3 @@
-module;
-#include <entt/entt.hpp>
-#include "../lib/ray.hpp"
-
 export module Types;
 
 export import :Scenario;

@@ -6,7 +6,7 @@ export module Player:Physics;
 
 import Types;
 import Helpers;
-import WorldComponents;
+import Components;
 import :Config;
 
 

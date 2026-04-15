@@ -4,9 +4,7 @@ module;
 
 export module AircraftMechanicsSystem;
 
-import AircraftComponents;
-import WorldComponents;
-
+import Components;
 
 export void AircraftMechanics(entt::registry &registry, const float dt) {
     auto view = registry.view<Engine, AircraftUtils, AircraftControls, Grounded>();

@@ -4,7 +4,7 @@ module;
 
 export module Player:Camera;
 
-import WorldComponents;
+import Components;
 import Helpers;
 import :Config;
 

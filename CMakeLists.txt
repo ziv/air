@@ -54,6 +54,7 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/core/config-types.cppm
         src/core/Resource.cppm
         src/core/ResourceManager.cppm
+        src/components/components.cppm
         src/components/world.cppm
         src/components/aircraft.cppm
         src/components/render.cppm
@@ -64,9 +65,11 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/prefabs/create-cockpit.cppm
         src/systems/aircraft-physics.cppm
         src/systems/aircraft-mechanics.cppm
+        src/systems/render.cppm
         src/systems/render-cockpit.cppm
         src/systems/render-models.cppm
         src/systems/render-debug.cppm
+        src/systems/render-debugging.cppm
         src/systems/render-hud.cppm
         src/systems/world-streamer.cppm
         src/systems/position.cppm

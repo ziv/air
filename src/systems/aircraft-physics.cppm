@@ -5,8 +5,7 @@ module;
 
 export module AircraftPhysicsSystem;
 
-import AircraftComponents;
-import WorldComponents;
+import Components;
 
 // CL = Cl0 + Cl_slope * alpha
 float CalculateCL(const float aoaRadians, const float clZero, const float clSlope, const float stallAngle) {

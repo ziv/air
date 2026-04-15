@@ -4,8 +4,7 @@ module;
 
 export module UserInputs;
 
-import AircraftComponents;
-import WorldComponents;
+import Components;
 
 // boolean means - pressed
 // for values with direction we use -1/1 for pressed

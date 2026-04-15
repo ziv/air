@@ -4,9 +4,8 @@ module;
 
 export module RotationSystem;
 
-import AircraftComponents;
-import WorldComponents;
 import Helpers;
+import Components;
 
 
 export void RotationSystem(entt::registry &registry, float dt) {

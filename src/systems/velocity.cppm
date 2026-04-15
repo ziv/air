@@ -4,9 +4,7 @@ module;
 
 export module VelocitySystem;
 
-import WorldComponents;
-import AircraftComponents;
-
+import Components;
 
 export void VelocitySystem(entt::registry &registry, float dt) {
     auto view = registry.view<LinearVelocity, LinerAcceleration, Grounded>();

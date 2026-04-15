@@ -1,7 +1,7 @@
 module;
 #include <raylib.h>
 
-export module AircraftComponents;
+export module Components:Aircraft;
 
 import RaylibResource;
 

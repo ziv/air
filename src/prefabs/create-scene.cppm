@@ -5,9 +5,7 @@ module;
 export module Prefabs:Scene;
 
 import JsonConfig;
-import WorldComponents;
-import AircraftComponents;
-import RenderComponents;
+import Components;
 import RaylibResource;
 import Types;
 import ResourceManager;

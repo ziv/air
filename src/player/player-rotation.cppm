@@ -4,7 +4,7 @@ module;
 
 export module Player:Rotation;
 
-import WorldComponents;
+import Components;
 import Types;
 import Helpers;
 import :Config;

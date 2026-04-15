@@ -2,9 +2,12 @@ module;
 #include <entt/entt.hpp>
 #include "../lib/ray.hpp"
 
-export module WorldComponents;
+export module Components:World;
 
-// relationship between components
+// specific player/world structures
+
+export struct World {
+};
 
 export struct Player {
     Quaternion rotation;
@@ -28,31 +31,10 @@ export struct PlayerInputs {
     bool brakes = true;
 };
 
-export struct PlayerView {
-    Camera3D camera;
-};
+// global user offset
 
-export struct CameraComponent {
-    entt::entity handle{entt::null};
-};
-
-export struct ParentOf {
-    entt::entity parent{entt::null};
-};
-
-export struct ChildOf {
-    entt::entity parent{entt::null};
-};
-
-export struct World {
-};
-
-export struct Tile {
-    int x;
-    int z;
-};
-
-export struct ActiveTileTag {
+export struct Offset {
+    Vector3 offset;
 };
 
 // position
@@ -103,9 +85,4 @@ export struct Orientation {
     Vector3 forward;
     Vector3 up;
     Vector3 right;
-};
-
-export struct View3D {
-    float fov;
-    float tilt;
 };

@@ -1,8 +1,7 @@
 module;
 #include <entt/entt.hpp>
-// #include <raylib.h>
 
-export module RenderComponents;
+export module Components:Render;
 
 import RaylibResource;
 import ResourceManager;

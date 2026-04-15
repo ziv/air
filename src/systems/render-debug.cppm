@@ -2,9 +2,9 @@ module;
 #include <entt/entt.hpp>
 #include "../lib/ray.hpp"
 
-export module RenderDebug;
+export module RenderSystem:Debug;
 
-import WorldComponents;
+import Components;
 
 export void RenderDebug(entt::registry &registry) {
     auto view = registry.view<Player, PlayerInputs>();
@@ -19,16 +19,28 @@ export void RenderDebug(entt::registry &registry) {
     // auto [pos, utils, engine, controls, acc, angVel, vel, orient] = view.get<Player, Position3D, AircraftUtils, Engine, AircraftControls, LinerAcceleration, AngularVelocity, LinearVelocity, Orientation>(entity);
     //
     //
+    const Vector3 absPos = player.pos - player.offset;
     int y = 10;
     const int margin = 15;
     const int fs = 10;
     DrawRectangle(5, 5, 150, 340, BEIGE);
+
+    // relative position
     DrawText(TextFormat("Px: %0.00f", player.pos.x), margin, y, fs, BLACK);
     y += margin;
     DrawText(TextFormat("Pz: %0.00f", player.pos.z), margin, y, fs, BLACK);
     y += margin;
     DrawText(TextFormat("Py: %0.00f", player.pos.y), margin, y, fs, BLACK);
     y += margin;
+
+    // absolute position
+    DrawText(TextFormat("Ax: %0.00f", absPos.x), margin, y, fs, BLACK);
+    y += margin;
+    DrawText(TextFormat("Az: %0.00f", absPos.z), margin, y, fs, BLACK);
+    y += margin;
+    DrawText(TextFormat("Ay: %0.00f", absPos.y), margin, y, fs, BLACK);
+    y += margin;
+
     DrawText(TextFormat("Brk: %s", inputs.brakes ? "ON" : "OFF"), margin, y, fs, BLACK);
     y += margin;
     DrawText(TextFormat("Ger: %s", inputs.gear ? "DN" : "UP"), margin, y, fs, BLACK);

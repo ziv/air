@@ -4,7 +4,7 @@ module;
 
 export module Player:Position;
 
-import WorldComponents;
+import Components;
 import Types;
 import Helpers;
 
@@ -17,8 +17,8 @@ public:
             // update position
             player.pos = player.pos + (player.velocity * dt);
 
-            if (player.pos.y < 5.0f) {
-                player.pos.y = 5.0f;
+            if (player.pos.y < 8.0f) {
+                player.pos.y = 8.0f;
                 if (player.velocity.y < 0.0f) player.velocity.y = 0.0f;
             }
 
@@ -36,6 +36,8 @@ public:
                 player.pos.z += THRESHOLD;
                 player.offset.z += THRESHOLD;
             }
+            // keep offset globaly
+            registry.ctx().emplace<Offset>(player.offset);
         }
     }
 };
