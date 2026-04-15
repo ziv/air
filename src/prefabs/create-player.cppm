@@ -3,9 +3,8 @@ module;
 #include <nlohmann/json.hpp>
 #include "../lib/ray.hpp"
 
-export module PlayerPrefabs;
+export module Prefabs:Player;
 
-import Constants;
 import JsonConfig;
 import WorldComponents;
 import AircraftComponents;

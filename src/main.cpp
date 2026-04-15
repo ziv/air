@@ -26,22 +26,14 @@ int main() {
         TraceLog(LOG_DEBUG, "Setting near plane to %f and far plane to %f", nearPlane, farPlane);
         rlSetClipPlanes(nearPlane, farPlane);
 
+        // set registry & resource loader
         entt::registry registry;
-
-        // keep the resource manager in the registry so it
-        // can be easily accessed from anywhere and automatically
-        // destroyed at the end of the program
-        // example:
-        // ```
-        // auto& assets = registry.ctx().get<ResourceManager>();
-        //
-        // auto modelId = entt::hashed_string("player_plane");
-        // assets.models.load(modelId, ....);
-        // registry.emplace<Modeled>(player, assets.models.handle(modelId));
-        // ```
         registry.ctx().emplace<ResourceManager>();
 
-        Game game(config, registry);
+        // load scenario data
+        const JsonConfig scenario("assets/scenario.jsonc");
+
+        Game game(config, registry, scenario.get<Scenario>("/data"));
 
         while (!WindowShouldClose()) {
             game.update();

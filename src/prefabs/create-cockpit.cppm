@@ -3,7 +3,7 @@ module;
 #include <nlohmann/json.hpp>
 #include "../lib/ray.hpp"
 
-export module CockpitPrefabs;
+export module Prefabs:Cockpit;
 
 import JsonConfig;
 import WorldComponents;

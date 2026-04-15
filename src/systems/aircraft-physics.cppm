@@ -5,7 +5,6 @@ module;
 
 export module AircraftPhysicsSystem;
 
-import Constants;
 import AircraftComponents;
 import WorldComponents;
 

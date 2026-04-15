@@ -1,10 +1,13 @@
 module;
 #include <nlohmann/json.hpp>
+#include <vector>
 #include <string>
 #include <map>
 #include "../lib/ray.hpp"
 
 export module Types:Scenario;
+
+import :Units;
 
 export
 {
@@ -92,4 +95,36 @@ export
 
         [[nodiscard]] bool isFriendly() const { return faction == Faction::FRIENDLY; }
     };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(EntityDef, id, type, subtype, faction, state, position, heading, health, maxHealth, modelId, params);
+
+    struct StartConditions {
+        Vector3 position = {0.0f, 0.0f, 0.0f};
+        float heading = 0.0f;
+        MeterPerSecond speed = 0.0f;
+        Meter altitude = 0.0f;
+        float fuel = 3500.0f; ///< Starting fuel in kilograms.
+        bool carrier = false; ///< True for a carrier catapult launch.
+    };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(StartConditions, position, heading, speed, altitude, fuel, carrier);
+
+    struct Scenario {
+        std::string id;
+        std::string name;
+        std::string description;
+        std::string difficulty;
+        std::string theater; ///< Geographic region / map name.
+
+        StartConditions start;
+        // WeaponLoadout loadout;
+
+        std::vector<EntityDef> entities; ///< Entities to spawn at mission start.
+        // std::vector<Objective> objectives; ///< Mission objectives (required + optional).
+        // std::vector<Trigger> triggers; ///< Event-driven scripting triggers.
+        // ScenarioScoring scoring;
+    };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(Scenario, id, name, description, difficulty, theater, start, entities);
+
 }

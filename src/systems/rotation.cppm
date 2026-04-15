@@ -4,9 +4,9 @@ module;
 
 export module RotationSystem;
 
-import Constants;
 import AircraftComponents;
 import WorldComponents;
+import Helpers;
 
 
 export void RotationSystem(entt::registry &registry, float dt) {
@@ -30,8 +30,8 @@ export void RotationSystem(entt::registry &registry, float dt) {
         // update helper direction vectors from the new quaternion
         // these are essential for the PhysicsSystem's next frame (lift/drag directions)
         // Forward is +Z, Up is +Y, Right is +X in our coordinate system
-        orientation.forward = Vector3RotateByQuaternion(Constants::WorldForward, rotation.rotation);
-        orientation.up = Vector3RotateByQuaternion(Constants::WorldUp, rotation.rotation);
-        orientation.right = Vector3RotateByQuaternion(Constants::WorldRight, rotation.rotation);
+        orientation.forward = Vector3RotateByQuaternion(WorldForward(), rotation.rotation);
+        orientation.up = Vector3RotateByQuaternion(WorldUp(), rotation.rotation);
+        orientation.right = Vector3RotateByQuaternion(WorldRight(), rotation.rotation);
     }
 }

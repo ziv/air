@@ -54,12 +54,13 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/core/config-types.cppm
         src/core/Resource.cppm
         src/core/ResourceManager.cppm
-        src/core/Constants.cppm
         src/components/world.cppm
         src/components/aircraft.cppm
         src/components/render.cppm
-        src/prefabs/create_player.cppm
-        src/prefabs/create_scene.cppm
+        src/prefabs/prefabs.cppm
+        src/prefabs/create-player.cppm
+        src/prefabs/create-scene.cppm
+        src/prefabs/create-unit.cppm
         src/prefabs/create-cockpit.cppm
         src/systems/aircraft-physics.cppm
         src/systems/aircraft-mechanics.cppm

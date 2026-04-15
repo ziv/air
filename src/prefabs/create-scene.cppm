@@ -2,7 +2,7 @@ module;
 #include <entt/entt.hpp>
 #include "../lib/ray.hpp"
 
-export module ScenePrefabs;
+export module Prefabs:Scene;
 
 import JsonConfig;
 import WorldComponents;
