@@ -1,6 +1,5 @@
 module;
 #include <entt/entt.hpp>
-#include <utility>
 #include "lib/ray.hpp"
 
 export module Game;
@@ -20,13 +19,6 @@ export class Game {
     Scenario scenario;
 
     PlayerDispatcher dispatcher;
-    // PlayerControls playerControls;
-    // PlayerPhysics playerPhysics;
-    // PlayerPosition playerPosition;
-    // PlayerRotation playerRotation;
-    // PlayerCamera playerCamera;
-    // PlayerGroundCheck playerGroundCheck;
-
     std::vector<std::unique_ptr<ViewBase> > views;
 
 public:
