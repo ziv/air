@@ -7,3 +7,4 @@ export import :Physics;
 export import :Position;
 export import :Rotation;
 export import :GroundCheck;
+export import :Dispatcher;

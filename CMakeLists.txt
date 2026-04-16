@@ -47,6 +47,7 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/player/player-position.cppm
         src/player/player-physics.cppm
         src/player/player-rotation.cppm
+        src/player/player-dispatcher.cppm
         src/player/utils.cppm
         src/player/ground-check.cppm
         src/core/types.cppm

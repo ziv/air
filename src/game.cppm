@@ -11,7 +11,6 @@ import Components;
 import Prefabs;
 import WorldStreamerSystem;
 import RenderSystem;
-import RenderCockpit;
 import Types;
 import Views;
 
@@ -20,12 +19,13 @@ export class Game {
     entt::registry &registry;
     Scenario scenario;
 
-    PlayerControls playerControls;
-    PlayerPhysics playerPhysics;
-    PlayerPosition playerPosition;
-    PlayerRotation playerRotation;
-    PlayerCamera playerCamera;
-    PlayerGroundCheck playerGroundCheck;
+    PlayerDispatcher dispatcher;
+    // PlayerControls playerControls;
+    // PlayerPhysics playerPhysics;
+    // PlayerPosition playerPosition;
+    // PlayerRotation playerRotation;
+    // PlayerCamera playerCamera;
+    // PlayerGroundCheck playerGroundCheck;
 
     std::vector<std::unique_ptr<ViewBase> > views;
 
@@ -35,12 +35,7 @@ public:
                   entt::registry &reg)
         : registry(reg),
           scenario(scn.get<Scenario>("/data")),
-          playerControls(cfg.get<PlayerControlsConfig>("/player/controls")),
-          playerPhysics(cfg.get<PlayerPhysicsConfig>("/player/aircraft")),
-          playerPosition(cfg.get<PlayerPositionConfig>("/player/position")),
-          playerRotation(cfg.get<PlayerTransformationConfig>("/player/aircraft")),
-          playerCamera(cfg.get<PlayerCameraConfig>("/player/camera")),
-          playerGroundCheck(cfg.get<PlayerGroundCheckConfig>("/player/groundCheck")) {
+          dispatcher(cfg) {
         // set initial offset
         registry.ctx().emplace<Offset>(Vector3Zero());
 
@@ -62,12 +57,13 @@ public:
         const auto id = registry.ctx().get<PlayerEntity>().id;
         if (registry.all_of<Crashed>(id)) return;
 
-        playerControls.update(registry, dt);
-        playerPhysics.update(registry, dt);
-        playerPosition.update(registry, dt);
-        playerRotation.update(registry, dt);
-        playerCamera.update(registry, dt);
-        playerGroundCheck.update(registry, dt);
+        // playerControls.update(registry, dt);
+        // playerPhysics.update(registry, dt);
+        // playerPosition.update(registry, dt);
+        // playerRotation.update(registry, dt);
+        // playerCamera.update(registry, dt);
+        // playerGroundCheck.update(registry, dt);
+        dispatcher.update(registry, dt);
         for (const auto &v: views) v->update(registry, dt);
     }
 
@@ -76,7 +72,7 @@ public:
         // ClearBackground(BLUE);
 
         // 3D
-        BeginMode3D(playerCamera.getCamera());
+        BeginMode3D(dispatcher.playerCamera.getCamera());
         WorldStreamerSystem(registry);
         RenderModels(registry);
         RenderDebugging(registry);
