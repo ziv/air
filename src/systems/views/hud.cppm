@@ -145,6 +145,7 @@ private:
                  GREEN);
 
         const auto halfWidth = width / 2;
+        const auto halfWidth_f = static_cast<float>(halfWidth);
         DrawLine(x - halfWidth, y, x + halfWidth, y, GREEN);
 
         for (auto i = 0; i < 360; i += tickInterval) {
@@ -156,7 +157,7 @@ private:
             else if (diff < -180.0f) diff += 360.0f;
 
             // calculate screen X position and check if it's within the HUD tape width using if-init
-            if (const auto tickX = fx + (diff * ppd); tickX >= x - halfWidth && tickX <= fx + halfWidth) {
+            if (const auto tickX = fx + (diff * ppd); tickX >= fx - halfWidth_f && tickX <= fx + halfWidth_f) {
                 const auto isMajorTick = (i % 10 == 0);
                 const auto tickLength = isMajorTick ? font / 2 : font / 4;
 

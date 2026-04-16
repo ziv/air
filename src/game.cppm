@@ -57,12 +57,6 @@ public:
         const auto id = registry.ctx().get<PlayerEntity>().id;
         if (registry.all_of<Crashed>(id)) return;
 
-        // playerControls.update(registry, dt);
-        // playerPhysics.update(registry, dt);
-        // playerPosition.update(registry, dt);
-        // playerRotation.update(registry, dt);
-        // playerCamera.update(registry, dt);
-        // playerGroundCheck.update(registry, dt);
         dispatcher.update(registry, dt);
         for (const auto &v: views) v->update(registry, dt);
     }
