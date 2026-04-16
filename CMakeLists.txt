@@ -66,7 +66,7 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/prefabs/create-player.cppm
         src/prefabs/create-scene.cppm
         src/prefabs/create-unit.cppm
-        src/prefabs/create-cockpit.cppm
+        src/prefabs/create-cockpit-widgets.cppm
         src/systems/renderers/render.cppm
         src/systems/renderers/render-models.cppm
         src/systems/renderers/render-debug.cppm

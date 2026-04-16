@@ -16,7 +16,7 @@ export struct Imaged {
     entt::resource<ImageResource> handle;
 };
 
-// widgets
+// widgets tags
 
 export struct MinimapWidget {
 };

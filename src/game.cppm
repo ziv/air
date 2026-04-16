@@ -37,6 +37,7 @@ public:
 
         Factories::createPlayer(registry, cfg, scenario);
         Factories::createScene(registry, cfg);
+        Factories::createCockpitWidgets(registry, cfg);
 
         // spawn all items from scenario
         for (const auto &def: scenario.entities) {
