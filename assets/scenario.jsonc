@@ -87,8 +87,8 @@
         "state": "active",
         "position": {
           "x": 40200,
-          "y": 60200,
-          "z": 100
+          "y": 100,
+          "z": 60200
         },
         "heading": 180,
         "health": 100,
@@ -188,16 +188,6 @@
         "player_ejected"
       ]
     },
-    //      "scoring": {
-    //        "objectiveComplete": 1000,
-    //        "bonusObjective": 500,
-    //        "enemyAircraftKill": 250,
-    //        "samDestroyed": 200,
-    //        "aaaDestroyed": 100,
-    //        "timeBonus": true,
-    //        "fuelBonus": true,
-    //        "noDamageBonus": 500
-    //      }
     "skyColor": [
       0,
       121,

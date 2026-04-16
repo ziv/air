@@ -94,11 +94,6 @@ public:
         pixelsPerDegree = static_cast<float>(gc.height) / gc.fov;
     }
 
-    void update(entt::registry &registry, const float dt) override {
-        // default: no per-frame behavior
-        // listen to ALT+H / OPTION+H to change HUD color
-    }
-
     void draw(entt::registry &registry) override {
         const auto entity = registry.ctx().get<PlayerEntity>().id;
         const auto player = registry.get<Player>(entity);

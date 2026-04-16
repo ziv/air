@@ -24,7 +24,7 @@
     },
     "controls": {
       "pitchRatio": 0.7,
-      "rollRatio": 0.9,
+      "rollRatio": 2.1,
       "yawRatio": 0.5
     },
     "aircraft": {

@@ -23,52 +23,48 @@ public:
 
         const auto speedRatio = player.speed / conf.maxSpeed;
 
+        auto totalPitch = 0.0f;
+        auto totalYaw = 0.0f;
+        auto totalRoll = 0.0f;
+
         // flying mode rotation
-        if (player.pos.y > 10.0f) {
+        if (registry.all_of<Flying>(entity)) {
+            constexpr auto speedEpsilon = 0.001f;
             // Adverse yaw: bank angle induces a yaw moment toward the lowered wing.
             // https://en.wikipedia.org/wiki/Adverse_yaw
-            const auto bankInducedYaw = player.speed < 0.001f ? 0.0f : player.right.y * conf.bankInduceYawRatio * dt;
+            const auto bankInducedYaw = player.speed < speedEpsilon ? 0.0f : player.right.y * conf.bankInduceYawRatio * dt;
 
             // Lift-loss pitch-down: when the lift vector is no longer purely vertical the
             // aircraft tends to pitch nose-down.
             // https://en.wikipedia.org/wiki/Stall_(fluid_dynamics)
-            const auto liftLossPitch = player.speed < 0.001f ? 0.0f : (1.0f - player.up.y) * conf.liftLossPitchRatio * dt;
+            const auto liftLossPitch = player.speed < speedEpsilon ? 0.0f : (1.0f - player.up.y) * conf.liftLossPitchRatio * dt;
 
             // more speed equals more steering except yaw
-            const auto totalPitch = (inputs.pitch + liftLossPitch) * speedRatio;
-            const auto totalYaw = inputs.yaw + bankInducedYaw;
-            const auto totalRoll = inputs.roll * speedRatio;
-
-            // apply the changes
-            const auto qPitch = QuaternionFromAxisAngle(player.right, totalPitch);
-            const auto qYaw = QuaternionFromAxisAngle(player.up, totalYaw);
-            const auto qRoll = QuaternionFromAxisAngle(player.forward, totalRoll);
-
-            const auto qDelta = QuaternionMultiply(qYaw, QuaternionMultiply(qPitch, qRoll));
-
-            player.rotation = QuaternionNormalize(QuaternionMultiply(qDelta, player.rotation));
-            player.forward = Vector3Normalize(Vector3RotateByQuaternion(WorldForward(), player.rotation));
-            player.up = Vector3Normalize(Vector3RotateByQuaternion(WorldUp(), player.rotation));
-            player.right = Vector3Normalize(Vector3RotateByQuaternion(WorldRight(), player.rotation));
+            totalPitch = (inputs.pitch + liftLossPitch) * speedRatio;
+            totalYaw = inputs.yaw + bankInducedYaw;
+            totalRoll = inputs.roll * speedRatio;
         }
 
-        // ground mode
+        // ground mode rotation
         else {
-            // apply the changes (more speed equals more steering except yaw)
-            // on ground pitch can be positive only
-            // todo this is a bug, I can do negative pitch (lower my nose), but I can not lower it more than the ground...
-            const auto pitch = inputs.pitch > 0.0f ? inputs.pitch : 0.0f;
-            const auto qPitch = QuaternionFromAxisAngle(player.right, pitch * speedRatio);
-            const auto qYaw = QuaternionFromAxisAngle(player.up, inputs.yaw);
-            const auto qRoll = QuaternionFromAxisAngle(player.forward, 0);
-
-            // update the quaternion and normalize, then recalculate vectors
-            const auto qDelta = QuaternionMultiply(qYaw, QuaternionMultiply(qPitch, qRoll));
-
-            player.rotation = QuaternionNormalize(QuaternionMultiply(qDelta, player.rotation));
-            player.forward = Vector3Normalize(Vector3RotateByQuaternion(WorldForward(), player.rotation));
-            player.up = Vector3Normalize(Vector3RotateByQuaternion(WorldUp(), player.rotation));
-            player.right = Vector3Normalize(Vector3RotateByQuaternion(WorldRight(), player.rotation));
+            // on ground pitch can be positive only, we allow negative pitch only when nose already up
+            const auto pitch = inputs.pitch > 0.0f || player.forward.y > 0.0f ? inputs.pitch : 0.0f;
+            totalPitch = pitch * speedRatio;
+            totalYaw = inputs.yaw;
+            totalRoll = 0.0f;
         }
+
+        // apply the changes
+        const auto qPitch = QuaternionFromAxisAngle(player.right, totalPitch);
+        const auto qYaw = QuaternionFromAxisAngle(player.up, totalYaw);
+        const auto qRoll = QuaternionFromAxisAngle(player.forward, totalRoll);
+
+        const auto qDelta = QuaternionMultiply(qYaw, QuaternionMultiply(qPitch, qRoll));
+
+        // rotate
+        player.rotation = QuaternionNormalize(QuaternionMultiply(qDelta, player.rotation));
+        player.forward = Vector3Normalize(Vector3RotateByQuaternion(WorldForward(), player.rotation));
+        player.up = Vector3Normalize(Vector3RotateByQuaternion(WorldUp(), player.rotation));
+        player.right = Vector3Normalize(Vector3RotateByQuaternion(WorldRight(), player.rotation));
     }
 };

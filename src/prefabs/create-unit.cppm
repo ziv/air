@@ -46,7 +46,7 @@ export namespace Factories {
                 break;
         }
 
-        TraceLog(LOG_DEBUG, "Entity %s loaded", def.id.c_str());
+        TraceLog(LOG_DEBUG, "Entity %s created", def.id.c_str());
         return entity;
     }
 }
