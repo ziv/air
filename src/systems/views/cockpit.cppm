@@ -6,7 +6,6 @@ export module Views:Cockpit;
 
 import Types;
 import Helpers;
-import Components;
 import RaylibResource;
 import :Base;
 

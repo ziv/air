@@ -5,8 +5,6 @@ module;
 export module Views:Scene;
 
 import Types;
-import Helpers;
-import Components;
 import RaylibResource;
 import :Base;
 

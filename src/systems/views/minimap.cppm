@@ -5,9 +5,8 @@ module;
 export module Views:Minimap;
 
 import Types;
-import Helpers;
-import Components;
 import RaylibResource;
+import Components;
 import :Base;
 
 export struct MinimapConfig {

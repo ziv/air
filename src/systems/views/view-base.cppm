@@ -3,8 +3,6 @@ module;
 
 export module Views:Base;
 
-import Components;
-
 export class ViewBase {
 public:
     virtual ~ViewBase() = default;
