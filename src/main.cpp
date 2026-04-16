@@ -42,6 +42,10 @@ int main() {
             game.draw();
             EndDrawing();
         }
+
+        registry.ctx().erase<ResourceManager>();
+        registry.clear();
+
         CloseWindow();
         CloseAudioDevice();
     } catch (std::exception &e) {
