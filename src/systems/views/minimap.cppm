@@ -12,8 +12,6 @@ import :Base;
 
 export struct MinimapConfig {
     std::string mapTexture; ///< Path to the satellite map texture.
-    // Pixel x = 10; ///< X position of the minimap on the screen.
-    // Pixel y = 10; ///< Y position of the minimap on the screen.
     Pixel size = 150; ///< Size (width and height) of the square minimap widget.
     Ratio mapsRatio = 62.5f; ///< Ratio between the world coordinates and the map texture coordinates
 };
