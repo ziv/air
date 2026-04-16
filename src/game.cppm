@@ -31,12 +31,12 @@ public:
         // set initial offset
         registry.ctx().emplace<Offset>(Vector3Zero());
 
+        views.push_back(std::make_unique<CockpitView>(cfg.get<CockpitConfig>("/views/cockpit")));
         views.push_back(std::make_unique<HudView>(cfg.get<GlobalConfig>("/global"), cfg.get<HudConfig>("/views/hud")));
         views.push_back(std::make_unique<MinimapView>(cfg.get<MinimapConfig>("/views/minimap")));
 
         Factories::createPlayer(registry, cfg, scenario);
         Factories::createScene(registry, cfg);
-        Factories::createCockpit(registry, cfg);
 
         // spawn all items from scenario
         for (const auto &def: scenario.entities) {
@@ -66,7 +66,7 @@ public:
         EndMode3D();
 
         // 2D
-        RenderCockpit(registry);
+        // RenderCockpit(registry);
         for (const auto &v: views) v->draw(registry);
         DrawFPS(1050, 780);
         RenderDebug(registry);

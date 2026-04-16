@@ -61,7 +61,6 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/components/components.cppm
         src/components/world.cppm
         src/components/data.cppm
-        src/components/aircraft.cppm
         src/components/render.cppm
         src/prefabs/prefabs.cppm
         src/prefabs/create-player.cppm
@@ -69,7 +68,6 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/prefabs/create-unit.cppm
         src/prefabs/create-cockpit.cppm
         src/systems/renderers/render.cppm
-        src/systems/renderers/render-cockpit.cppm
         src/systems/renderers/render-models.cppm
         src/systems/renderers/render-debug.cppm
         src/systems/renderers/render-debugging.cppm
@@ -80,6 +78,7 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/systems/views/views.cppm
         src/systems/views/hud.cppm
         src/systems/views/minimap.cppm
+        src/systems/views/cockpit.cppm
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib EnTT::EnTT nlohmann_json::nlohmann_json)

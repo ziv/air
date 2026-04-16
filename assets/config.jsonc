@@ -56,16 +56,6 @@
       "stallSpeed": 65
     }
   },
-  "cockpit": {
-    "texturePath": "assets/images/cockpit-z.png",
-    "shaderPath": "assets/shaders/chromakey.fs",
-    "tintColor": [
-      255,
-      255,
-      255,
-      255
-    ]
-  },
   "scene": {
     "mapTexture": "assets/images/north-tx-2048.jpg",
     "mapHeightmap": "assets/images/north-hm.png",
@@ -121,6 +111,16 @@
      "mapTexture": "assets/images/north-map.jpg",
      "size": 150,
      "mapsRatio": 62.5
+    },
+    "cockpit": {
+      "texturePath": "assets/images/cockpit-z.png",
+      "shaderPath": "assets/shaders/chromakey.fs",
+      "tintColor": [
+        255,
+        255,
+        255,
+        255
+      ]
     }
   }
 }

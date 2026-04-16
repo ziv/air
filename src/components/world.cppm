@@ -12,12 +12,8 @@ export struct Landable {
     bool carrier;
 };
 
-
+// tag aircraft as crashed
 export struct Crashed {
-    bool crashed;
-};
-
-export struct Cockpit {
 };
 
 export struct ChromaRender {
