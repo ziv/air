@@ -65,6 +65,7 @@ inline LandingZoneRet getLandingZone(entt::registry &registry,
 float getEffectiveHeight(entt::registry &registry,
                          const PlayerPositionConfig &conf,
                          const Player &player) {
+    // todo this is unsage access!!!!
     auto &assets = registry.ctx().get<ResourceManager>();
     const auto imageId = entt::hashed_string(conf.heightPath.c_str());
     const auto heightMapRes = assets.images[imageId];
