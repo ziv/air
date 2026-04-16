@@ -1,5 +1,6 @@
 module;
 #include <entt/entt.hpp>
+#include <utility>
 #include "../../lib/ray.hpp"
 #include <rlgl.h>
 
@@ -80,8 +81,8 @@ export
 }
 
 export class HudView : public ViewBase {
-    GlobalConfig gc;
-    HudConfig config;
+    GlobalConfig global;
+    HudConfig conf;
 
     Pixel centerX;
     Pixel centerY;
@@ -89,10 +90,11 @@ export class HudView : public ViewBase {
     float ppd; // f-pixelsPerDegree
 
 public:
-    explicit HudView(const GlobalConfig &g, const HudConfig &c) : gc(g), config(c) {
-        centerX = gc.width / 2;
-        centerY = gc.height / 2;
-        pixelsPerDegree = static_cast<Pixel>(static_cast<float>(gc.height) / gc.fov);
+    // todo why global use move while hug not?!
+    explicit HudView(GlobalConfig g, const HudConfig &c) : global(std::move(g)), conf(c) {
+        centerX = global.width / 2;
+        centerY = global.height / 2;
+        pixelsPerDegree = static_cast<Pixel>(static_cast<float>(global.height) / global.fov);
         ppd = static_cast<float>(pixelsPerDegree);
     }
 
@@ -112,17 +114,17 @@ private:
     void warnings(const PlayerInputs &inputs) const {
         // after burner warning
         if (inputs.throttle > 1.0f) {
-            DrawText("A/B ON", config.warnings.x, config.warnings.y, config.warnings.font, ORANGE);
+            DrawText("A/B ON", conf.warnings.x, conf.warnings.y, conf.warnings.font, ORANGE);
         }
 
         // autopilot warning
         if (inputs.autopilot) {
-            DrawText("A/P ON", config.warnings.x, config.warnings.y, config.warnings.font, GREEN);
+            DrawText("A/P ON", conf.warnings.x, conf.warnings.y, conf.warnings.font, GREEN);
         }
     }
 
     void heading(const Player &player) const {
-        const auto [x, y, width, font] = config.heading;
+        const auto [x, y, width, font] = conf.heading;
         const auto fx = static_cast<float>(x);
         // constexpr auto pixelsPerDegree = 10.0f;
         constexpr auto tickInterval = 5;
@@ -182,13 +184,13 @@ private:
     }
 
     void boresight() const {
-        const auto [x, y, size] = config.boresight;
+        const auto [x, y, size] = conf.boresight;
         const auto left = x - size / 2;
         const auto right = x + size / 2;
         const auto part = size / 4;
         const auto tip = size / 8;
 
-        const auto noseY = y - static_cast<int>(gc.tilt * RAD2DEG * ppd);
+        const auto noseY = y - static_cast<int>(global.tilt * RAD2DEG * ppd);
         // let line
         DrawLine(left, noseY, left + part, noseY, GREEN);
         // right line
@@ -204,9 +206,9 @@ private:
     void heightIndicator(const Player &player) const {
         const auto heightAbsolute = meter2feet(player.pos.y);
         DrawText(TextFormat("%s", numberSuffix(heightAbsolute)),
-                 config.height.x,
-                 config.height.y,
-                 config.height.font,
+                 conf.height.x,
+                 conf.height.y,
+                 conf.height.font,
                  GREEN);
         // DrawRectangleLines(745, 328, 30, 14, colors[color]);
     }
@@ -214,9 +216,9 @@ private:
     void speedIndicator(const Player &player) const {
         const auto speed = msToKnots(player.speed);
         DrawText(TextFormat("%s", numberSuffix(speed)),
-                 config.speedometer.x,
-                 config.speedometer.y,
-                 config.speedometer.font,
+                 conf.speedometer.x,
+                 conf.speedometer.y,
+                 conf.speedometer.font,
                  GREEN);
     }
 
@@ -228,8 +230,8 @@ private:
         const auto pitch = asinf(fy) * RAD2DEG;
         const auto roll = (fabsf(fy) < 0.999f ? atan2f(-y, uy) : atan2f(z, x)) * RAD2DEG;
 
-        BeginScissorMode(config.ladder.x, config.ladder.y, config.ladder.width, config.ladder.height);
-        DrawCircleLines(centerX, centerY - config.ladder.offset, 5.0f, GREEN);
+        BeginScissorMode(conf.ladder.x, conf.ladder.y, conf.ladder.width, conf.ladder.height);
+        DrawCircleLines(centerX, centerY - conf.ladder.offset, 5.0f, GREEN);
 
         // freeze state
         rlPushMatrix();
@@ -238,7 +240,7 @@ private:
         // the offset allow to define where to put the 0 line
         rlTranslatef(
             static_cast<float>(centerX),
-            static_cast<float>(centerY) - static_cast<float>(config.ladder.offset),
+            static_cast<float>(centerY) - static_cast<float>(conf.ladder.offset),
             0);
 
         // pitch & roll
@@ -274,7 +276,7 @@ private:
     void drawRateOfClimb(const Player &player) const {
         const auto verticalSpeedFPM = msToFpm(player.velocity.y);
         constexpr float MAX_CLIMB_RATE_FPM = 50000.0f;
-        const float MAX_BAR_PIXELS = (static_cast<float>(config.roc.height) / 2.0f) - 20.0f;
+        const float MAX_BAR_PIXELS = (static_cast<float>(conf.roc.height) / 2.0f) - 20.0f;
 
         float vsRatio = verticalSpeedFPM / MAX_CLIMB_RATE_FPM;
         if (vsRatio > 1.0f) vsRatio = 1.0f;
@@ -283,9 +285,9 @@ private:
         const int currentBarHeight = static_cast<int>(vsRatio * MAX_BAR_PIXELS);
         const int maxBarPixels = static_cast<int>(MAX_BAR_PIXELS);
 
-        const int centerX = config.roc.x; // see speed location
-        const int centerY = config.roc.y;
-        const int width = config.roc.width;
+        const int centerX = conf.roc.x; // see speed location
+        const int centerY = conf.roc.y;
+        const int width = conf.roc.width;
         DrawLine(centerX, centerY - maxBarPixels, centerX, centerY + maxBarPixels, Fade(GREEN, 0.3f));
         DrawLine(centerX - width, centerY, centerX + width, centerY, GREEN);
 

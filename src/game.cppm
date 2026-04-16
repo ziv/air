@@ -32,6 +32,7 @@ public:
         registry.ctx().emplace<Offset>(Vector3Zero());
 
         views.push_back(std::make_unique<HudView>(cfg.get<GlobalConfig>("/global"), cfg.get<HudConfig>("/views/hud")));
+        views.push_back(std::make_unique<MinimapView>(cfg.get<MinimapConfig>("/views/minimap")));
 
         Factories::createPlayer(registry, cfg, scenario);
         Factories::createScene(registry, cfg);

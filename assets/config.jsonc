@@ -116,6 +116,11 @@
         "y": 390,
         "font": 12
       }
+    },
+    "minimap": {
+     "mapTexture": "assets/images/north-map.jpg",
+     "size": 150,
+     "mapsRatio": 62.5
     }
   }
 }
