@@ -1,3 +1,17 @@
+## TODOs
+
+- [ ] move the scene into a view
+- [ ] bring the radar widget
+- [ ] bring the clouds effect into scene view
+- [ ] complete the debug view by type
+- [ ] bring the autopilot controller
+- [ ] check safe landing mechanism
+- [ ] bring scene sounds
+- [ ] bring the navball widget
+- [ ] complete screens
+- [ ] complete crash layout
+- [ ] refactor scene data into a scene config
+- 
 ## Modules Rules
 
 ```c++

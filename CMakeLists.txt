@@ -73,7 +73,6 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/systems/renderers/render-debugging.cppm
         src/systems/world-streamer.cppm
         src/systems/systems.cppm
-        src/systems/crash-landing-detection.cppm
         src/systems/views/view-base.cppm
         src/systems/views/views.cppm
         src/systems/views/hud.cppm
