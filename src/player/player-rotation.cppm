@@ -43,6 +43,17 @@ public:
             totalPitch = (inputs.pitch + liftLossPitch) * speedRatio;
             totalYaw = inputs.yaw + bankInducedYaw;
             totalRoll = inputs.roll * speedRatio;
+
+            // VLE turbulence: random shaking above max gear-extended speed
+            // https://en.wikipedia.org/wiki/V_speeds#VLE
+            if (inputs.gear && player.speed > conf.vleSpeed) {
+                const float overSpeed = player.speed - conf.vleSpeed;
+                const float turbulenceIntensity = Clamp((overSpeed * overSpeed) * 0.0001f * dt, 0.0f, 0.03f);
+
+                totalPitch += (static_cast<float>(GetRandomValue(-100, 100)) / 100.0f) * turbulenceIntensity;
+                totalYaw += (static_cast<float>(GetRandomValue(-100, 100)) / 100.0f) * turbulenceIntensity;
+                totalRoll += (static_cast<float>(GetRandomValue(-100, 100)) / 100.0f) * turbulenceIntensity * 0.5f;
+            }
         }
 
         // ground mode rotation
