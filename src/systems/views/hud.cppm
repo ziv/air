@@ -51,6 +51,12 @@ export struct HeadingConfig {
     Size font;
 };
 
+export struct WarningsConfig {
+    Pixel x;
+    Pixel y;
+    Size font;
+};
+
 export struct HudConfig {
     HudLadderConfig ladder;
     RocConfig roc;
@@ -58,6 +64,7 @@ export struct HudConfig {
     HeightIndicatorConfig height;
     BoresightConfig boresight;
     HeadingConfig heading;
+    WarningsConfig warnings;
 };
 
 export
@@ -68,7 +75,8 @@ export
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(HeightIndicatorConfig, x, y, font);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(BoresightConfig, x, y, size);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(HeadingConfig, x, y, width, font);
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(HudConfig, ladder, roc, speedometer, height, boresight, heading);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(WarningsConfig, x, y, font);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(HudConfig, ladder, roc, speedometer, height, boresight, heading, warnings);
 }
 
 export class HudView : public ViewBase {
@@ -100,9 +108,22 @@ public:
         heightIndicator(player);
         boresight();
         heading(player);
+        warnings(registry.get<PlayerInputs>(entity));
     }
 
 private:
+    void warnings(const PlayerInputs &inputs) const {
+        // after burner warning
+        if (inputs.throttle > 1.0f) {
+            DrawText("A/B ON", config.warnings.x, config.warnings.y, config.warnings.font, ORANGE);
+        }
+
+        // autopilot warning
+        if (inputs.autopilot) {
+            DrawText("A/P ON", config.warnings.x, config.warnings.y, config.warnings.font, GREEN);
+        }
+    }
+
     void heading(const Player &player) const {
         const auto [x, y, width, font] = config.heading;
 

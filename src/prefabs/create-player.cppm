@@ -25,7 +25,7 @@ export namespace Factories {
                                  WorldRight(), // right
                                  0.0f // speed
         );
-        registry.emplace<PlayerInputs>(player, 0.0f, 0.0f, 0.0f, 0.0f, true, true);
+        registry.emplace<PlayerInputs>(player, 0.0f, 0.0f, 0.0f, 0.0f, true, true, false);
         registry.emplace<GroundHeight>(player, scenario.start.position.y, scenario.start.position.y);
         registry.emplace<Grounded>(player);
 

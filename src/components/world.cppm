@@ -78,6 +78,9 @@ export struct Flying {
 export struct TouchDown {
 };
 
+export struct Autopilot {
+};
+
 export struct LandingZone {
     bool isLandingZone;
     bool isCarrier;

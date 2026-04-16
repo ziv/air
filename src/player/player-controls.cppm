@@ -15,7 +15,8 @@ public:
     }
 
     void update(entt::registry &registry, const float dt) const {
-        for (const auto view = registry.view<Player, PlayerInputs>(); auto [entity, player, inputs]: view.each()) {
+        // this will steer the aircraft as long as there is no autopilot set
+        for (const auto view = registry.view<Player, PlayerInputs>(entt::exclude<Autopilot>); auto [entity, player, inputs]: view.each()) {
             inputs.pitch = 0.0f;
             inputs.roll = 0.0f;
             inputs.yaw = 0.0f;

@@ -27,6 +27,7 @@ export struct PlayerInputs {
     float throttle = 0.0f;
     bool gear = true;
     bool brakes = true;
+    bool autopilot = false;
 };
 
 export struct GroundHeight {

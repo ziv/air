@@ -80,6 +80,23 @@
         }
       },
       {
+        "id": "enemy-fighter-01",
+        "type": "aircraft",
+        "subtype": "mig29",
+        "faction": "enemy",
+        "state": "active",
+        "position": {
+          "x": 40200,
+          "y": 60200,
+          "z": 100
+        },
+        "heading": 180,
+        "health": 100,
+        "maxHealth": 100,
+        "modelId": "assets/models/mig-29.glb",
+        "scale": 1
+      },
+      {
         "id": "abother-home-base",
         "type": "airbase",
         "subtype": "international-airport",
