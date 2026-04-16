@@ -68,6 +68,7 @@ public:
         playerRotation.update(registry, dt);
         playerCamera.update(registry, dt);
         playerGroundCheck.update(registry, dt);
+        for (const auto &v: views) v->update(registry, dt);
     }
 
     void draw() {

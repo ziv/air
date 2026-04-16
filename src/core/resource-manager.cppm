@@ -90,6 +90,7 @@ struct ImageLoader {
 export struct ResourceManager {
     entt::resource_cache<ModelResource> models;
     entt::resource_cache<ImageResource> images;
+
     // entt::resource_cache<TextureResource, TextureLoader> textures;
     // entt::resource_cache<ShaderResource, ShaderLoader> shaders;
 };

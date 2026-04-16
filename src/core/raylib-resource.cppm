@@ -14,10 +14,11 @@ export module RaylibResource;
  */
 export template<typename T, void (*Unloader)(T)>
 class RaylibResource {
-    T res;
     bool has_ownership;
 
 public:
+    T res;
+
     explicit RaylibResource(T loadedResource) : res(loadedResource), has_ownership(true) {
     }
 
