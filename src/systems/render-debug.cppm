@@ -16,6 +16,8 @@ export void RenderDebug(entt::registry &registry) {
     const entt::entity entity = view.front();
     auto [player, inputs, gh] = view.get<Player, PlayerInputs, GroundHeight>(entity);
 
+
+    const auto f = registry.ctx().get<Forces>();
     // auto [pos, utils, engine, controls, acc, angVel, vel, orient] = view.get<Player, Position3D, AircraftUtils, Engine, AircraftControls, LinerAcceleration, AngularVelocity, LinearVelocity, Orientation>(entity);
     //
     //
@@ -63,6 +65,23 @@ export void RenderDebug(entt::registry &registry) {
     // ground height
     y += margin;
     DrawText(TextFormat("GH: %f", gh.height), margin, y, fs, BLACK);
+
+    y += margin;
+    DrawText(TextFormat("TH: %f", f.thrust), margin, y, fs, BLUE);
+    y += margin;
+    DrawText(TextFormat("DR: %f", f.drag), margin, y, fs, BLUE);
+    y += margin;
+    DrawText(TextFormat("LT: %f", f.lift), margin, y, fs, BLUE);
+    y += margin;
+    DrawText(TextFormat("MS: %f", f.mass), margin, y, fs, BLUE);
+
+    y += margin;
+    DrawText(TextFormat("FAx: %f", f.acceleration.x), margin, y, fs, BLUE);
+    y += margin;
+    DrawText(TextFormat("FAz: %f", f.acceleration.z), margin, y, fs, BLUE);
+    y += margin;
+    DrawText(TextFormat("FAy: %f", f.acceleration.y), margin, y, fs, BLUE);
+
     // y += margin;
     // DrawText(TextFormat("AVz: %f", angVel.velocity.z), margin, y, fs, BLACK);
     // y += margin;

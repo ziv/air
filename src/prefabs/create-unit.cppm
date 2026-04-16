@@ -30,17 +30,21 @@ export namespace Factories {
             TraceLog(LOG_DEBUG, "Entity %s has a model", def.id.c_str());
         }
 
-        // location
+        // location & orientation
         registry.emplace<Position3D>(entity, def.position);
         registry.emplace<Heading>(entity, def.heading);
 
-        // items we can land on
-        if (def.type == EntityType::CARRIER) {
-            registry.emplace<Landable>(entity, true);
-            registry.emplace<Carrier>(entity);
+        switch (def.type) {
+            case EntityType::CARRIER:
+                registry.emplace<Landable>(entity, true);
+                registry.emplace<Carrier>(entity);
+                break;
+            case EntityType::AIRBASE:
+                registry.emplace<Landable>(entity, false);
+                break;
+            default:
+                break;
         }
-        if (def.type == EntityType::AIRBASE) registry.emplace<Landable>(entity, false);
-
 
         TraceLog(LOG_DEBUG, "Entity %s loaded", def.id.c_str());
         return entity;

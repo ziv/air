@@ -123,8 +123,9 @@ export
         // std::vector<Objective> objectives; ///< Mission objectives (required + optional).
         // std::vector<Trigger> triggers; ///< Event-driven scripting triggers.
         // ScenarioScoring scoring;
+        Color skyColor{BLUE};
     };
 
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(Scenario, id, name, description, difficulty, theater, start, entities);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE_WITH_DEFAULT(Scenario, id, name, description, difficulty, theater, start, entities, skyColor);
 
 }

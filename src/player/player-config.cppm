@@ -27,6 +27,7 @@ export struct PlayerPhysicsConfig {
     // MeterPerSecond groundBrakesSpeed = 10.0f; ///< Speed threshold for ground braking damping.
     Ratio dragCoefficient = 0.36f; ///< Base aerodynamic drag coefficient.
     Ratio liftCoefficient = 1.93f;; ///< Base lift coefficient (proportional to v²).
+    Ratio frictionCoefficient = 2.0f;
     // Ratio flyingBrakesDragRatio = 6.0f; ///< Drag multiplier when air brakes are deployed.
     // Ratio flyingGearDragRatio = 1.8f; ///< Extra drag when gear is deployed in flight.
     // Ratio groundBrakesDragRatio = 1000.0f; ///< Drag multiplier for wheel brakes on the ground.
@@ -49,11 +50,16 @@ export struct PlayerTransformationConfig {
     Ratio liftLossPitchRatio = 0.1f; ///< Nose-down pitch tendency when lift vector tilts.
 };
 
+export struct PlayerGroundCheckConfig {
+    MeterPerSecond stallSpeed = 65.0f;
+};
+
 export
 {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PlayerCameraConfig, tilt, fov);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PlayerControlsConfig, pitchRatio, rollRatio, yawRatio);
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PlayerPhysicsConfig, weight, engineThrust, maxSpeed, stallSpeed, dragCoefficient, liftCoefficient);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PlayerPhysicsConfig, weight, engineThrust, maxSpeed, stallSpeed, dragCoefficient, liftCoefficient, frictionCoefficient);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PlayerPositionConfig, threshold);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PlayerTransformationConfig, maxSpeed, bankInduceYawRatio, liftLossPitchRatio);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PlayerGroundCheckConfig, stallSpeed);
 }

@@ -17,23 +17,24 @@ int main() {
 
     try {
         const JsonConfig config("assets/config.jsonc");
-        auto [title, width, height,nearPlane, farPlane] = config.get<WindowConfig>("/window");
+        const auto conf = config.get<GlobalConfig>("/global");
 
         InitAudioDevice();
-        InitWindow(width, height, title.c_str());
+        InitWindow(conf.width, conf.height, conf.title.c_str());
         SetTargetFPS(60);
 
-        TraceLog(LOG_DEBUG, "Setting near plane to %f and far plane to %f", nearPlane, farPlane);
-        rlSetClipPlanes(nearPlane, farPlane);
+        TraceLog(LOG_DEBUG, "Setting near plane to %f and far plane to %f", conf.nearPlane, conf.farPlane);
+        rlSetClipPlanes(conf.nearPlane, conf.farPlane);
 
-        // set registry & resource loader
+        // set registry & resource loader & global config
         entt::registry registry;
         registry.ctx().emplace<ResourceManager>();
+        registry.ctx().emplace<GlobalConfig>(conf);
 
         // load scenario data
-        const JsonConfig scenario("assets/scenario.jsonc");
+        const JsonConfig scenarioDef("assets/scenario.jsonc");
 
-        Game game(config, registry, scenario.get<Scenario>("/data"));
+        Game game(config, scenarioDef, registry);
 
         while (!WindowShouldClose()) {
             game.update();

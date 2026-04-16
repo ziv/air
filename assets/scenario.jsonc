@@ -67,7 +67,7 @@
           "y": 0,
           "z": 60000
         },
-        "heading": 90,
+        "heading": 180,
         "health": 100,
         "maxHealth": 100,
         "modelId": "assets/models/carrier-s.glb",
@@ -170,7 +170,7 @@
         "player_destroyed",
         "player_ejected"
       ]
-    }
+    },
     //      "scoring": {
     //        "objectiveComplete": 1000,
     //        "bonusObjective": 500,
@@ -181,5 +181,11 @@
     //        "fuelBonus": true,
     //        "noDamageBonus": 500
     //      }
+    "skyColor": [
+      0,
+      121,
+      241,
+      255
+    ]
   }
 }

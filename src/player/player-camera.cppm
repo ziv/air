@@ -21,7 +21,7 @@ public:
 
     Camera &getCamera() { return camera; }
 
-    void update(entt::registry &registry) {
+    void update(entt::registry &registry, const float dt) {
         for (const auto view = registry.view<Player>(); auto [entity, player]: view.each()) {
             camera.position = player.pos;
             const Quaternion qTilt = QuaternionFromAxisAngle(player.right, -conf.tilt);

@@ -1,4 +1,13 @@
 {
+  "global": {
+    "title": "airborne",
+    "width": 1200,
+    "height": 800,
+    "fov": 85,
+    "tilt": 0.25,
+    "nearPlane": 1,
+    "farPlane": 30000
+  },
   "window": {
     "title": "airborne",
     "width": 1200,
@@ -20,18 +29,21 @@
     },
     "aircraft": {
       "weight": 120000,
-      "engineThrust": 130000,
+      // 130000 at max speed
+      "engineThrust": 108333,
       "maxSpeed": 600,
       "stallSpeed": 65,
       "vleSpeed": 150,
       "liftCoefficient": 1.92,
-      "dragCoefficient": 0.36,
+      "dragCoefficient": 0.46,
       "bankInduceYawRatio": 0.2,
       "liftLossPitchRatio": 0.1,
       "stallAngle": 15,
-      "pitchRatio": 0.97,
-      "rollRatio": 0.98,
-      "yawRatio": 0.92
+      // $F = \mu \cdot N$
+      "frictionCoefficient": 2
+      //      "pitchRatio": 0.97,
+      //      "rollRatio": 0.98,
+      //      "yawRatio": 0.92
     },
     "position": {
       "threshold": 5000,
@@ -39,17 +51,20 @@
       "maxRelativeHeight": 5000,
       "heightMapSizeRatio": 125.0,
       "heightAboveGround": 3
+    },
+    "groundCheck": {
+      "stallSpeed": 65
     }
   },
   "cockpit": {
     "texturePath": "assets/images/cockpit-z.png",
     "shaderPath": "assets/shaders/chromakey.fs",
-    "tintColor": {
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    }
+    "tintColor": [
+      255,
+      255,
+      255,
+      255
+    ]
   },
   "scene": {
     "mapTexture": "assets/images/north-tx-2048.jpg",
@@ -58,13 +73,44 @@
       "x": 128000,
       "y": 5000,
       "z": 128000
-    },
-    "skyColor": {
-      // sky blue
-      "r": 192,
-      "g": 201,
-      "b": 255,
-      "a": 255
+    }
+  },
+  "views": {
+    "hud": {
+      "ladder": {
+        "x": 440,
+        "y": 200,
+        "width": 320,
+        "height": 220,
+        "offset": 0.0
+      },
+      "roc": {
+        "x": 740,
+        "y": 318,
+        "width": 4,
+        "height": 220
+      },
+      "speedometer": {
+        "x": 430,
+        "y": 310,
+        "font": 14
+      },
+      "height": {
+        "x": 750,
+        "y": 310,
+        "font": 14
+      },
+      "boresight": {
+        "x": 600,
+        "y": 400,
+        "size": 24
+      },
+      "heading": {
+        "x": 600,
+        "y": 210,
+        "width": 300,
+        "font": 14
+      }
     }
   }
 }

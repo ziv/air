@@ -4,51 +4,100 @@ module;
 
 export module Components:World;
 
+
+import RaylibResource;
+
+// area we can land on
+export struct Landable {
+    bool carrier;
+};
+
+
+export struct Crashed {
+    bool crashed;
+};
+
+export struct Cockpit {
+};
+
+export struct ChromaRender {
+    TextureHandle tex;
+    ShaderHandle shader;
+    Color tint = WHITE;
+    int priority = 0;
+};
+
+
+export struct Aircraft {
+    // drag
+    float cd;
+    float inducedDragCoefficient;
+
+    // lift
+    float cl;
+    float liftSlopeCoefficient;
+    float stallAngle;
+
+    // weight
+    float weight;
+
+    // agility
+    float pitchRatio;
+    float rollRatio;
+    float yawRatio;
+};
+
+export struct AircraftUtils {
+    bool brake; // aircraft brakes status
+    bool gear; // aircraft landing gear status
+};
+
+export struct Engine {
+    float thrust;
+    float throttle;
+};
+
+export struct AircraftControls {
+    float roll;
+    float pitch;
+    float yaw;
+    bool brake; // pressed or not
+    bool gear; // pressed or not
+    float throttle;
+    bool afterBurner;
+};
+
+// events/states
+
+export struct Grounded {
+};
+
+export struct Flying {
+};
+
+export struct TouchDown {
+};
+
+export struct LandingZone {
+    bool isLandingZone;
+    bool isCarrier;
+    float surfaceY;
+};
+
 // specific player/world structures
 
 export struct World {
 };
 
-export struct Player {
-    Quaternion rotation;
-    Vector3 pos;
-    Vector3 offset;
-    Vector3 velocity;
-    Vector3 forward;
-    Vector3 up;
-    Vector3 right;
-    float speed;
-};
-
-export struct PlayerEntity {
-    entt::entity id;
-};
-
-export struct PlayerInputs {
-    float pitch = 0.0f;
-    float yaw = 0.0f;
-    float roll = 0.0f;
-
-    float throttle = 0.0f;
-
-    bool gear = true;
-    bool brakes = true;
-};
-
-export struct GroundHeight {
-    float height;
-    float effectiveGroundHeight;
-};
-
-// global user offset
-
-export struct Offset {
-    Vector3 offset;
-};
-
 export struct Identify {
     std::string name;
 };
+
+
+export struct Heading {
+    float heading;
+};
+
 
 // position
 
@@ -104,4 +153,12 @@ export struct Orientation {
 
 export struct Carrier {
     float heading;
+};
+
+export struct Forces {
+    float thrust;
+    float drag;
+    float lift;
+    float mass;
+    Vector3 acceleration;
 };

@@ -48,7 +48,7 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/player/player-physics.cppm
         src/player/player-rotation.cppm
         src/player/utils.cppm
-        src/player/systems/ground-check.cppm
+        src/player/ground-check.cppm
         src/core/types.cppm
         src/core/scenario-types.cppm
         src/core/units-types.cppm
@@ -59,6 +59,7 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/core/resource-manager.cppm
         src/components/components.cppm
         src/components/world.cppm
+        src/components/data.cppm
         src/components/aircraft.cppm
         src/components/render.cppm
         src/prefabs/prefabs.cppm
@@ -71,10 +72,12 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/systems/render-models.cppm
         src/systems/render-debug.cppm
         src/systems/render-debugging.cppm
-        src/systems/render-hud.cppm
         src/systems/world-streamer.cppm
         src/systems/systems.cppm
         src/systems/crash-landing-detection.cppm
+        src/systems/views/view-base.cppm
+        src/systems/views/views.cppm
+        src/systems/views/hud.cppm
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib EnTT::EnTT nlohmann_json::nlohmann_json)

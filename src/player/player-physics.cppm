@@ -40,8 +40,14 @@ public:
             const auto liftForce = player.up * lift;
             const auto weightForce = Gravity() * mass;
 
+            // todo on ground, add friction force
+            // todo on ground, add brakes friction force
+            // conf.frictionCoefficient
+
             const auto total = thrustForce + dragForce + weightForce + liftForce;
-            const auto acceleration = total / mass;
+            const auto acceleration = total * 1 / mass;
+
+            registry.ctx().insert_or_assign(Forces{thrust, drag, lift, mass, acceleration});
 
             // --- Euler integration ---
             player.velocity = player.velocity + (acceleration * dt);
@@ -54,11 +60,10 @@ public:
             }
 
             // don't mess with near zero speed
-            if (player.speed < 0.2f) {
+            if (player.speed < 0.18f) {
                 player.velocity = Vector3Zero();
                 player.speed = 0.0f;
             }
-
 
             // weathervaning: align velocity toward the nose above stall speed
             // https://en.wikipedia.org/wiki/Weathervane_effect

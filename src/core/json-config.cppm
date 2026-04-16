@@ -58,3 +58,9 @@ public:
         return defaultValue;
     }
 };
+
+
+// export template<typename T>
+// T readConf(const std::string &path) {
+//     return JsonConfig(path).get<T>();
+// }
