@@ -1,8 +1,8 @@
 module;
 #include <entt/entt.hpp>
-#include "../lib/ray.hpp"
+#include "../../lib/ray.hpp"
 
-export module RenderCockpit;
+export module RenderSystem:Cockpit;
 
 import Components;
 

@@ -67,11 +67,11 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/prefabs/create-scene.cppm
         src/prefabs/create-unit.cppm
         src/prefabs/create-cockpit.cppm
-        src/systems/render.cppm
-        src/systems/render-cockpit.cppm
-        src/systems/render-models.cppm
-        src/systems/render-debug.cppm
-        src/systems/render-debugging.cppm
+        src/systems/renderers/render.cppm
+        src/systems/renderers/render-cockpit.cppm
+        src/systems/renderers/render-models.cppm
+        src/systems/renderers/render-debug.cppm
+        src/systems/renderers/render-debugging.cppm
         src/systems/world-streamer.cppm
         src/systems/systems.cppm
         src/systems/crash-landing-detection.cppm

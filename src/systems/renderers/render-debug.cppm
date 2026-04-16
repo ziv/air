@@ -1,6 +1,6 @@
 module;
 #include <entt/entt.hpp>
-#include "../lib/ray.hpp"
+#include "../../lib/ray.hpp"
 
 export module RenderSystem:Debug;
 
