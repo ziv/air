@@ -44,8 +44,8 @@ export struct PlayerPositionConfig {
 
 export struct PlayerTransformationConfig {
     MeterPerSecond maxSpeed = 600.0f; ///< Reference speed for normalising control authority.
-    // MeterPerSecond vleSpeed = 150.0f; ///< Max gear-extended speed; above this → turbulence.
-    // MeterPerSecond stallSpeed = 65.0f; ///< Below this speed aerodynamic effects diminish.
+    MeterPerSecond vleSpeed = 150.0f; ///< Max gear-extended speed; above this → turbulence.
+    MeterPerSecond stallSpeed = 65.0f; ///< Below this speed aerodynamic effects diminish.
     Ratio bankInduceYawRatio = 0.2f; ///< Adverse yaw factor from bank angle.
     Ratio liftLossPitchRatio = 0.1f; ///< Nose-down pitch tendency when lift vector tilts.
 };
@@ -60,6 +60,6 @@ export
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PlayerControlsConfig, pitchRatio, rollRatio, yawRatio);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PlayerPhysicsConfig, weight, engineThrust, maxSpeed, stallSpeed, dragCoefficient, liftCoefficient, frictionCoefficient);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PlayerPositionConfig, threshold);
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PlayerTransformationConfig, maxSpeed, bankInduceYawRatio, liftLossPitchRatio);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PlayerTransformationConfig, maxSpeed, vleSpeed, stallSpeed, bankInduceYawRatio, liftLossPitchRatio);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(PlayerGroundCheckConfig, stallSpeed);
 }
