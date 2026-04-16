@@ -86,12 +86,14 @@ export class HudView : public ViewBase {
     Pixel centerX;
     Pixel centerY;
     Pixel pixelsPerDegree;
+    float ppd; // f-pixelsPerDegree
 
 public:
     explicit HudView(const GlobalConfig &g, const HudConfig &c) : gc(g), config(c) {
         centerX = gc.width / 2;
         centerY = gc.height / 2;
-        pixelsPerDegree = static_cast<float>(gc.height) / gc.fov;
+        pixelsPerDegree = static_cast<Pixel>(static_cast<float>(gc.height) / gc.fov);
+        ppd = static_cast<float>(pixelsPerDegree);
     }
 
     void draw(entt::registry &registry) override {
@@ -121,7 +123,7 @@ private:
 
     void heading(const Player &player) const {
         const auto [x, y, width, font] = config.heading;
-
+        const auto fx = static_cast<float>(x);
         // constexpr auto pixelsPerDegree = 10.0f;
         constexpr auto tickInterval = 5;
 
@@ -137,12 +139,12 @@ private:
 
         DrawLine(x, y, x, y + font / 2, GREEN);
         DrawText(TextFormat("%03.0f", currentHeading),
-                 x - font / 2.0f,
+                 x - font / 2,
                  y - font,
                  font,
                  GREEN);
 
-        const auto halfWidth = width / 2.0f;
+        const auto halfWidth = width / 2;
         DrawLine(x - halfWidth, y, x + halfWidth, y, GREEN);
 
         for (auto i = 0; i < 360; i += tickInterval) {
@@ -154,9 +156,9 @@ private:
             else if (diff < -180.0f) diff += 360.0f;
 
             // calculate screen X position and check if it's within the HUD tape width using if-init
-            if (const auto tickX = x + (diff * pixelsPerDegree); tickX >= x - halfWidth && tickX <= x + halfWidth) {
+            if (const auto tickX = fx + (diff * ppd); tickX >= x - halfWidth && tickX <= fx + halfWidth) {
                 const auto isMajorTick = (i % 10 == 0);
-                const auto tickLength = static_cast<int>(isMajorTick ? (font / 2.0f) : (font / 4.0f));
+                const auto tickLength = isMajorTick ? font / 2 : font / 4;
 
                 // Draw the tick line
                 DrawLine(static_cast<int>(tickX), y,
@@ -166,12 +168,12 @@ private:
                 // Draw text for major ticks (every 10 degrees)
                 if (isMajorTick) {
                     const auto *text = TextFormat("%03d", i);
-                    const auto textOffset = font * 0.6f;
+                    const auto textOffset = static_cast<float>(font) * 0.6f;
 
                     DrawText(text,
                              static_cast<int>(tickX - textOffset),
-                             static_cast<int>(y + tickLength + 4.0f),
-                             static_cast<int>(font * 0.8f),
+                             y + tickLength + 4,
+                             static_cast<int>(static_cast<float>(font) * 0.8f),
                              GREEN);
                 }
             }
@@ -185,7 +187,7 @@ private:
         const auto part = size / 4;
         const auto tip = size / 8;
 
-        const auto noseY = y - static_cast<int>(gc.tilt * RAD2DEG * pixelsPerDegree);
+        const auto noseY = y - static_cast<int>(gc.tilt * RAD2DEG * ppd);
         // let line
         DrawLine(left, noseY, left + part, noseY, GREEN);
         // right line
@@ -240,7 +242,7 @@ private:
 
         // pitch & roll
         rlRotatef(-roll, 0, 0, 1);
-        rlTranslatef(0, pitch * pixelsPerDegree, 0);
+        rlTranslatef(0, pitch * ppd, 0);
 
         // main line
         DrawLineEx({-100, 0}, {-20, 0}, 2, GREEN);
@@ -248,7 +250,7 @@ private:
 
         for (int i = -180; i <= 180; i += 15) {
             if (i == 0) continue;
-            const auto lineY = -static_cast<float>(i) * pixelsPerDegree;
+            const auto lineY = -static_cast<float>(i * pixelsPerDegree);
             const auto lineYint = static_cast<int>(lineY);
             // main line
             DrawLineEx({-100, lineY}, {-20, lineY}, 1, GREEN);
