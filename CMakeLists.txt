@@ -79,6 +79,7 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/systems/views/hud.cppm
         src/systems/views/minimap.cppm
         src/systems/views/cockpit.cppm
+        src/systems/views/engine.cppm
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib EnTT::EnTT nlohmann_json::nlohmann_json)

@@ -21,7 +21,7 @@ int main() {
 
         InitAudioDevice();
         InitWindow(conf.width, conf.height, conf.title.c_str());
-        SetTargetFPS(60);
+        // SetTargetFPS(60);
 
         TraceLog(LOG_DEBUG, "Setting near plane to %f and far plane to %f", conf.nearPlane, conf.farPlane);
         rlSetClipPlanes(conf.nearPlane, conf.farPlane);

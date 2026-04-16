@@ -38,8 +38,6 @@ public:
         if (IsKeyPressed(KEY_X)) zoom -= 0.4f;
         if (zoom > 5.0f) zoom = 5.0f;
         if (zoom < 0.2f) zoom = 0.2f;
-
-
     }
 
     void draw(entt::registry &registry) override {

@@ -34,6 +34,7 @@ public:
         views.push_back(std::make_unique<CockpitView>(cfg.get<CockpitConfig>("/views/cockpit")));
         views.push_back(std::make_unique<HudView>(cfg.get<GlobalConfig>("/global"), cfg.get<HudConfig>("/views/hud")));
         views.push_back(std::make_unique<MinimapView>(cfg.get<MinimapConfig>("/views/minimap")));
+        views.push_back(std::make_unique<EngineView>());
 
         Factories::createPlayer(registry, cfg, scenario);
         Factories::createScene(registry, cfg);
