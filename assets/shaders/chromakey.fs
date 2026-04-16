@@ -8,7 +8,7 @@ uniform sampler2D texture0;
 
 // the chroma color we want to remove
 uniform vec3 keyColor = vec3(0.0, 1.0, 0.0);
-uniform float threshold = 0.5;
+uniform float threshold = 0.7;
 
 out vec4 finalColor;
 
