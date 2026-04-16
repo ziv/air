@@ -25,7 +25,6 @@ export class MinimapView : public ViewBase {
     MinimapConfig conf;
     TextureHandle tex; ///< Satellite map texture.
     Camera2D mapCamera = {0}; ///< 2D camera centred on the aircraft's map position.
-    float heading = 0.0f; ///< Current compass heading for the aircraft icon.
     float zoom = 1.0; ///< Map zoom level (adjustable with Z/X).
 
 public:
@@ -35,34 +34,34 @@ public:
     }
 
     void update(entt::registry &registry, const float dt) override {
-        const auto entity = registry.ctx().get<PlayerEntity>().id;
-        const auto player = registry.get<Player>(entity);
-
         if (IsKeyPressed(KEY_Z)) zoom += 0.4f;
         if (IsKeyPressed(KEY_X)) zoom -= 0.4f;
         if (zoom > 5.0f) zoom = 5.0f;
         if (zoom < 0.2f) zoom = 0.2f;
 
-        const auto aircraftPosition = player.pos - player.offset;
-        const auto mapX = aircraftPosition.x / conf.mapsRatio;
-        const auto mapZ = aircraftPosition.z / conf.mapsRatio;
-        const auto halfSize = static_cast<float>(conf.size) / 2.0f;
 
-        mapCamera.target = (Vector2){mapX, mapZ};
-        mapCamera.offset = (Vector2){halfSize, halfSize}; // half widget size, from conf
-        mapCamera.rotation = 0.0f;
-        mapCamera.zoom = zoom;
-
-        heading = 180.0f - atan2f(player.forward.x, player.forward.z) * RAD2DEG;
     }
 
     void draw(entt::registry &registry) override {
+        const auto entity = registry.ctx().get<PlayerEntity>().id;
+        const auto player = registry.get<Player>(entity);
+
+        const auto aircraftPosition = player.pos - player.offset;
+        const auto mapX = aircraftPosition.x / conf.mapsRatio;
+        const auto mapZ = aircraftPosition.z / conf.mapsRatio;
+
+        mapCamera.target = (Vector2){mapX, mapZ};
+        mapCamera.rotation = 0.0f;
+        mapCamera.zoom = zoom;
+
+        const auto heading = 180.0f - atan2f(player.forward.x, player.forward.z) * RAD2DEG;
+
         const auto view = registry.view<Position2D, MinimapWidget>();
         for (auto [entity, pos]: view.each()) {
             const auto x = static_cast<int>(pos.pos.x);
             const auto y = static_cast<int>(pos.pos.y);
             const int size = conf.size;
-            const float halfSize = static_cast<float>(conf.size) / 2.0f;
+            const auto halfSize = static_cast<float>(conf.size) / 2.0f;
 
             mapCamera.offset = (Vector2){pos.pos.x + halfSize, pos.pos.y + halfSize};
 
