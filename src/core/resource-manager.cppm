@@ -4,7 +4,6 @@ module;
 #include <string>
 #include <entt/entt.hpp>
 
-
 export module ResourceManager;
 
 export struct ModelResource {
@@ -87,7 +86,74 @@ struct ImageLoader {
     }
 };
 
+
+export struct ShaderResource {
+    Shader shader{};
+
+    ShaderResource() = default;
+
+    explicit ShaderResource(Shader s) : shader(s) {
+    }
+
+    ~ShaderResource() {
+        if (shader.id != 0) {
+            UnloadShader(shader);
+        }
+    }
+
+    ShaderResource(ShaderResource &&other) noexcept : shader(other.shader) {
+        other.shader = {};
+    }
+
+    ShaderResource &operator=(ShaderResource &&other) noexcept {
+        if (this != &other) {
+            if (shader.id != 0) UnloadShader(shader);
+            shader = other.shader;
+            other.shader = {};
+        }
+        return *this;
+    }
+
+    ShaderResource(const ShaderResource &) = delete;
+
+    ShaderResource &operator=(const ShaderResource &) = delete;
+};
+
+export struct TextureResource {
+    Texture2D texture{};
+
+    TextureResource() = default;
+
+    explicit TextureResource(Texture2D s) : texture(s) {
+    }
+
+    ~TextureResource() {
+        if (texture.id != 0) {
+            UnloadTexture(texture);
+        }
+    }
+
+    TextureResource(TextureResource &&other) noexcept : texture(other.texture) {
+        other.texture = {};
+    }
+
+    TextureResource &operator=(TextureResource &&other) noexcept {
+        if (this != &other) {
+            if (texture.id != 0) UnloadTexture(texture);
+            texture = other.texture;
+            other.texture = {};
+        }
+        return *this;
+    }
+
+    TextureResource(const TextureResource &) = delete;
+
+    TextureResource &operator=(const TextureResource &) = delete;
+};
+
 export struct ResourceManager {
     entt::resource_cache<ModelResource> models;
     entt::resource_cache<ImageResource> images;
+    entt::resource_cache<ShaderResource> shaders;
+    entt::resource_cache<TextureResource> textures;
 };

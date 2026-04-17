@@ -56,24 +56,12 @@ export namespace Factories {
         }
 
         if (const auto worldModelId = entt::hashed_string(conf.mapTexture.data()); !assets.models.contains(worldModelId)) {
-            const auto worldModel = loadWorldModel(
-                conf.mapTexture,
-                conf.mapHeightmap,
-                conf.mapSize
-            );
+            const auto worldModel = loadWorldModel(conf.mapTexture,conf.mapHeightmap,conf.mapSize);
             assets.models.load(worldModelId, worldModel);
 
             // connect the model to the component
             registry.emplace<Modeled>(entity, assets.models[worldModelId]);
         }
-
-
-        // scene height map
-        // registry.emplace<Imaged>(entity, height);
-
-        // world model
-        // registry.emplace<Modeled>(entity, model);
-
         return entity;
     }
 }
