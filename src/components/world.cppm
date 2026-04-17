@@ -151,7 +151,6 @@ export struct Orientation {
 // units
 
 export struct Carrier {
-    float heading;
 };
 
 export struct Forces {

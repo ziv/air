@@ -22,12 +22,18 @@ public:
             const auto squareSpeed = player.speed * player.speed;
 
             auto cd = conf.dragCoefficient;
-            if (inputs.brakes) cd += cd;
-            if (inputs.gear) cd += cd;
+            if (inputs.brakes) cd += cd * 2.0f;
+            if (inputs.gear) cd += cd * 2.0f;
 
             auto drag = squareSpeed * cd;
             const auto thrust = inputs.throttle * conf.engineThrust;
             const auto lift = squareSpeed * conf.liftCoefficient;
+
+            // on ground there is a constant friction
+            // todo complete this add drag
+            if (!registry.all_of<Grounded>(entity)) {
+                // drag +=
+            }
 
             // there is no such thing a negative drag
             if (drag > thrust) drag = thrust;
@@ -47,6 +53,7 @@ public:
             const auto total = thrustForce + dragForce + weightForce + liftForce;
             const auto acceleration = total * 1 / mass;
 
+            //todo  keeping forces globally only for debug view, remove later
             registry.ctx().insert_or_assign(Forces{thrust, drag, lift, mass, acceleration});
 
             // --- Euler integration ---
