@@ -35,7 +35,7 @@ int main() {
         registry.ctx().emplace<GlobalConfig>(conf);
 
         // preload all required resources
-        preloadResources(registry);
+        preload_resources(registry);
 
         Game game(config, scenarioDef, registry);
 

@@ -23,7 +23,7 @@ export
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ResourceDef, name, type, path)
 }
 
-export void preloadResources(entt::registry &registry) {
+export void preload_resources(entt::registry &registry) {
     const JsonConfig resources("assets/resources.jsonc");
     auto &rm = get_resource_manager(registry);
 
