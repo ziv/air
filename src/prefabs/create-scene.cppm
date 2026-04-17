@@ -21,10 +21,12 @@ Model loadWorldModel(const std::string &texturePath, const std::string &heightma
     const Texture2D texture = LoadTextureFromImage(textureImage);
     UnloadImage(textureImage);
 
+    // our world heightmap
     const Image heightImage = LoadImage(heightmapPath.data());
     const Mesh mesh = GenMeshHeightmap(heightImage, size);
     UnloadImage(heightImage);
 
+    // our world model
     const Model model = LoadModelFromMesh(mesh);
     model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 
@@ -36,32 +38,34 @@ export namespace Factories {
     entt::entity createScene(entt::registry &registry,
                              const JsonConfig &config) {
         const auto conf = config.get<SceneConfig>("/scene");
+        auto &assets = getResourceManager(registry);
 
         const auto entity = registry.create();
 
         registry.emplace<World>(entity);
         registry.emplace<Position3D>(entity, Vector3Zero(), Vector3Zero());
 
+        // attach resources from cache and generate world
 
-        // get the cache from registry
-        auto &assets = registry.ctx().get<ResourceManager>();
-
-
-        if (const auto heightMapId = entt::hashed_string(conf.mapHeightmap.data()); !assets.images.contains(heightMapId)) {
-            const auto heightmap = LoadImage(conf.mapHeightmap.c_str());
-            assets.images.load(heightMapId, heightmap);
-
-            // connect the image to the component
-            registry.emplace<Imaged>(entity, assets.images[heightMapId]);
+        if (const auto tex_id = entt::hashed_string(conf.mapTexture.data()); assets.tex.contains(tex_id)) {
+            registry.emplace<WithTexture>(entity, assets.tex[tex_id]);
+        } else {
+            TraceLog(LOG_WARNING, "scene texture '%s' not found in cache", conf.mapTexture.c_str());
         }
 
-        if (const auto worldModelId = entt::hashed_string(conf.mapTexture.data()); !assets.models.contains(worldModelId)) {
-            const auto worldModel = loadWorldModel(conf.mapTexture,conf.mapHeightmap,conf.mapSize);
-            assets.models.load(worldModelId, worldModel);
-
-            // connect the model to the component
-            registry.emplace<Modeled>(entity, assets.models[worldModelId]);
+        if (const auto hm_id = entt::hashed_string(conf.mapHeightmap.data()); assets.img.contains(hm_id)) {
+            registry.emplace<WithImage>(entity, assets.img[hm_id]);
+        } else {
+            TraceLog(LOG_WARNING, "scene heightmap '%s' not found in cache", conf.mapHeightmap.c_str());
         }
+
+        constexpr auto model_id = entt::hashed_string("world_model");
+        if (!assets.mdl.contains(model_id)) {
+            const auto model = loadWorldModel(conf.mapTexture, conf.mapHeightmap, conf.mapSize);
+            assets.mdl.load(model_id, model);
+        }
+        registry.emplace<WithModel>(entity, assets.mdl[model_id]);
+
         return entity;
     }
 }

@@ -58,6 +58,7 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/core/config-types.cppm
         src/core/raylib-resource.cppm
         src/core/resource-manager.cppm
+        src/core/resource-preloader.cppm
         src/components/components.cppm
         src/components/world.cppm
         src/components/data.cppm
@@ -67,8 +68,11 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/prefabs/create-scene.cppm
         src/prefabs/create-unit.cppm
         src/prefabs/create-cockpit-widgets.cppm
+        src/prefabs/create-cockpit.cppm
         src/systems/renderers/render.cppm
         src/systems/renderers/render-models.cppm
+        src/systems/renderers/render-cockpit.cppm
+        src/systems/renderers/render-minimap.cppm
         src/systems/renderers/render-debug.cppm
         src/systems/renderers/render-debugging.cppm
         src/systems/world-streamer.cppm
@@ -82,8 +86,3 @@ target_sources(${PROJECT_NAME} PUBLIC
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib EnTT::EnTT nlohmann_json::nlohmann_json)
-#target_compile_options(${PROJECT_NAME} PRIVATE
-#        -Wall
-#        -Wextra
-#        -Wpedantic
-#)

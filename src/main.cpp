@@ -9,6 +9,7 @@ import JsonConfig;
 import Types;
 import Game;
 import ResourceManager;
+import ResourcePreloader;
 
 int main() {
     SetTraceLogCallback(CustomLogCallback);
@@ -17,6 +18,8 @@ int main() {
 
     try {
         const JsonConfig config("assets/config.jsonc");
+        const JsonConfig scenarioDef("assets/scenario.jsonc");
+
         const auto conf = config.get<GlobalConfig>("/global");
 
         InitAudioDevice();
@@ -28,11 +31,11 @@ int main() {
 
         // set registry & resource loader & global config
         entt::registry registry;
-        registry.ctx().emplace<ResourceManager>();
+        createResourceManager(registry);
         registry.ctx().emplace<GlobalConfig>(conf);
 
-        // load scenario data
-        const JsonConfig scenarioDef("assets/scenario.jsonc");
+        // preload all required resources
+        preloadResources(registry);
 
         Game game(config, scenarioDef, registry);
 

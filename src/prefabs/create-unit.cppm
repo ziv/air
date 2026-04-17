@@ -17,17 +17,14 @@ export namespace Factories {
         registry.emplace<Identify>(entity, def.id);
 
         // resources
-        auto &assets = registry.ctx().get<ResourceManager>();
-
         if (!def.modelId.empty()) {
-            const auto modelHash = entt::hashed_string(def.modelId.data());
-            // ensure model is loaded
-            if (!assets.models.contains(modelHash)) {
-                assets.models.load(modelHash, LoadModel(def.modelId.c_str()));
+            auto &assets = getResourceManager(registry);
+            const auto model_id = entt::hashed_string(def.modelId.c_str());
+            if (assets.mdl.contains(model_id)) {
+                registry.emplace<WithModel>(entity, assets.mdl[model_id]);
+            } else {
+                TraceLog(LOG_WARNING, "Model %s not loaded for entity %s", def.modelId.c_str(), def.id.c_str());
             }
-            // connect model to component
-            registry.emplace<Modeled>(entity, assets.models[modelHash]);
-            TraceLog(LOG_DEBUG, "Entity %s has a model", def.id.c_str());
         }
 
         // location & orientation

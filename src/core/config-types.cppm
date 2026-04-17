@@ -42,10 +42,17 @@ export struct CockpitConfig {
     Color tintColor{};
 };
 
+export struct MinimapConfig {
+    std::string mapTexture; ///< Path to the satellite map texture.
+    Pixel size = 150; ///< Size (width and height) of the square minimap widget.
+    Ratio mapsRatio = 62.5f; ///< Ratio between the world coordinates and the map texture coordinates
+};
+
 export
 {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(GlobalConfig, title, width, height, tilt, fov, nearPlane, farPlane);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(WindowConfig, title, width, height, nearPlane, farPlane);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SceneConfig, mapTexture, mapHeightmap, mapSize);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(CockpitConfig, texturePath, shaderPath, tintColor);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MinimapConfig, mapTexture, size, mapsRatio);
 }

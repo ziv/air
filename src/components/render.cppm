@@ -5,24 +5,41 @@ export module Components:Render;
 
 import RaylibResource;
 import ResourceManager;
+import Types;
 
 // resources
 
-export struct Modeled {
-    entt::resource<ModelResource> handle;
+export struct WithModel {
+    entt::resource<ModelResourceLoader> handle;
 };
 
-export struct Imaged {
-    entt::resource<ImageResource> handle;
+export struct WithTexture {
+    entt::resource<TextureResourceLoader> handle;
 };
 
-export struct Textured {
-    // entt::resource<TextureResource> handle;
+export struct WithImage {
+    entt::resource<ImageResourceLoader> handle;
 };
+
+export struct WithFsShader {
+    entt::resource<FragmentShaderLoader> handle;
+};
+
+// screen slots
+
+export struct DashboardSlot {
+    int slot_index;
+};
+
 
 // widgets tags
 
+export struct CockpitWidget {
+};
+
 export struct MinimapWidget {
+    MinimapConfig cfg{};
+    float zoom = 1.0f;
 };
 
 export struct RadarWidget {

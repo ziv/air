@@ -4,156 +4,71 @@ module;
 #include <string>
 #include <entt/entt.hpp>
 
+// todo should be template
+
 export module ResourceManager;
 
-export struct ModelResource {
-    Model model{};
-
-    ModelResource() = default;
-
-    explicit ModelResource(Model m) : model(m) {
-    }
-
-    ~ModelResource() {
-        if (model.meshes != nullptr) {
-            UnloadModel(model);
-        }
-    }
-
-    ModelResource(ModelResource &&other) noexcept : model(other.model) {
-        other.model = {};
-    }
-
-    ModelResource &operator=(ModelResource &&other) noexcept {
-        if (this != &other) {
-            if (model.meshes != nullptr) UnloadModel(model);
-            model = other.model;
-            other.model = {};
-        }
-        return *this;
-    }
-
-    ModelResource(const ModelResource &) = delete;
-
-    ModelResource &operator=(const ModelResource &) = delete;
-};
-
+export template<typename T, T (*Loader)(const char *), void (*Unloader)(T)>
 struct ResourceLoader {
-    using result_type = std::shared_ptr<ModelResource>;
+    T res;
 
-    result_type operator()(const std::string &path) const {
-        return std::make_shared<ModelResource>(LoadModel(path.c_str()));
+    explicit ResourceLoader(const std::string &path) : res(Loader(path.c_str())) {
     }
+
+    explicit ResourceLoader(T ready) : res(ready) {
+    }
+
+    ~ResourceLoader() {
+        Unloader(res);
+    }
+
+    ResourceLoader(const ResourceLoader &) = delete;
+
+    ResourceLoader &operator=(const ResourceLoader &) = delete;
 };
 
-export struct ImageResource {
-    Image image{};
+// its loader is different from the template ones
+export struct FragmentShaderLoader {
+    Shader res;
 
-    ImageResource() = default;
-
-    explicit ImageResource(Image img) : image(img) {
+    explicit FragmentShaderLoader(const std::string &path) : res(LoadShader(nullptr, path.c_str())) {
     }
 
-    ~ImageResource() {
-        if (image.data != nullptr) {
-            UnloadImage(image);
-        }
+    explicit FragmentShaderLoader(const Shader ready) : res(ready) {
     }
 
-    ImageResource(ImageResource &&other) noexcept : image(other.image) {
-        other.image = {};
+    ~FragmentShaderLoader() {
+        UnloadShader(res);
     }
 
-    ImageResource &operator=(ImageResource &&other) noexcept {
-        if (this != &other) {
-            if (image.data != nullptr) UnloadImage(image);
-            image = other.image;
-            other.image = {};
-        }
-        return *this;
-    }
+    FragmentShaderLoader(const FragmentShaderLoader &) = delete;
 
-    ImageResource(const ImageResource &) = delete;
-
-    ImageResource &operator=(const ImageResource &) = delete;
+    FragmentShaderLoader &operator=(const FragmentShaderLoader &) = delete;
 };
 
-struct ImageLoader {
-    using result_type = std::shared_ptr<ImageResource>;
-
-    result_type operator()(const std::string &path) const {
-        return std::make_shared<ImageResource>(LoadImage(path.c_str()));
-    }
-};
-
-
-export struct ShaderResource {
-    Shader shader{};
-
-    ShaderResource() = default;
-
-    explicit ShaderResource(Shader s) : shader(s) {
-    }
-
-    ~ShaderResource() {
-        if (shader.id != 0) {
-            UnloadShader(shader);
-        }
-    }
-
-    ShaderResource(ShaderResource &&other) noexcept : shader(other.shader) {
-        other.shader = {};
-    }
-
-    ShaderResource &operator=(ShaderResource &&other) noexcept {
-        if (this != &other) {
-            if (shader.id != 0) UnloadShader(shader);
-            shader = other.shader;
-            other.shader = {};
-        }
-        return *this;
-    }
-
-    ShaderResource(const ShaderResource &) = delete;
-
-    ShaderResource &operator=(const ShaderResource &) = delete;
-};
-
-export struct TextureResource {
-    Texture2D texture{};
-
-    TextureResource() = default;
-
-    explicit TextureResource(Texture2D s) : texture(s) {
-    }
-
-    ~TextureResource() {
-        if (texture.id != 0) {
-            UnloadTexture(texture);
-        }
-    }
-
-    TextureResource(TextureResource &&other) noexcept : texture(other.texture) {
-        other.texture = {};
-    }
-
-    TextureResource &operator=(TextureResource &&other) noexcept {
-        if (this != &other) {
-            if (texture.id != 0) UnloadTexture(texture);
-            texture = other.texture;
-            other.texture = {};
-        }
-        return *this;
-    }
-
-    TextureResource(const TextureResource &) = delete;
-
-    TextureResource &operator=(const TextureResource &) = delete;
-};
+export
+{
+    using TextureResourceLoader = ResourceLoader<Texture2D, LoadTexture, UnloadTexture>;
+    using ModelResourceLoader = ResourceLoader<Model, LoadModel, UnloadModel>;
+    using ImageResourceLoader = ResourceLoader<Image, LoadImage, UnloadImage>;
+}
 
 export struct ResourceManager {
-    entt::resource_cache<ModelResource> models;
-    entt::resource_cache<ImageResource> images;
-    entt::resource_cache<ShaderResource> shaders;
-    entt::resource_cache<TextureResource> textures;
+    entt::resource_cache<TextureResourceLoader> tex;
+    entt::resource_cache<ModelResourceLoader> mdl;
+    entt::resource_cache<ImageResourceLoader> img;
+
+    // fragment shaders only
+    entt::resource_cache<FragmentShaderLoader> fs;
 };
+
+
+constexpr auto MANAGER_ID = entt::hashed_string("ResourceManager");
+
+export void createResourceManager(entt::registry &registry) {
+    registry.ctx().emplace_as<ResourceManager>(MANAGER_ID);
+}
+
+export ResourceManager &getResourceManager(entt::registry &registry) {
+    return registry.ctx().get<ResourceManager>(MANAGER_ID);
+}

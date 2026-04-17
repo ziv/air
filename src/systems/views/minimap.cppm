@@ -9,17 +9,6 @@ import RaylibResource;
 import Components;
 import :Base;
 
-export struct MinimapConfig {
-    std::string mapTexture; ///< Path to the satellite map texture.
-    Pixel size = 150; ///< Size (width and height) of the square minimap widget.
-    Ratio mapsRatio = 62.5f; ///< Ratio between the world coordinates and the map texture coordinates
-};
-
-export
-{
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MinimapConfig, mapTexture, size, mapsRatio);
-}
-
 export class MinimapView : public ViewBase {
     MinimapConfig conf;
     TextureHandle tex; ///< Satellite map texture.
@@ -54,7 +43,7 @@ public:
         const auto heading = 180.0f - atan2f(player.forward.x, player.forward.z) * RAD2DEG;
 
         const auto view = registry.view<Position2D, MinimapWidget>();
-        for (auto [entity, pos]: view.each()) {
+        for (auto [entity, pos, c]: view.each()) {
             const auto x = static_cast<int>(pos.pos.x);
             const auto y = static_cast<int>(pos.pos.y);
             const int size = conf.size;

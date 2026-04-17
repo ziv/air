@@ -7,17 +7,15 @@ export module WorldStreamerSystem;
 import Components;
 
 export void WorldStreamerSystem(entt::registry &registry) {
-    const auto viewPlayer = registry.view<Player>();
-    const auto playerEntity = viewPlayer.front();
-
-    if (playerEntity == entt::null) return;
+    // is called streamer cause it original use was to stream
+    // the world tiles
 
     // we are rendering the map at the offset of the player
-    const auto &offset = viewPlayer.get<Player>(playerEntity).offset;
+    const auto &offset = registry.ctx().get<Offset>().offset;
 
-    auto view = registry.view<Position3D, Modeled, World>();
+    auto view = registry.view<World, Position3D, WithModel>();
 
-    for (auto [entity, position, modeled]: view.each()) {
-        DrawModel(modeled.handle->model, offset, 1.0f, WHITE);
+    for (auto [entity, pos, mod]: view.each()) {
+        DrawModel(mod.handle->res, offset, 1.0f, WHITE);
     }
 }
