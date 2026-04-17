@@ -204,8 +204,8 @@ private:
     }
 
     void heightIndicator(const Player &player) const {
-        const auto heightAbsolute = meter2feet(player.pos.y);
-        DrawText(TextFormat("%s", numberSuffix(heightAbsolute)),
+        const auto heightAbsolute = meter_to_feet(player.pos.y);
+        DrawText(TextFormat("%s", number_suffix(heightAbsolute)),
                  conf.height.x,
                  conf.height.y,
                  conf.height.font,
@@ -214,8 +214,8 @@ private:
     }
 
     void speedIndicator(const Player &player) const {
-        const auto speed = msToKnots(player.speed);
-        DrawText(TextFormat("%s", numberSuffix(speed)),
+        const auto speed = ms_to_knots(player.speed);
+        DrawText(TextFormat("%s", number_suffix(speed)),
                  conf.speedometer.x,
                  conf.speedometer.y,
                  conf.speedometer.font,
@@ -274,7 +274,7 @@ private:
 
 
     void drawRateOfClimb(const Player &player) const {
-        const auto verticalSpeedFPM = msToFpm(player.velocity.y);
+        const auto verticalSpeedFPM = ms_to_fpm(player.velocity.y);
         constexpr float MAX_CLIMB_RATE_FPM = 50000.0f;
         const float MAX_BAR_PIXELS = (static_cast<float>(conf.roc.height) / 2.0f) - 20.0f;
 
