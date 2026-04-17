@@ -16,4 +16,8 @@ export void WidgetsInputs(entt::registry &registry) {
     for (const auto radar_view = registry.view<RadarWidget>(); const auto [entity, radar]: radar_view.each()) {
         if (IsKeyPressed(KEY_R)) radar.rangeIndex = (radar.rangeIndex + 1) % radar.cfg.ranges.size();
     }
+
+    for (const auto hud_view = registry.view<HudWidget>(); const auto [entity, hud]: hud_view.each()) {
+        if (IsKeyDown(KEY_LEFT_ALT) && IsKeyPressed(KEY_H)) hud.colorIndex = (hud.colorIndex + 1) % 5;
+    }
 }

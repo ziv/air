@@ -23,6 +23,6 @@ export namespace Factories {
         float ppd = static_cast<float>(pixelsPerDegree);
 
         const auto hud = registry.create();
-        registry.emplace<HudWidget>(hud, cfg, centerX, centerY, pixelsPerDegree, ppd, global.tilt);
+        registry.emplace<HudWidget>(hud, cfg, centerX, centerY, pixelsPerDegree, ppd, global.tilt, 0);
     }
 }

@@ -44,6 +44,7 @@ export struct HudWidget {
     Pixel pixelsPerDegree;
     float ppd;
     float tilt;
+    int colorIndex;
 };
 
 export struct RadarWidget {

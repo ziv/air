@@ -1,8 +1,9 @@
 ## TODOs
 
-- [ ] ~~move the scene into a view~~
+- [x] ~~move the scene into a view~~
 - [ ] hud colors
-- [ ] bring the radar widget
+- [x] bring the radar widget
+- [ ] complete radar items
 - [ ] bring the clouds effect into scene view
 - [ ] bring the sound into scene view
 - [ ] complete the debug view by type
