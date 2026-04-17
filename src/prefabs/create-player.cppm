@@ -20,9 +20,9 @@ export namespace Factories {
                                  scenario.start.position, // position
                                  Vector3Zero(), // offset
                                  Vector3Zero(), // velocity
-                                 WorldForward(), // forward
-                                 WorldUp(), // up
-                                 WorldRight(), // right
+                                 world_forward(), // forward
+                                 world_up(), // up
+                                 world_right(), // right
                                  0.0f // speed
         );
         registry.emplace<PlayerInputs>(player, 0.0f, 0.0f, 0.0f, 0.0f, true, true, false);

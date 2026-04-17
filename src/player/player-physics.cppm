@@ -38,7 +38,7 @@ public:
             const auto thrustForce = player.forward * thrust;
             const auto dragForce = player.forward * -drag;
             const auto liftForce = player.up * lift;
-            const auto weightForce = Gravity() * mass;
+            const auto weightForce = gravity() * mass;
 
             // todo on ground, add friction force
             // todo on ground, add brakes friction force

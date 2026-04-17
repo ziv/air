@@ -5,19 +5,19 @@ export module Helpers;
 
 import Types;
 
-export Vector3 WorldForward() {
+export Vector3 world_forward() {
     return Vector3(0.0f, 0.0f, 1.0f);
 }
 
-export Vector3 WorldUp() {
+export Vector3 world_up() {
     return Vector3(0.0f, 1.0f, 0.0f);
 }
 
-export Vector3 WorldRight() {
+export Vector3 world_right() {
     return Vector3(-1.0f, 0.0f, 0.0f);
 }
 
-export Vector3 Gravity() {
+export Vector3 gravity() {
     return Vector3(0.0f, -9.81f, 0.0f);
 }
 

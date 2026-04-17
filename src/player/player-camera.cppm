@@ -14,7 +14,7 @@ export class PlayerCamera {
 
 public:
     explicit PlayerCamera(const PlayerCameraConfig &c) : conf(c) {
-        camera.up = WorldUp();
+        camera.up = world_up();
         camera.fovy = conf.fov;
         camera.projection = CAMERA_PERSPECTIVE;
     }

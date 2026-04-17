@@ -74,8 +74,8 @@ public:
 
         // rotate
         player.rotation = QuaternionNormalize(QuaternionMultiply(qDelta, player.rotation));
-        player.forward = Vector3Normalize(Vector3RotateByQuaternion(WorldForward(), player.rotation));
-        player.up = Vector3Normalize(Vector3RotateByQuaternion(WorldUp(), player.rotation));
-        player.right = Vector3Normalize(Vector3RotateByQuaternion(WorldRight(), player.rotation));
+        player.forward = Vector3Normalize(Vector3RotateByQuaternion(world_forward(), player.rotation));
+        player.up = Vector3Normalize(Vector3RotateByQuaternion(world_up(), player.rotation));
+        player.right = Vector3Normalize(Vector3RotateByQuaternion(world_right(), player.rotation));
     }
 };
