@@ -43,6 +43,7 @@ export struct HudWidget {
     Pixel centerY;
     Pixel pixelsPerDegree;
     float ppd;
+    float tilt;
 };
 
 export struct MinimapWidget {
