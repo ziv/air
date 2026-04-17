@@ -12,6 +12,7 @@ import WorldStreamerSystem;
 import RenderSystem;
 import Types;
 import ResourceManager;
+import WidgetsInputs;
 
 
 export class Game {
@@ -43,6 +44,7 @@ public:
         for (const auto &def: scenario.entities) {
             Factories::createUnit(registry, def);
         }
+
     }
 
     void update() {
@@ -51,6 +53,7 @@ public:
 
         const auto dt = GetFrameTime();
         dispatcher.update(registry, dt);
+        WidgetsInputs(registry);
     }
 
     void draw() {

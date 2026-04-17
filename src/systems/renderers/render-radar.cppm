@@ -6,6 +6,7 @@ export module RenderSystem:Radar;
 
 import Components;
 import Helpers;
+import Accessors;
 
 void drawScope(const Vector2 &center, const float displayRadius, const float range) {
     const auto x = static_cast<int>(center.x);
@@ -62,26 +63,28 @@ export void RenderRadar(entt::registry &registry) {
 
     const entt::entity entity = view.front();
     const auto [wd, pos] = registry.get<RadarWidget, Position2D>(entity);
+    const auto &player = get_player(registry);
 
-    const auto radius = wd.cfg.size / 2.0f;
-    const Vector2 center = {pos.pos.x + radius, pos.pos.y + radius};
+    const auto displayRadius = wd.cfg.size / 2.0f;
+    const Vector2 center = {pos.pos.x + displayRadius, pos.pos.y + displayRadius};
     const float range = wd.cfg.ranges[wd.rangeIndex];
-    drawScope(center, radius, range);
-    //
-    // const Meter range = RANGES[rangeIndex];
-    // const float rangeSq = range * range;
-    // const float pixelsPerMeter = displayRadius / range;
-    // auto color = GRAY;
-    //
-    // // player absolute world position (accounting for large-world offset)
-    // const float playerX = state.position.x - state.mapOffset.x;
-    // const float playerZ = state.position.z - state.mapOffset.y;
-    //
-    // // project orientation onto XZ plane for top-down radar
-    // const Vector2 fwd = Vector2Normalize({state.orientation.forward.x, state.orientation.forward.z});
-    // const Vector2 right = Vector2Normalize({state.orientation.right.x, state.orientation.right.z});
-    //
-    // // iterating items and if they are in range, display them on the radar
+
+    drawScope(center, displayRadius, range);
+
+
+    const float rangeSq = range * range;
+    const float pixelsPerMeter = displayRadius / range;
+    auto color = GRAY;
+
+    // player absolute world position (accounting for large-world offset)
+    const float playerX = player.pos.x - player.offset.x;
+    const float playerZ = player.pos.z - player.offset.y;
+
+    // project orientation onto XZ plane for top-down radar
+    const Vector2 fwd = Vector2Normalize({player.forward.x, player.forward.z});
+    const Vector2 right = Vector2Normalize({player.right.x, player.right.z});
+
+    // iterating items and if they are in range, display them on the radar
     // EntityRegistry::get().forEachAlive([&](const EntityDef &e) {
     //     const float dx = e.position.x - playerX;
     //     const float dz = e.position.z - playerZ;
