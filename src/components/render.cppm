@@ -37,6 +37,14 @@ export struct DashboardSlot {
 export struct CockpitWidget {
 };
 
+export struct HudWidget {
+    HudConfig cfg{};
+    Pixel centerX;
+    Pixel centerY;
+    Pixel pixelsPerDegree;
+    float ppd;
+};
+
 export struct MinimapWidget {
     MinimapConfig cfg{};
     float zoom = 1.0f;

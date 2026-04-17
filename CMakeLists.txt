@@ -69,12 +69,15 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/prefabs/create-unit.cppm
         src/prefabs/create-cockpit-widgets.cppm
         src/prefabs/create-cockpit.cppm
+        src/prefabs/create-hud.cppm
         src/systems/renderers/render.cppm
         src/systems/renderers/render-models.cppm
         src/systems/renderers/render-cockpit.cppm
         src/systems/renderers/render-minimap.cppm
         src/systems/renderers/render-debug.cppm
         src/systems/renderers/render-debugging.cppm
+        src/systems/renderers/render-engines-status.cppm
+        src/systems/renderers/render-hud.cppm
         src/systems/world-streamer.cppm
         src/systems/systems.cppm
         src/systems/views/view-base.cppm

@@ -12,20 +12,6 @@ import ResourceManager;
 import Types;
 import Views;
 
-// export namespace Updates {
-//     void setMinimap(entt::registry &registry, const JsonConfig &config, int slot) {
-//         const auto view = registry.view<DashboardSlot>();
-//         for (auto [entity, dashboard]: view.each()) {
-//             if (dashboard.slot_index != slot) continue;
-//
-//
-//             // const auto minimap_cfg = config.get<MinimapConfig>("/views/minimap");
-//             // registry.emplace<MinimapWidget>(screen_a, minimap_cfg);
-//
-//         }
-//     }
-// }
-
 export namespace Factories {
     void createCockpitWidgets(entt::registry &registry,
                               const JsonConfig &config) {
@@ -52,6 +38,12 @@ export namespace Factories {
         const auto screen_b = registry.create();
         registry.emplace<DashboardSlot>(screen_b, 1);
         registry.emplace<Position2D>(screen_b, (Vector2){752.0f, 597.0});
-        // registry.emplace<EngineWidget>(screen_b);
+        registry.emplace<EngineWidget>(screen_b);
+
+        // widget C
+        const auto screen_c = registry.create();
+        registry.emplace<DashboardSlot>(screen_c, 3);
+        registry.emplace<Position2D>(screen_c, (Vector2){300.0f, 597.0});
+
     }
 }

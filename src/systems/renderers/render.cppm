@@ -5,3 +5,5 @@ export import :Debug;
 export import :ViewDebugging;
 export import :Cockpit;
 export import :Minimap;
+export import :EngineStatus;
+export import :Hud;
