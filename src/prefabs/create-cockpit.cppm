@@ -16,7 +16,7 @@ export namespace Factories {
     void createCockpit(entt::registry &registry,
                        const JsonConfig &config) {
         const auto conf = config.get<CockpitConfig>("/views/cockpit");
-        auto &manager = getResourceManager(registry);
+        auto &manager = get_resource_manager(registry);
 
         const auto cockpit = registry.create();
         registry.emplace<CockpitWidget>(cockpit);

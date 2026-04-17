@@ -29,7 +29,7 @@ import Views;
 export namespace Factories {
     void createCockpitWidgets(entt::registry &registry,
                               const JsonConfig &config) {
-        auto &manager = getResourceManager(registry);
+        auto &manager = get_resource_manager(registry);
 
         // widget A
         const auto screen_a = registry.create();

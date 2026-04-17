@@ -18,7 +18,7 @@ export namespace Factories {
 
         // resources
         if (!def.modelId.empty()) {
-            auto &assets = getResourceManager(registry);
+            auto &assets = get_resource_manager(registry);
             const auto model_id = entt::hashed_string(def.modelId.c_str());
             if (assets.mdl.contains(model_id)) {
                 registry.emplace<WithModel>(entity, assets.mdl[model_id]);

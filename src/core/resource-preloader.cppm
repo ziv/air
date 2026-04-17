@@ -25,7 +25,7 @@ export
 
 export void preloadResources(entt::registry &registry) {
     const JsonConfig resources("assets/resources.jsonc");
-    auto &rm = getResourceManager(registry);
+    auto &rm = get_resource_manager(registry);
 
     for (const auto items = resources.get<std::vector<ResourceDef> >("/resources");
          const auto &[name, type, path]: items) {

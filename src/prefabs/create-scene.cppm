@@ -38,7 +38,7 @@ export namespace Factories {
     entt::entity createScene(entt::registry &registry,
                              const JsonConfig &config) {
         const auto conf = config.get<SceneConfig>("/scene");
-        auto &assets = getResourceManager(registry);
+        auto &assets = get_resource_manager(registry);
 
         const auto entity = registry.create();
 

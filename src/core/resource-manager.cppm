@@ -65,10 +65,10 @@ export struct ResourceManager {
 
 constexpr auto MANAGER_ID = entt::hashed_string("ResourceManager");
 
-export void createResourceManager(entt::registry &registry) {
+export void create_resource_manager(entt::registry &registry) {
     registry.ctx().emplace_as<ResourceManager>(MANAGER_ID);
 }
 
-export ResourceManager &getResourceManager(entt::registry &registry) {
+export ResourceManager &get_resource_manager(entt::registry &registry) {
     return registry.ctx().get<ResourceManager>(MANAGER_ID);
 }

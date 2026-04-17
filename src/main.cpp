@@ -31,7 +31,7 @@ int main() {
 
         // set registry & resource loader & global config
         entt::registry registry;
-        createResourceManager(registry);
+        create_resource_manager(registry);
         registry.ctx().emplace<GlobalConfig>(conf);
 
         // preload all required resources
