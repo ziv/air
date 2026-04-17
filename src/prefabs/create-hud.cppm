@@ -10,7 +10,6 @@ import Components;
 import RaylibResource;
 import ResourceManager;
 import Types;
-import Views;
 
 export namespace Factories {
     void create_hud(entt::registry &registry,

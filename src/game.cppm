@@ -11,7 +11,6 @@ import Prefabs;
 import WorldStreamerSystem;
 import RenderSystem;
 import Types;
-import Views;
 import ResourceManager;
 
 
@@ -20,8 +19,6 @@ export class Game {
     Scenario scenario;
 
     PlayerDispatcher dispatcher;
-    std::vector<std::unique_ptr<ViewBase> > views;
-
 public:
     explicit Game(const JsonConfig &cfg,
                   const JsonConfig &scn,
@@ -31,8 +28,6 @@ public:
           dispatcher(cfg) {
         // set initial offset
         registry.ctx().emplace<Offset>(Vector3Zero());
-
-        // views.push_back(std::make_unique<HudView>(cfg.get<GlobalConfig>("/global"), cfg.get<HudConfig>("/views/hud")));
 
         Factories::createPlayer(registry, cfg, scenario);
         Factories::createScene(registry, cfg);
@@ -48,13 +43,11 @@ public:
     }
 
     void update() {
-        const float dt = GetFrameTime();
+        const auto player_entity = registry.ctx().get<PlayerEntity>().id;
+        if (registry.all_of<Crashed>(player_entity)) return;
 
-        // const auto id = registry.ctx().get<PlayerEntity>().id;
-        // if (registry.all_of<Crashed>(id)) return;
-        //
+        const float dt = GetFrameTime();
         dispatcher.update(registry, dt);
-        // for (const auto &v: views) v->update(registry, dt);
     }
 
     void draw() {
@@ -72,8 +65,7 @@ public:
         RenderMinimap(registry);
         RenderEngineStatus(registry);
         RenderHud(registry);
-        // for (const auto &v: views) v->draw(registry);
         DrawFPS(1050, 780);
-        // RenderDebug(registry);
+        RenderDebug(registry);
     }
 };

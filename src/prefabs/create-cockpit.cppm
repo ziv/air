@@ -10,7 +10,6 @@ import Components;
 import RaylibResource;
 import ResourceManager;
 import Types;
-import Views;
 
 export namespace Factories {
     void createCockpit(entt::registry &registry,
