@@ -78,8 +78,8 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/systems/renderers/render-debugging.cppm
         src/systems/renderers/render-engines-status.cppm
         src/systems/renderers/render-hud.cppm
+        src/systems/renderers/render-radar.cppm
         src/systems/world-streamer.cppm
-        src/systems/systems.cppm
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib EnTT::EnTT nlohmann_json::nlohmann_json)

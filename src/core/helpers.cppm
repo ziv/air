@@ -36,6 +36,9 @@ export Knot ms_to_knots(const MeterPerSecond meters) {
     return meters * 1.94384f;
 }
 
+export NauticalMile meter_to_nm(const Meter meter) {
+    return meter * 0.000539957f;
+}
 
 // formatters
 

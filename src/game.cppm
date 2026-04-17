@@ -16,9 +16,9 @@ import ResourceManager;
 
 export class Game {
     entt::registry &registry;
-    Scenario scenario;
-
+    Scenario scenario{};
     PlayerDispatcher dispatcher;
+
 public:
     explicit Game(const JsonConfig &cfg,
                   const JsonConfig &scn,
@@ -32,21 +32,24 @@ public:
         Factories::createPlayer(registry, cfg, scenario);
         Factories::createScene(registry, cfg);
         Factories::createCockpit(registry, cfg);
-        Factories::createCockpitWidgets(registry, cfg);
         Factories::create_hud(registry, cfg);
+        Factories::createCockpitWidgets(registry);
+
+        Updates::setMinimap(0, registry, cfg);
+        Updates::setEngineStatus(1, registry);
+        Updates::setRadar(2, registry, cfg);
 
         // spawn all items from scenario
         for (const auto &def: scenario.entities) {
             Factories::createUnit(registry, def);
         }
-
     }
 
     void update() {
         const auto player_entity = registry.ctx().get<PlayerEntity>().id;
         if (registry.all_of<Crashed>(player_entity)) return;
 
-        const float dt = GetFrameTime();
+        const auto dt = GetFrameTime();
         dispatcher.update(registry, dt);
     }
 
@@ -65,6 +68,7 @@ public:
         RenderMinimap(registry);
         RenderEngineStatus(registry);
         RenderHud(registry);
+        RenderRadar(registry);
         DrawFPS(1050, 780);
         RenderDebug(registry);
     }

@@ -46,12 +46,15 @@ export struct HudWidget {
     float tilt;
 };
 
+export struct RadarWidget {
+    RadarConfig cfg{};
+    int rangeCount = 0;
+    int rangeIndex = 0;
+};
+
 export struct MinimapWidget {
     MinimapConfig cfg{};
     float zoom = 1.0f;
-};
-
-export struct RadarWidget {
 };
 
 export struct EngineWidget {

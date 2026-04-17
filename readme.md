@@ -1,8 +1,10 @@
 ## TODOs
 
-- [ ] move the scene into a view
+- [ ] ~~move the scene into a view~~
+- [ ] hud colors
 - [ ] bring the radar widget
 - [ ] bring the clouds effect into scene view
+- [ ] bring the sound into scene view
 - [ ] complete the debug view by type
 - [ ] bring the autopilot controller
 - [ ] check safe landing mechanism
@@ -11,7 +13,8 @@
 - [ ] complete screens
 - [ ] complete crash layout
 - [ ] refactor scene data into a scene config
-- 
+-
+
 ## Modules Rules
 
 ```c++

@@ -10,6 +10,7 @@ export {
     using Newton = float;
     using Meter = float;
     using Knot = float;
+    using NauticalMile = float;
     using Feet = float;
     using MeterPerSecond = float;
     using FeetPerMinute = float;

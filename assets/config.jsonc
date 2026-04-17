@@ -108,9 +108,9 @@
       }
     },
     "minimap": {
-     "mapTexture": "assets/images/north-map.jpg",
-     "size": 150,
-     "mapsRatio": 62.5
+      "mapTexture": "assets/images/north-map.jpg",
+      "size": 150,
+      "mapsRatio": 62.5
     },
     "cockpit": {
       "texturePath": "assets/images/cockpit-z.png",
@@ -120,6 +120,14 @@
         255,
         255,
         255
+      ]
+    },
+    "radar": {
+      "size": 150,
+      "ranges": [
+        3000,
+        10000,
+        40000
       ]
     }
   }

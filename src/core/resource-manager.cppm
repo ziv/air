@@ -54,11 +54,13 @@ export
 }
 
 export struct ResourceManager {
+    // texture
     entt::resource_cache<TextureResourceLoader> tex;
+    // models
     entt::resource_cache<ModelResourceLoader> mdl;
+    // images
     entt::resource_cache<ImageResourceLoader> img;
-
-    // fragment shaders only
+    // fragment shaders
     entt::resource_cache<FragmentShaderLoader> fs;
 };
 

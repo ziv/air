@@ -11,38 +11,78 @@ import RaylibResource;
 import ResourceManager;
 import Types;
 
-export namespace Factories {
-    void createCockpitWidgets(entt::registry &registry,
-                              const JsonConfig &config) {
-        auto &manager = get_resource_manager(registry);
+export namespace Updates {
+    template<typename WidgetType>
+    void removeWidget(const int slot, entt::registry &registry) {
+        const auto view = registry.view<DashboardSlot>();
+        for (const auto [entity, dashboard]: view.each()) {
+            if (dashboard.slot_index != slot) continue;
+            if (registry.all_of<WidgetType>(entity)) registry.remove<WidgetType>(entity);
+        }
+    }
 
+    void setEngineStatus(const int slot,
+                         entt::registry &registry) {
+        const auto view = registry.view<DashboardSlot>();
+        for (const auto [entity, dashboard]: view.each()) {
+            if (dashboard.slot_index != slot) continue;
+            registry.get_or_emplace<EngineWidget>(entity);
+            break;
+        }
+    }
+
+
+    void setRadar(const int slot,
+                  entt::registry &registry,
+                  const JsonConfig &config) {
+        const auto view = registry.view<DashboardSlot>();
+        for (const auto [entity, dashboard]: view.each()) {
+            if (dashboard.slot_index != slot) continue;
+
+            const auto radar_cfg = config.get<RadarConfig>("/views/radar");
+            constexpr auto size = static_cast<int>(radar_cfg.ranges.size());
+            registry.emplace_or_replace<RadarWidget>(entity, radar_cfg, size, 0);
+            break;
+        }
+    }
+
+    void setMinimap(const int slot,
+                    entt::registry &registry,
+                    const JsonConfig &config) {
+        const auto view = registry.view<DashboardSlot>();
+        for (const auto [entity, dashboard]: view.each()) {
+            if (dashboard.slot_index != slot) continue;
+
+            auto &manager = get_resource_manager(registry);
+
+            const auto minimap_cfg = config.get<MinimapConfig>("/views/minimap");
+            registry.emplace_or_replace<MinimapWidget>(entity, minimap_cfg);
+
+            if (const auto tex_id = entt::hashed_string(minimap_cfg.mapTexture.c_str()); manager.tex.contains(tex_id)) {
+                registry.emplace_or_replace<WithTexture>(entity, manager.tex[tex_id]);
+            } else {
+                TraceLog(LOG_WARNING, "minimap texture '%s' not found in cache", minimap_cfg.mapTexture.c_str());
+            }
+            break;
+        }
+    }
+}
+
+export namespace Factories {
+    void createCockpitWidgets(entt::registry &registry) {
         // widget A
         const auto screen_a = registry.create();
         registry.emplace<DashboardSlot>(screen_a, 0);
         registry.emplace<Position2D>(screen_a, (Vector2){528.0f, 612.0});
 
-        // add configuration
-        const auto minimap_cfg = config.get<MinimapConfig>("/views/minimap");
-        registry.emplace<MinimapWidget>(screen_a, minimap_cfg);
-
-        // add texture
-        if (const auto tex_id = entt::hashed_string(minimap_cfg.mapTexture.c_str()); manager.tex.contains(tex_id)) {
-            registry.emplace<WithTexture>(screen_a, manager.tex[tex_id]);
-        } else {
-            TraceLog(LOG_WARNING, "minimap texture '%s' not found in cache", minimap_cfg.mapTexture.c_str());
-        }
-
-
         // widget B
         const auto screen_b = registry.create();
         registry.emplace<DashboardSlot>(screen_b, 1);
         registry.emplace<Position2D>(screen_b, (Vector2){752.0f, 597.0});
-        registry.emplace<EngineWidget>(screen_b);
 
         // widget C
         const auto screen_c = registry.create();
-        registry.emplace<DashboardSlot>(screen_c, 3);
+        registry.emplace<DashboardSlot>(screen_c, 2);
         registry.emplace<Position2D>(screen_c, (Vector2){300.0f, 597.0});
-
     }
 }

@@ -107,6 +107,11 @@ export struct HudConfig {
     WarningsConfig warnings;
 };
 
+export struct RadarConfig {
+    Pixel size;
+    std::array<Meter, 3> ranges;
+};
+
 export
 {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(GlobalConfig, title, width, height, tilt, fov, nearPlane, farPlane);
@@ -122,4 +127,5 @@ export
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(HeadingConfig, x, y, width, font);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(WarningsConfig, x, y, font);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(HudConfig, ladder, roc, speedometer, height, boresight, heading, warnings);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(RadarConfig, size, ranges);
 }

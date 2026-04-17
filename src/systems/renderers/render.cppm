@@ -7,3 +7,4 @@ export import :Cockpit;
 export import :Minimap;
 export import :EngineStatus;
 export import :Hud;
+export import :Radar;
