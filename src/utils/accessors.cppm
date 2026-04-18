@@ -14,16 +14,18 @@ export void set_player(entt::registry &registry, entt::entity player_entity) {
     registry.ctx().emplace_as<entt::entity>(PLAYER_ENTITY_CTX, player_entity);
 }
 
-// export Player &get_player(entt::registry &registry) {
-//     const auto player_entity = registry.ctx().get<PlayerEntity>().id;
-//     return registry.get<Player>(player_entity);
-// }
-
-export const Player &get_player(entt::registry &registry) {
-    const auto player_entity = registry.ctx().get<PlayerEntity>().id;
-    return registry.get<Player>(player_entity);
+export const entt::entity &get_player_entity(entt::registry &registry) {
+    return registry.ctx().get<PlayerEntity>().id;
 }
 
-export Vector3 get_offset(entt::registry &registry) {
+export const Player &get_player(entt::registry &registry) {
+    return registry.get<Player>(get_player_entity(registry));
+}
+
+export Vector3 &get_offset(entt::registry &registry) {
     return registry.ctx().get<Offset>().offset;
+}
+
+export bool is_player_crashed(entt::registry &registry) {
+    return registry.all_of<Crashed>(get_player_entity(registry));
 }

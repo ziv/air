@@ -34,8 +34,8 @@ Model loadWorldModel(const std::string &texturePath, const std::string &heightma
 }
 
 
-export namespace Factories {
-    entt::entity createScene(entt::registry &registry,
+export namespace factories {
+    entt::entity create_scene(entt::registry &registry,
                              const JsonConfig &config) {
         const auto conf = config.get<SceneConfig>("/scene");
         auto &assets = get_resource_manager(registry);

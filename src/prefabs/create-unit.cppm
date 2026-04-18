@@ -9,12 +9,13 @@ import Types;
 import ResourceManager;
 import Components;
 
-export namespace Factories {
-    entt::entity createUnit(entt::registry &registry,
+export namespace factories {
+    entt::entity create_unit(entt::registry &registry,
                             const EntityDef &def) {
         const auto entity = registry.create();
 
         registry.emplace<Identify>(entity, def.id);
+        registry.emplace<IdentifyType>(entity, def.type);
 
         // resources
         if (!def.modelId.empty()) {
@@ -30,6 +31,9 @@ export namespace Factories {
         // location & orientation
         registry.emplace<Position3D>(entity, def.position);
         registry.emplace<Heading>(entity, def.heading);
+
+        // friend of foe
+        registry.emplace<FriendFoe>(entity, def.faction);
 
         switch (def.type) {
             case EntityType::CARRIER:

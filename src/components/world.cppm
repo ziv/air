@@ -6,6 +6,7 @@ export module Components:World;
 
 
 import RaylibResource;
+import Types;
 
 // area we can land on
 export struct Landable {
@@ -92,6 +93,10 @@ export struct Identify {
     std::string name;
 };
 
+export struct IdentifyType {
+    EntityType type{};
+};
+
 
 export struct Heading {
     float heading;
@@ -149,6 +154,10 @@ export struct Orientation {
 };
 
 // units
+
+export struct FriendFoe {
+    Faction faction{};
+};
 
 export struct Carrier {
 };

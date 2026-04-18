@@ -10,8 +10,8 @@ import RaylibResource;
 import Types;
 import Helpers;
 
-export namespace Factories {
-    entt::entity createPlayer(entt::registry &registry,
+export namespace factories {
+    entt::entity create_player(entt::registry &registry,
                               const JsonConfig &config,
                               const Scenario &scenario) {
         const auto player = registry.create();

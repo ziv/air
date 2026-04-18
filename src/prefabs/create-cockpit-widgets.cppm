@@ -11,9 +11,9 @@ import RaylibResource;
 import ResourceManager;
 import Types;
 
-export namespace Updates {
+export namespace updates {
     template<typename WidgetType>
-    void removeWidget(const int slot, entt::registry &registry) {
+    void remove_widget(const int slot, entt::registry &registry) {
         const auto view = registry.view<DashboardSlot>();
         for (const auto [entity, dashboard]: view.each()) {
             if (dashboard.slot_index != slot) continue;
@@ -21,7 +21,7 @@ export namespace Updates {
         }
     }
 
-    void setEngineStatus(const int slot,
+    void set_engine_status(const int slot,
                          entt::registry &registry) {
         const auto view = registry.view<DashboardSlot>();
         for (const auto [entity, dashboard]: view.each()) {
@@ -32,7 +32,7 @@ export namespace Updates {
     }
 
 
-    void setRadar(const int slot,
+    void set_radar(const int slot,
                   entt::registry &registry,
                   const JsonConfig &config) {
         const auto view = registry.view<DashboardSlot>();
@@ -46,7 +46,7 @@ export namespace Updates {
         }
     }
 
-    void setMinimap(const int slot,
+    void set_minimap(const int slot,
                     entt::registry &registry,
                     const JsonConfig &config) {
         const auto view = registry.view<DashboardSlot>();
@@ -68,8 +68,8 @@ export namespace Updates {
     }
 }
 
-export namespace Factories {
-    void createCockpitWidgets(entt::registry &registry) {
+export namespace factories {
+    void create_cockpit_widgets(entt::registry &registry) {
         // widget A
         const auto screen_a = registry.create();
         registry.emplace<DashboardSlot>(screen_a, 0);

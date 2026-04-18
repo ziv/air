@@ -11,7 +11,7 @@ import RaylibResource;
 import ResourceManager;
 import Types;
 
-export namespace Factories {
+export namespace factories {
     void create_hud(entt::registry &registry,
                     const JsonConfig &config) {
         const auto global = config.get<GlobalConfig>("/global");

@@ -39,3 +39,9 @@ export class MyClass { ... };
 - `auto` for type inference
 - `constexpr` for compile-time constants
 - `nullptr` instead of `NULL`
+
+Style Rules
+
+- Use `PascalCase` for class names, structs, and enums
+- Use `kebab_case` for variables, methods, and functions
+- Systems functions should be named using `PascalCase` (see main rendering loop in the game)

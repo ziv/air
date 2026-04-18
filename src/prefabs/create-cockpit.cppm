@@ -11,8 +11,8 @@ import RaylibResource;
 import ResourceManager;
 import Types;
 
-export namespace Factories {
-    void createCockpit(entt::registry &registry,
+export namespace factories {
+    void create_cockpit(entt::registry &registry,
                        const JsonConfig &config) {
         const auto conf = config.get<CockpitConfig>("/views/cockpit");
         auto &manager = get_resource_manager(registry);

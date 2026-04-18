@@ -18,12 +18,12 @@ int main() {
 
     try {
         const JsonConfig config("assets/config.jsonc");
-        const JsonConfig scenarioDef("assets/scenario.jsonc");
+        const JsonConfig scenario_def("assets/scenario.jsonc");
 
         const auto conf = config.get<GlobalConfig>("/global");
 
-        InitAudioDevice();
         InitWindow(conf.width, conf.height, conf.title.c_str());
+        InitAudioDevice();
         // SetTargetFPS(60);
 
         TraceLog(LOG_DEBUG, "Setting near plane to %f and far plane to %f", conf.nearPlane, conf.farPlane);
@@ -37,7 +37,7 @@ int main() {
         // preload all required resources
         preload_resources(registry);
 
-        Game game(config, scenarioDef, registry);
+        Game game(config, scenario_def, registry);
 
         while (!WindowShouldClose()) {
             game.update();
@@ -49,8 +49,8 @@ int main() {
         registry.ctx().erase<ResourceManager>();
         registry.clear();
 
-        CloseWindow();
         CloseAudioDevice();
+        CloseWindow();
     } catch (std::exception &e) {
         std::cerr << "Fatal Error: " << e.what() << std::endl;
         return -1;

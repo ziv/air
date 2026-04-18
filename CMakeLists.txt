@@ -39,7 +39,7 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 
 target_sources(${PROJECT_NAME} PUBLIC
         FILE_SET CXX_MODULES FILES
-        src/Game.cppm
+        src/game.cppm
         src/player/player.cppm
         src/player/player-camera.cppm
         src/player/player-config.cppm
@@ -79,6 +79,7 @@ target_sources(${PROJECT_NAME} PUBLIC
         src/systems/renderers/render-engines-status.cppm
         src/systems/renderers/render-hud.cppm
         src/systems/renderers/render-radar.cppm
+        src/systems/renderers/render-crash-layout.cppm
         src/systems/world-streamer.cppm
         src/systems/widgets-inputs.cppm
         src/utils/accessors.cppm

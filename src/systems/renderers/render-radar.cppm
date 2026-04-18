@@ -7,6 +7,7 @@ export module RenderSystem:Radar;
 import Components;
 import Helpers;
 import Accessors;
+import Types;
 
 void drawScope(const Vector2 &center, const float displayRadius, const float range) {
     const auto x = static_cast<int>(center.x);
@@ -85,42 +86,43 @@ export void RenderRadar(entt::registry &registry) {
     const Vector2 right = Vector2Normalize({player.right.x, player.right.z});
 
     // iterating items and if they are in range, display them on the radar
-    // EntityRegistry::get().forEachAlive([&](const EntityDef &e) {
-    //     const float dx = e.position.x - playerX;
-    //     const float dz = e.position.z - playerZ;
-    //
-    //     // project onto player-relative heading frame (dot product)
-    //     const float alongFwd = dx * fwd.x + dz * fwd.y;
-    //     const float alongRight = dx * right.x + dz * right.y;
-    //
-    //     if (alongFwd * alongFwd + alongRight * alongRight > rangeSq) return;
-    //
-    //     Vector2 blipPos = {center.x + alongRight * pixelsPerMeter, center.y - alongFwd * pixelsPerMeter};
-    //     const auto bpx = static_cast<int>(blipPos.x);
-    //     const auto bpy = static_cast<int>(blipPos.y);
-    //
-    //     color = GRAY;
-    //     if (e.faction == Faction::ENEMY) color = RED;
-    //     else if (e.faction == Faction::FRIENDLY) color = GREEN;
-    //
-    //     switch (e.type) {
-    //         case EntityType::AIRCRAFT:
-    //             drawAircraft(bpx, bpy, e.heading, color);
-    //             break;
-    //         case EntityType::SAM:
-    //         case EntityType::AAA:
-    //             drawSam(bpx, bpy, color);
-    //             break;
-    //         case EntityType::NAVAL:
-    //             drawShip(bpx, bpy, color);
-    //             break;
-    //         default:
-    //         case EntityType::STRUCTURE:
-    //         case EntityType::AIRBASE:
-    //             drawStructure(bpx, bpy, color);
-    //             break;
-    //     }
-    //     const int altFeet = static_cast<int>(e.position.y * GamePhysics::METERS_TO_FEET);
-    //     DrawText(TextFormat("%d", altFeet), bpx + 5, bpy - 5, 10, WHITE);
-    // });
+    const auto blip = registry.view<Identify, Position3D, FriendFoe, IdentifyType>();
+    for (auto [ent, id, position, faction, type]: blip.each()) {
+        const float dx = position.pos.x - playerX;
+        const float dz = position.pos.z - playerZ;
+
+        // project onto player-relative heading frame (dot product)
+        const float alongFwd = dx * fwd.x + dz * fwd.y;
+        const float alongRight = dx * right.x + dz * right.y;
+
+        if (alongFwd * alongFwd + alongRight * alongRight > rangeSq) return;
+
+        Vector2 blipPos = {center.x + alongRight * pixelsPerMeter, center.y - alongFwd * pixelsPerMeter};
+        const auto bpx = static_cast<int>(blipPos.x);
+        const auto bpy = static_cast<int>(blipPos.y);
+
+        color = GRAY;
+        if (faction.faction == Faction::ENEMY) color = RED;
+        else if (faction.faction == Faction::FRIENDLY) color = GREEN;
+
+        switch (type.type) {
+            case EntityType::AIRCRAFT:
+                drawAircraft(bpx, bpy, 0, color);
+                break;
+            case EntityType::SAM:
+            case EntityType::AAA:
+                drawSam(bpx, bpy, color);
+                break;
+            case EntityType::NAVAL:
+                drawShip(bpx, bpy, color);
+                break;
+            default:
+            case EntityType::STRUCTURE:
+            case EntityType::AIRBASE:
+                drawStructure(bpx, bpy, color);
+                break;
+        }
+        // const int altFeet = static_cast<int>(e.position.y * GamePhysics::METERS_TO_FEET);
+        // DrawText(TextFormat("%d", altFeet), bpx + 5, bpy - 5, 10, WHITE);
+    }
 }

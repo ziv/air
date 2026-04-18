@@ -13,6 +13,7 @@ import RenderSystem;
 import Types;
 import ResourceManager;
 import WidgetsInputs;
+import Accessors;
 
 
 export class Game {
@@ -21,38 +22,30 @@ export class Game {
     PlayerDispatcher dispatcher;
 
 public:
-    explicit Game(const JsonConfig &cfg,
-                  const JsonConfig &scn,
+    explicit Game(const JsonConfig &config,
+                  const JsonConfig &scenario_config,
                   entt::registry &reg)
         : registry(reg),
-          scenario(scn.get<Scenario>("/data")),
-          dispatcher(cfg) {
-        // set initial offset
+          scenario(scenario_config.get<Scenario>("/data")),
+          dispatcher(config) {
         registry.ctx().emplace<Offset>(Vector3Zero());
+        factories::create_player(registry, config, scenario);
+        factories::create_scene(registry, config);
+        factories::create_cockpit(registry, config);
+        factories::create_hud(registry, config);
+        factories::create_cockpit_widgets(registry);
 
-        Factories::createPlayer(registry, cfg, scenario);
-        Factories::createScene(registry, cfg);
-        Factories::createCockpit(registry, cfg);
-        Factories::create_hud(registry, cfg);
-        Factories::createCockpitWidgets(registry);
-
-        Updates::setMinimap(0, registry, cfg);
-        Updates::setEngineStatus(1, registry);
-        Updates::setRadar(2, registry, cfg);
+        updates::set_minimap(0, registry, config);
+        updates::set_engine_status(1, registry);
+        updates::set_radar(2, registry, config);
 
         // spawn all items from scenario
-        for (const auto &def: scenario.entities) {
-            Factories::createUnit(registry, def);
-        }
-
+        for (const auto &def: scenario.entities) factories::create_unit(registry, def);
     }
 
     void update() {
-        const auto player_entity = registry.ctx().get<PlayerEntity>().id;
-        if (registry.all_of<Crashed>(player_entity)) return;
-
-        const auto dt = GetFrameTime();
-        dispatcher.update(registry, dt);
+        if (is_player_crashed(registry)) return;
+        dispatcher.update(registry, GetFrameTime());
         WidgetsInputs(registry);
     }
 
@@ -74,5 +67,6 @@ public:
         RenderRadar(registry);
         DrawFPS(1050, 780);
         RenderDebug(registry);
+        RenderCrashLayout(registry);
     }
 };
