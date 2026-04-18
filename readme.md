@@ -1,18 +1,18 @@
 ## TODOs
 
 - [x] ~~move the scene into a view~~
-- [ ] hud colors
+- [x] hud colors
 - [x] bring the radar widget
 - [ ] complete radar items
 - [x] bring the clouds effect into scene view
-- [ ] bring the sound into scene view
+- [x] bring the sound into scene view
 - [ ] complete the debug view by type
 - [ ] bring the autopilot controller
 - [ ] check safe landing mechanism
-- [ ] bring scene sounds
+- [x] bring scene sounds
 - [ ] bring the navball widget
 - [ ] complete screens
-- [ ] complete crash layout
+- [x] complete crash layout
 - [ ] refactor scene data into a scene config
 -
 
