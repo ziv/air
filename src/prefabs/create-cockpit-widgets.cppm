@@ -49,8 +49,7 @@ export namespace updates {
     void set_minimap(const int slot,
                     entt::registry &registry,
                     const JsonConfig &config) {
-        const auto view = registry.view<DashboardSlot>();
-        for (const auto [entity, dashboard]: view.each()) {
+        for (const auto view = registry.view<DashboardSlot>(); const auto [entity, dashboard]: view.each()) {
             if (dashboard.slot_index != slot) continue;
 
             auto &manager = get_resource_manager(registry);
