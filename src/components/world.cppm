@@ -7,6 +7,7 @@ export module Components:World;
 
 import RaylibResource;
 import Types;
+import ResourceManager;
 
 // area we can land on
 export struct Landable {
@@ -87,6 +88,8 @@ export struct LandingZone {
 // specific player/world structures
 
 export struct World {
+    entt::resource<ModelResourceLoader> surface;
+    entt::resource<ModelResourceLoader> clouds;
 };
 
 export struct Identify {

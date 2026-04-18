@@ -58,8 +58,8 @@ export namespace updates {
             const auto minimap_cfg = config.get<MinimapConfig>("/views/minimap");
             registry.emplace_or_replace<MinimapWidget>(entity, minimap_cfg);
 
-            if (const auto tex_id = entt::hashed_string(minimap_cfg.mapTexture.c_str()); manager.tex.contains(tex_id)) {
-                registry.emplace_or_replace<WithTexture>(entity, manager.tex[tex_id]);
+            if (const auto tex_id = entt::hashed_string(minimap_cfg.mapTexture.c_str()); manager.textures.contains(tex_id)) {
+                registry.emplace_or_replace<WithTexture>(entity, manager.textures[tex_id]);
             } else {
                 TraceLog(LOG_WARNING, "minimap texture '%s' not found in cache", minimap_cfg.mapTexture.c_str());
             }

@@ -34,6 +34,8 @@ export struct SceneConfig {
     std::string mapTexture;
     std::string mapHeightmap;
     Vector3 mapSize;
+    std::string fogShaderVs;
+    std::string fogShaderFs;
 };
 
 export struct CockpitConfig {
@@ -116,7 +118,7 @@ export
 {
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(GlobalConfig, title, width, height, tilt, fov, nearPlane, farPlane);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(WindowConfig, title, width, height, nearPlane, farPlane);
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SceneConfig, mapTexture, mapHeightmap, mapSize);
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SceneConfig, mapTexture, mapHeightmap, mapSize, fogShaderVs, fogShaderFs);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(CockpitConfig, texturePath, shaderPath, tintColor);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MinimapConfig, mapTexture, size, mapsRatio);
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(HudLadderConfig, x, y, width, height, offset);

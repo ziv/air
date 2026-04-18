@@ -4,7 +4,6 @@ module;
 #include <string>
 #include <entt/entt.hpp>
 
-// todo should be template
 
 export module ResourceManager;
 
@@ -28,22 +27,27 @@ struct ResourceLoader {
 };
 
 // its loader is different from the template ones
-export struct FragmentShaderLoader {
+export struct ShaderLoader {
     Shader res;
 
-    explicit FragmentShaderLoader(const std::string &path) : res(LoadShader(nullptr, path.c_str())) {
+    // fragment only shader constructor
+    explicit ShaderLoader(const std::string &path) : res(LoadShader(nullptr, path.c_str())) {
     }
 
-    explicit FragmentShaderLoader(const Shader ready) : res(ready) {
+    // vertex + fragment shader constructor
+    explicit ShaderLoader(const std::string &v, const std::string &f) : res(LoadShader(v.c_str(), f.c_str())) {
     }
 
-    ~FragmentShaderLoader() {
+    explicit ShaderLoader(const Shader ready) : res(ready) {
+    }
+
+    ~ShaderLoader() {
         UnloadShader(res);
     }
 
-    FragmentShaderLoader(const FragmentShaderLoader &) = delete;
+    ShaderLoader(const ShaderLoader &) = delete;
 
-    FragmentShaderLoader &operator=(const FragmentShaderLoader &) = delete;
+    ShaderLoader &operator=(const ShaderLoader &) = delete;
 };
 
 export
@@ -54,14 +58,10 @@ export
 }
 
 export struct ResourceManager {
-    // texture
-    entt::resource_cache<TextureResourceLoader> tex;
-    // models
-    entt::resource_cache<ModelResourceLoader> mdl;
-    // images
-    entt::resource_cache<ImageResourceLoader> img;
-    // fragment shaders
-    entt::resource_cache<FragmentShaderLoader> fs;
+    entt::resource_cache<TextureResourceLoader> textures;
+    entt::resource_cache<ModelResourceLoader> models;
+    entt::resource_cache<ImageResourceLoader> images;
+    entt::resource_cache<ShaderLoader> shaders;
 };
 
 

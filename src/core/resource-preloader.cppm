@@ -35,13 +35,13 @@ export void preload_resources(entt::registry &registry) {
         TraceLog(LOG_DEBUG, "LOADING: String='%s' | Hash=%u",
                  path.c_str(), res_id.value());
         if (type == "texture") {
-            rm.tex.load(res_id, path);
+            rm.textures.load(res_id, path);
         } else if (type == "model") {
-            rm.mdl.load(res_id, path);
+            rm.models.load(res_id, path);
         } else if (type == "image") {
-            rm.img.load(res_id, path);
+            rm.images.load(res_id, path);
         } else if (type == "fragment") {
-            rm.fs.load(res_id, path);
+            rm.shaders.load(res_id, path);
         } else {
             TraceLog(LOG_WARNING, TextFormat("Unknown resource type '%s' for resource '%s'", type.c_str(), name.c_str()));
         }

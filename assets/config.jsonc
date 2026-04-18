@@ -63,7 +63,9 @@
       "x": 128000,
       "y": 5000,
       "z": 128000
-    }
+    },
+    "fogShaderVs": "assets/shaders/fog.vs",
+    "fogShaderFs": "assets/shaders/fog.fs"
   },
   "views": {
     "hud": {

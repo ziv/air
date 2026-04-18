@@ -22,7 +22,7 @@ export struct WithImage {
 };
 
 export struct WithFsShader {
-    entt::resource<FragmentShaderLoader> handle;
+    entt::resource<ShaderLoader> handle;
 };
 
 // screen slots

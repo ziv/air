@@ -21,14 +21,14 @@ export namespace factories {
         registry.emplace<CockpitWidget>(cockpit);
         registry.emplace<Position2D>(cockpit, (Vector2){0.0f, 0.0});
 
-        if (const auto tex_id = entt::hashed_string(conf.texturePath.c_str()); manager.tex.contains(tex_id)) {
-            registry.emplace<WithTexture>(cockpit, manager.tex[tex_id]);
+        if (const auto tex_id = entt::hashed_string(conf.texturePath.c_str()); manager.textures.contains(tex_id)) {
+            registry.emplace<WithTexture>(cockpit, manager.textures[tex_id]);
         } else {
             TraceLog(LOG_WARNING, "cockpit texture '%s' not found in cache", conf.texturePath.c_str());
         }
 
-        if (const auto fs_id = entt::hashed_string(conf.shaderPath.c_str()); manager.fs.contains(fs_id)) {
-            registry.emplace<WithFsShader>(cockpit, manager.fs[fs_id]);
+        if (const auto fs_id = entt::hashed_string(conf.shaderPath.c_str()); manager.shaders.contains(fs_id)) {
+            registry.emplace<WithFsShader>(cockpit, manager.shaders[fs_id]);
         } else {
             TraceLog(LOG_WARNING, "cockpit shader '%s' not found in cache", conf.shaderPath.c_str());
         }
