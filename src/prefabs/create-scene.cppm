@@ -103,9 +103,20 @@ export namespace factories {
             assets.models.load(cloud_id, init_clouds(fog));
         }
 
+        // todo path from config
+        constexpr auto engine_id = entt::hashed_string("assets/sound/engine.mp3");
+        if (assets.music_streams.contains(engine_id)) {
+            PlayMusicStream(assets.music_streams[engine_id]->res);
+        } else {
+            TraceLog(LOG_WARNING, "Engine sound resource not found for path 'assets/sound/engine.mp3'");
+        }
+
         const auto entity = registry.create();
 
-        registry.emplace<World>(entity, assets.models[surface_id], assets.models[cloud_id]);
+        registry.emplace<World>(entity,
+                                assets.models[surface_id],
+                                assets.models[cloud_id],
+                                assets.music_streams[engine_id]);
         registry.emplace<Position3D>(entity, Vector3Zero(), Vector3Zero());
 
         return entity;

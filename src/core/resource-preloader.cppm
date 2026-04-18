@@ -42,6 +42,8 @@ export void preload_resources(entt::registry &registry) {
             rm.images.load(res_id, path);
         } else if (type == "fragment") {
             rm.shaders.load(res_id, path);
+        } else if (type == "music") {
+            rm.music_streams.load(res_id, path);
         } else {
             TraceLog(LOG_WARNING, TextFormat("Unknown resource type '%s' for resource '%s'", type.c_str(), name.c_str()));
         }

@@ -4,7 +4,7 @@
 - [ ] hud colors
 - [x] bring the radar widget
 - [ ] complete radar items
-- [ ] bring the clouds effect into scene view
+- [x] bring the clouds effect into scene view
 - [ ] bring the sound into scene view
 - [ ] complete the debug view by type
 - [ ] bring the autopilot controller
@@ -45,3 +45,8 @@ Style Rules
 - Use `PascalCase` for class names, structs, and enums
 - Use `kebab_case` for variables, methods, and functions
 - Systems functions should be named using `PascalCase` (see main rendering loop in the game)
+
+
+```shell
+cmake -B cmake-build-debug -S . -DCMAKE_BUILD_TYPE=Debug -G Ninja
+```

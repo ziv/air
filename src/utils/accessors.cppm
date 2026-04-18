@@ -22,6 +22,10 @@ export const Player &get_player(entt::registry &registry) {
     return registry.get<Player>(get_player_entity(registry));
 }
 
+export const PlayerInputs &get_player_inputs(entt::registry &registry) {
+    return registry.get<PlayerInputs>(get_player_entity(registry));
+}
+
 export Vector3 &get_offset(entt::registry &registry) {
     return registry.ctx().get<Offset>().offset;
 }

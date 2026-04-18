@@ -55,6 +55,7 @@ export
     using TextureResourceLoader = ResourceLoader<Texture2D, LoadTexture, UnloadTexture>;
     using ModelResourceLoader = ResourceLoader<Model, LoadModel, UnloadModel>;
     using ImageResourceLoader = ResourceLoader<Image, LoadImage, UnloadImage>;
+    using MusicStreamResourceLoader = ResourceLoader<Music, LoadMusicStream, UnloadMusicStream>;
 }
 
 export struct ResourceManager {
@@ -62,6 +63,7 @@ export struct ResourceManager {
     entt::resource_cache<ModelResourceLoader> models;
     entt::resource_cache<ImageResourceLoader> images;
     entt::resource_cache<ShaderLoader> shaders;
+    entt::resource_cache<MusicStreamResourceLoader> music_streams;
 };
 
 
